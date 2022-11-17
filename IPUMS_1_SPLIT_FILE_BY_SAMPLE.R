@@ -1,6 +1,6 @@
 ########################################
 # CORESIDENCE IPUMS                    #
-# MOTHER_CODE TO SPLIT DATA FROM IPUMS #
+# SPLIT DATA FROM IPUMS by SAMPLE      #
 # contact: jgaleano@ced.uab.es         #
 ########################################
 
@@ -44,7 +44,6 @@ colnames(data)[70]<-"ISO_CODE"
 # 6. Split data by SAMPLE and save file by country and year ####
 
 IPUMS_list<-split(data , f = data$SAMPLE )
-save(IPUMS_list, file="G:/Shared drives/CORESIDENCE/WP2. DATA/2.1 Input Data/CENSUS_IPUMS/A1_IMPUS_MOTHERS/IPUMS_list.Rdata")
 
 lapply(names(IPUMS_list), function(x) {
   df <- IPUMS_list[[x]]
@@ -52,3 +51,5 @@ lapply(names(IPUMS_list), function(x) {
   df_YEAR<-unique(df$YEAR)
   save(df, file=paste0(getwd(),'/',"IPUMS","_",df_ISO_CODE,"_",df_YEAR, '.RData'))
 })
+
+### end ###
