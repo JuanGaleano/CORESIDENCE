@@ -1,5 +1,5 @@
 ---
-title: "TEST: ARG_1970_IPUMS"
+title: "TEST: KHM_2013_IPUMS"
 author: "CORESIDENCE PROJECT"
 abstract: "**Abstract: **This document provides a summary description of variables included in the samples downloaded from IPUMS to build the CORESIDENCE database. If you need to report any mistake, please contact jgaleano@ced.uab.es. You can access the source r-code to render this document at: [GitHub CORESIDENCE](https://github.com/JuanGaleano/CORESIDENCE/blob/main/TEST_IPUMS.qmd)"
 mainfont: Arial
@@ -17,16 +17,15 @@ library(kableExtra)
 library(tidyverse)
 library(RColorBrewer)
 
-load("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_1_Input Data\\CENSUS_IPUMS\\ARG_1970_IPUMS.Rdata")
+load("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_1_Input Data\\CENSUS_IPUMS\\KHM_2013_IPUMS.Rdata")
 
 load("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_1_Input Data\\CENSUS_IPUMS\\A1_IMPUS_MOTHERS\\all_NAs_list.Rdata")
 
 VARIABLE_TO_CHANGE<-all_NAs_list[[as.character(unique(df$SAMPLE))]]
 
-
 ```
 
-## COUNTRY: `r toupper(as.character(as_factor(unique(df$COUNTRY))))` | YEAR: `r as.character(as_factor(unique(df$YEAR)))` \| SAMPLE SIZE: `r nrow(df)` CASES
+## COUNTRY: `r toupper(as.character(as_factor(unique(df$COUNTRY))))` \| YEAR: `r as.character(as_factor(unique(df$YEAR)))` \| SAMPLE SIZE: `r nrow(df)` CASES
 
 ### 1. VARIABLES WITH ALL NAs
 
@@ -47,7 +46,7 @@ df_all_NAs<-as.data.frame(do.call('rbind',all_NAs_list ))
 df_all_NAs_f<-data.frame(Var=row.names(df_all_NAs),
                          Description=df_all_NAs$V1)
 
-kbl(df_all_NAs_f,booktabs = T, "latex", longtable=T,)%>%kable_styling(position = "center") %>%
+kbl(df_all_NAs_f,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "7em")%>%
 column_spec(2, width = "35em")
 
@@ -113,11 +112,11 @@ ggplot(df_nas,aes(x=name, y=value, fill=factor(cat)))+
         panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
         panel.grid.minor=element_line(colour="#f2f2f2")) 
 }
-``` 
+```
 
 ### 2. POPULATION PYRAMID (AGE x SEX)
 
-```{r fig.width=12, fig.height=8}
+```{r fig.width=12, fig.height=8.5}
 #| echo: false
 #| warning: FALSE
 SEX_AGE<-df%>%
@@ -173,7 +172,7 @@ ggplot(df_PIR, aes(x=AGE, y=pop2, fill=factor(SEX)))+
   theme(plot.title = element_text(lineheight=5.6, vjust=1.5,size=12, face="bold"),
         legend.title = element_blank(),
         legend.text = element_text(colour="black",face="bold", size = 15),
-        legend.position=c(.5075,.95),
+        legend.position="bottom",
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank(),
         axis.text  = element_text(angle = 0,vjust=0.5, size=15,colour="black"),
@@ -197,7 +196,7 @@ SEX<- df%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(SEX,booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(SEX,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -213,7 +212,7 @@ AGE2<- df%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(AGE2,booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(AGE2,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -239,7 +238,7 @@ RELATE<- REL%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(RELATE,booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(RELATE,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -254,7 +253,7 @@ RELATED<- REL%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(RELATED,booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(RELATED,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -352,7 +351,7 @@ NATIVITY<- NATIVITY_BPLCOUNTRY%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(NATIVITY, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(NATIVITY, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -360,10 +359,11 @@ column_spec(1, width = "30em")
 
 `r attributes(df$BPLCOUNTRY)$var_desc`
 
-**Number of unique codes:** `r length(unique(df$BPLCOUNTRY))`.     
+**Number of unique codes:** `r length(unique(df$BPLCOUNTRY))`.\
 **Unique values:** `r unique(as_factor(df$BPLCOUNTRY))`.
 
-**Table: Ranking top 10** 
+**Table: Ranking top 10**
+
 ```{r fig.width=12, fig.height=6}
 #| echo: false
 #| warning: FALSE
@@ -374,7 +374,7 @@ BPLCOUNTRY<- NATIVITY_BPLCOUNTRY%>%
   arrange(-n)%>% 
   head(10)
 
-kbl(BPLCOUNTRY, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(BPLCOUNTRY, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -400,7 +400,7 @@ HEADLOC<- LOC%>% #nota: tambien hay informacion sobre la cantidad de habitacione
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(HEADLOC,booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(HEADLOC,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -418,7 +418,7 @@ MOMLOC<- LOC%>% #nota: tambien hay informacion sobre la cantidad de habitaciones
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(MOMLOC,booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(MOMLOC,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -436,7 +436,7 @@ POPLOC<- LOC%>% #nota: tambien hay informacion sobre la cantidad de habitaciones
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(POPLOC,booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(POPLOC,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -454,11 +454,10 @@ SPLOC<- LOC%>% #nota: tambien hay informacion sobre la cantidad de habitaciones 
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(SPLOC,booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(SPLOC,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
-
 
 ### 6. NFAMS, NCOUPLES, NMOTHERS, NFATHERS, NCHILD, NCHLT5
 
@@ -481,7 +480,7 @@ NFAMS<- N_FAM%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(NFAMS, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(NFAMS, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -498,7 +497,7 @@ NCOUPLES<- N_FAM%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(NCOUPLES, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(NCOUPLES, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -515,7 +514,7 @@ NMOTHERS<- N_FAM%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(NMOTHERS, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(NMOTHERS, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -532,7 +531,7 @@ NFATHERS<- N_FAM%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(NFATHERS, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(NFATHERS, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -549,7 +548,7 @@ NCHILD<- N_FAM%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(NCHILD, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(NCHILD, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -566,11 +565,10 @@ NCHLT5<- N_FAM%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(NCHLT5, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(NCHLT5, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
-
 
 ### 7. AGE_HEAD, AGE_MOM, AGE_POP, AGE_SP
 
@@ -581,28 +579,32 @@ AGE<-df%>%
   select(AGE_HEAD, AGE_MOM, AGE_POP, AGE_SP)
 ```
 
-### 7.1 AGE_HEAD (summary) 
+### 7.1 AGE_HEAD (summary)
+
 ```{r fig.width=12, fig.height=6}
 #| echo: false
 #| warning: FALSE
 summary(df$AGE_HEAD)
 ```
 
-### 7.2 AGE_MOM (summary) 
+### 7.2 AGE_MOM (summary)
+
 ```{r fig.width=12, fig.height=6}
 #| echo: false
 #| warning: FALSE
 summary(df$AGE_MOM)
 ```
 
-### 7.3 AGE_POP (summary) 
+### 7.3 AGE_POP (summary)
+
 ```{r fig.width=12, fig.height=6}
 #| echo: false
 #| warning: FALSE
 summary(df$AGE_POP)
 ```
 
-### 7.4 AGE_SP (summary) 
+### 7.4 AGE_SP (summary)
+
 ```{r fig.width=12, fig.height=6}
 #| echo: false
 #| warning: FALSE
@@ -667,7 +669,7 @@ ELDCH_AGE2<- ELDCH%>%
   summarise(n=sum(n))%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(ELDCH_AGE2, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%column_spec(1, width = "30em")
+kbl(ELDCH_AGE2, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%column_spec(1, width = "30em")
 ```
 
 ### 8.2 Frequencies in YNGCH
@@ -719,11 +721,10 @@ YNGCH_AGE2<- YNGCH%>%
   summarise(n=sum(n))%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(YNGCH_AGE2, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>% column_spec(1, width = "30em")
+kbl(YNGCH_AGE2, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>% column_spec(1, width = "30em")
 ```
 
 ### 9. NUMBER OF CHILDREN BORN: CHBORN, CHSURV
-
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -744,7 +745,7 @@ CHBORN<- CHBORN_SURV%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(CHBORN, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(CHBORN, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -760,12 +761,12 @@ CHSURV<- CHBORN_SURV%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(CHSURV, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(CHSURV, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
-
 ### 10. FAMSIZE
+
 `r attributes(df$FAMSIZE)$var_desc`
 
 ```{r fig.width=12, fig.height=6}
@@ -785,7 +786,7 @@ FAMSIZE<- FAMSIZE0%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(FAMSIZE, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(FAMSIZE, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -810,7 +811,7 @@ EDATTAIN0<- EDATTAIN%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(EDATTAIN0, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(EDATTAIN0, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -824,7 +825,7 @@ EDATTAIND<- EDATTAIN%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(EDATTAIND, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(EDATTAIND, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -847,7 +848,7 @@ EDATTAIN_HEAD<- EDATTAIN1%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(EDATTAIN_HEAD, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(EDATTAIN_HEAD, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -861,7 +862,7 @@ EDATTAIN_MOM<- EDATTAIN1%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(EDATTAIN_MOM, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(EDATTAIN_MOM, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -876,7 +877,7 @@ EDATTAIN_POP<- EDATTAIN1%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(EDATTAIN_POP, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(EDATTAIN_POP, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -891,7 +892,7 @@ EDATTAIN_SP<- EDATTAIN1%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(EDATTAIN_SP, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(EDATTAIN_SP, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -916,7 +917,7 @@ SCHOOL<- SCHOOL0%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(SCHOOL, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(SCHOOL, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -941,7 +942,7 @@ LIT<- LIT0%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(LIT, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(LIT, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -966,7 +967,7 @@ EMPSTAT0<- EMPSTAT%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(EMPSTAT0, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(EMPSTAT0, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -981,7 +982,7 @@ EMPSTATD<- EMPSTAT%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(EMPSTAT0, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(EMPSTAT0, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1005,7 +1006,7 @@ EMPSTAT_HEAD<- EMPSTAT1%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(EMPSTAT_HEAD, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(EMPSTAT_HEAD, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1020,7 +1021,7 @@ EMPSTAT_MOM<- EMPSTAT1%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(EMPSTAT_MOM, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(EMPSTAT_MOM, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1035,7 +1036,7 @@ EMPSTAT_POP<- EMPSTAT1%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(EMPSTAT_POP, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(EMPSTAT_POP, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1050,7 +1051,7 @@ EMPSTAT_SP<- EMPSTAT1%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(EMPSTAT_SP, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(EMPSTAT_SP, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1076,7 +1077,7 @@ LABFORCE<- LABFORCE0%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(LABFORCE, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(LABFORCE, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -1101,7 +1102,7 @@ OCCISCO<- OCCISCO0%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(OCCISCO, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(OCCISCO, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -1126,7 +1127,7 @@ CLASSWK<- CLASSWK0%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(CLASSWK, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(CLASSWK, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -1140,7 +1141,7 @@ CLASSWKD<- CLASSWK0%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(CLASSWKD, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(CLASSWKD, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -1165,7 +1166,7 @@ INDGEN<- INDGEN0%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(INDGEN, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(INDGEN, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 ```
 
@@ -1190,7 +1191,7 @@ OWNERSHIP<- OWNHHT%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(OWNERSHIP, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(OWNERSHIP, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1205,7 +1206,7 @@ OWNERSHIPD<- OWNHHT%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(OWNERSHIPD, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(OWNERSHIPD, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1222,7 +1223,7 @@ HHTYPE<- OWNHHT%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(HHTYPE, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(HHTYPE, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1248,7 +1249,7 @@ MARST<- MARS%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(MARST, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(MARST, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1263,7 +1264,7 @@ MARSTD<- MARS%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(MARSTD, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(MARSTD, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1280,7 +1281,7 @@ CONSENS<- MARS%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(CONSENS, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(CONSENS, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1306,7 +1307,7 @@ REGIONW<- GEO%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(REGIONW, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(REGIONW, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1323,14 +1324,14 @@ GEOLEV1<- GEO%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(GEOLEV1, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(GEOLEV1, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
 
 ### 15.3 Number of unique codes in GEOLEV2
 
-**Number of unique codes:** `r length(unique(df$GEOLEV2))`.     
+**Number of unique codes:** `r length(unique(df$GEOLEV2))`.
 
 ### 16. PERNUM, PERWT
 
@@ -1353,7 +1354,7 @@ PERNUM<- PER%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(PERNUM, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(PERNUM, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1370,12 +1371,10 @@ PERWT<- PER%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(PERWT, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(PERWT, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
-
-
 
 ### 17. NAs in GQ, UNREL
 
@@ -1398,7 +1397,7 @@ GQ<- GQ_UNREL%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(GQ, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(GQ, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
@@ -1415,12 +1414,10 @@ UNREL<- GQ_UNREL%>%
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
-kbl(UNREL, booktabs = T)%>%kable_styling(full_width = T,position = "center") %>%
+kbl(UNREL, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
-
-
 
 ### 18. Crosstables
 
@@ -1434,8 +1431,14 @@ RELATE_MOMLOC<-df %>%
   select(MOMLOC,RELATE)
 
 kbl(table(as_factor(RELATE_MOMLOC$MOMLOC),as_factor(RELATE_MOMLOC$RELATE),useNA="always"),
-    booktabs = T)%>%kable_styling(full_width = T,position = "center",font_size = 9)#%>% 
-#column_spec(1, width = "20em")
+    booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center",font_size = 9)%>%column_spec(1, width = "6em")%>%
+  column_spec(2, width = "4em")%>%
+  column_spec(3, width = "4em")%>%
+  column_spec(4, width = "4em")%>%
+  column_spec(5, width = "4em")%>%
+  column_spec(6, width = "4em")%>%
+  column_spec(7, width = "4em")%>%
+  column_spec(8, width = "4em")
 ```
 
 ### 18.2 POPLOC-RELATE
@@ -1447,7 +1450,14 @@ RELATE_POPLOC<-df %>%
   select(POPLOC,RELATE)
 
 kbl(table(as_factor(RELATE_POPLOC$POPLOC),as_factor(RELATE_POPLOC$RELATE),useNA="always"),
-    booktabs = T)%>%kable_styling(full_width = T,position = "center",font_size = 9)
+    booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center",font_size = 9)%>%column_spec(1, width = "6em")%>%
+  column_spec(2, width = "4em")%>%
+  column_spec(3, width = "4em")%>%
+  column_spec(4, width = "4em")%>%
+  column_spec(5, width = "4em")%>%
+  column_spec(6, width = "4em")%>%
+  column_spec(7, width = "4em")%>%
+  column_spec(8, width = "4em")
 ```
 
 ### 18.3 SPLOC-RELATE
@@ -1459,7 +1469,14 @@ RELATE_SPLOC<-df %>%
   select(SPLOC,RELATE)
 
 kbl(table(as_factor(RELATE_SPLOC$SPLOC),as_factor(RELATE_SPLOC$RELATE),useNA="always"),
-    booktabs = T)%>%kable_styling(full_width = T,position = "center",font_size = 9)
+    booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center",font_size = 9)%>%column_spec(1, width = "6em")%>%
+  column_spec(2, width = "4em")%>%
+  column_spec(3, width = "4em")%>%
+  column_spec(4, width = "4em")%>%
+  column_spec(5, width = "4em")%>%
+  column_spec(6, width = "4em")%>%
+  column_spec(7, width = "4em")%>%
+  column_spec(8, width = "4em")
 ```
 
 ### 18.4 AGE x SEX x MARST (Graph)
@@ -1609,3 +1626,4 @@ ggplot(RELATE[RELATE$Sex!="Unknown",], aes(x=Age2, y=n,fill=Relate)) +
         panel.grid.minor=element_line(colour=NA))
 }
 ```
+
