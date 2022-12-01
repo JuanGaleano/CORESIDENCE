@@ -1,7 +1,8 @@
 ---
-title: "TEST: KHM_2013_IPUMS"
+title: "TEST: PAN_1960_IPUMS"
 author: "CORESIDENCE PROJECT"
-abstract: "**Abstract: **This document provides a summary description of variables included in the samples downloaded from IPUMS to build the CORESIDENCE database. If you need to report any mistake, please contact jgaleano@ced.uab.es. You can access the source r-code to render this document at: [GitHub CORESIDENCE](https://github.com/JuanGaleano/CORESIDENCE/blob/main/TEST_IPUMS.qmd)"
+date: "Reference: HE-ERC-2021-AdG-GA No 101052787-CORESIDENCE"
+abstract: "**Abstract: **This document provides a summary description of variables included in the samples downloaded from IPUMS to build the CORESIDENCE database. If you need to report any mistake, please contact _jgaleano@ced.uab.es_. You can access the source R-code to render this document at: [GitHub: CORESIDENCE](https://github.com/JuanGaleano/CORESIDENCE/blob/main/TEST_IPUMS.qmd)"
 mainfont: Arial
 monofont: Arial
 format: pdf
@@ -17,17 +18,54 @@ library(kableExtra)
 library(tidyverse)
 library(RColorBrewer)
 
-load("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_1_Input Data\\CENSUS_IPUMS\\KHM_2013_IPUMS.Rdata")
+load("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_1_Input Data\\CENSUS_IPUMS\\PAN_1960_IPUMS.Rdata")
 
 load("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_1_Input Data\\CENSUS_IPUMS\\A1_IMPUS_MOTHERS\\all_NAs_list.Rdata")
 
 VARIABLE_TO_CHANGE<-all_NAs_list[[as.character(unique(df$SAMPLE))]]
+df$AGE2B<-with(df, ifelse(AGE<=4, "0-4",
+                   ifelse(AGE<=9, "5-9", 
+                   ifelse(AGE<=14, "10-14",
+                   ifelse(AGE<=19, "15-19",
+                   ifelse(AGE<=24, "20-24",
+                   ifelse(AGE<=29, "25-29",
+                   ifelse(AGE<=34, "30-34",
+                   ifelse(AGE<=39, "35-39",
+                   ifelse(AGE<=44, "40-44",
+                   ifelse(AGE<=49, "45-49",
+                   ifelse(AGE<=54, "50-54",
+                   ifelse(AGE<=59, "55-59",
+                   ifelse(AGE<=64, "60-64",
+                   ifelse(AGE<=69, "65-69",
+                   ifelse(AGE<=74, "70-74",
+                   ifelse(AGE<=79, "75-79",
+                   ifelse(AGE<=84, "80-84",
+                   ifelse(AGE<=89, "85-89",
+                   ifelse(AGE<=94, "90-94",
+                   ifelse(AGE<=99, "95-99",
+                   ifelse(AGE<=104, "100-104",
+                   ifelse(AGE<=109, "105-109",
+                   ifelse(AGE<=114, "110-114","mal"
+                          ))))))))))))))))))))))))
+
+df$AGE2B<-as.factor(df$AGE2B)
+df$AGE2B<-factor(df$AGE2B, levels=c("0-4", "5-9", "10-14",
+                                    "15-19","20-24","25-29",
+                                    "30-34","35-39","40-44",
+                                    "45-49","50-54","55-59",
+                                    "60-64","65-69","70-74",
+                                    "75-79", "80-84","85-89",
+                                    "90-94","95-99","100-104",
+                                    "105-109","110-114"))
+
 
 ```
 
-## COUNTRY: `r toupper(as.character(as_factor(unique(df$COUNTRY))))` \| YEAR: `r as.character(as_factor(unique(df$YEAR)))` \| SAMPLE SIZE: `r nrow(df)` CASES
+------------------------------------------------------------------------
 
-### 1. VARIABLES WITH ALL NAs
+## COUNTRY: `r toupper(as.character(as_factor(unique(df$COUNTRY))))` \| YEAR: `r as.character(as_factor(unique(df$YEAR)))` \| SAMPLE SIZE: `r formatC(nrow(df), format="f", big.mark=",",digits=0)` CASES
+
+### 1. VARIABLES with ALL NAs
 
 **Number of variables with all NAs:** `r unique(length(df %>% keep(~all(is.na(.x))) %>% names))`.
 
@@ -35,15 +73,15 @@ VARIABLE_TO_CHANGE<-all_NAs_list[[as.character(unique(df$SAMPLE))]]
 #| echo: false
 #| warning: FALSE
 a<-as.data.frame(df %>% keep(~all(is.na(.x))) %>% names)
-colnames(a)<-"var"
+colnames(a)<-"Name"
 base<-df
-split_a<-split(a, f=a$var)
+split_a<-split(a, f=a$Name)
 all_NAs_list <- lapply(split_a, function(df) {
   df<-attributes(base[,df[[1]]])$var_desc
   df
 })
 df_all_NAs<-as.data.frame(do.call('rbind',all_NAs_list ))
-df_all_NAs_f<-data.frame(Var=row.names(df_all_NAs),
+df_all_NAs_f<-data.frame(Name=row.names(df_all_NAs),
                          Description=df_all_NAs$V1)
 
 kbl(df_all_NAs_f,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
@@ -52,7 +90,7 @@ column_spec(2, width = "35em")
 
 ```
 
-### 1.1 VARIABLES WITH NAs
+### 1.1 VARIABLES with NAs
 
 ```{r fig.width=12, fig.height=4.5}
 #| echo: false
@@ -114,7 +152,258 @@ ggplot(df_nas,aes(x=name, y=value, fill=factor(cat)))+
 }
 ```
 
-### 2. POPULATION PYRAMID (AGE x SEX)
+### 2. Group Quarter and unrelated, GQ and UNREL
+
+```{r fig.width=12, fig.height=6}
+#| echo: false
+#| warning: FALSE
+GQ_UNREL<-df%>%
+  select(GQ, UNREL)
+```
+
+### 2.1 Frequencies GQ
+
+`r attributes(df$GQ)$var_desc`
+
+```{r fig.width=12, fig.height=6}
+#| echo: false
+#| warning: FALSE
+GQ<- GQ_UNREL%>%
+  group_by(as_factor(GQ)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(GQ, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em")
+
+```
+
+### 2.2 Frequencies UNREL
+
+`r attributes(df$UNREL)$var_desc`
+
+```{r fig.width=12, fig.height=6}
+#| echo: false
+#| warning: FALSE
+UNREL<- GQ_UNREL%>%
+  group_by(as_factor(UNREL)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(UNREL, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em")
+
+```
+
+### 3. Crosstables
+
+### 3.1 MOMLOC x RELATE
+
+```{r fig.width=12, fig.height=6}
+#| echo: false
+#| warning: FALSE
+
+RELATE_MOMLOC<-df %>% 
+  select(MOMLOC,RELATE)
+
+kbl(table(as_factor(RELATE_MOMLOC$MOMLOC),as_factor(RELATE_MOMLOC$RELATE),useNA="always"),
+    booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center",font_size = 9)%>%column_spec(1, width = "6em")%>%
+  column_spec(2, width = "4em")%>%
+  column_spec(3, width = "4em")%>%
+  column_spec(4, width = "4em")%>%
+  column_spec(5, width = "4em")%>%
+  column_spec(6, width = "4em")%>%
+  column_spec(7, width = "4em")%>%
+  column_spec(8, width = "4em")
+```
+
+### 3.2 POPLOC x RELATE
+
+```{r fig.width=12, fig.height=6}
+#| echo: false
+#| warning: FALSE
+RELATE_POPLOC<-df %>% 
+  select(POPLOC,RELATE)
+
+kbl(table(as_factor(RELATE_POPLOC$POPLOC),as_factor(RELATE_POPLOC$RELATE),useNA="always"),
+    booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center",font_size = 9)%>%column_spec(1, width = "6em")%>%
+  column_spec(2, width = "4em")%>%
+  column_spec(3, width = "4em")%>%
+  column_spec(4, width = "4em")%>%
+  column_spec(5, width = "4em")%>%
+  column_spec(6, width = "4em")%>%
+  column_spec(7, width = "4em")%>%
+  column_spec(8, width = "4em")
+```
+
+### 3.3 SPLOC x RELATE
+
+```{r fig.width=12, fig.height=6}
+#| echo: false
+#| warning: FALSE
+RELATE_SPLOC<-df %>% 
+  select(SPLOC,RELATE)
+
+kbl(table(as_factor(RELATE_SPLOC$SPLOC),as_factor(RELATE_SPLOC$RELATE),useNA="always"),
+    booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center",font_size = 9)%>%column_spec(1, width = "6em")%>%
+  column_spec(2, width = "4em")%>%
+  column_spec(3, width = "4em")%>%
+  column_spec(4, width = "4em")%>%
+  column_spec(5, width = "4em")%>%
+  column_spec(6, width = "4em")%>%
+  column_spec(7, width = "4em")%>%
+  column_spec(8, width = "4em")
+```
+
+### 3.4 AGE x SEX x MARST (Graph)
+
+```{r fig.width=12, fig.height=10}
+#| echo: false
+#| warning: FALSE
+
+variable<-"MARST"
+variables_NAs<-df %>% keep(~all(is.na(.x))) %>% names
+
+if(ifelse((variable %in% variables_NAs),1,0)==1){
+print("Variable MARST has 100% NAs.")
+} else {
+SEX<- df%>% 
+  group_by(as_factor(SEX),as_factor(df$AGE2B),as_factor(df$MARST)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+colnames(SEX)<-c("Sex", "Age2", "Mars", "n", "rel")
+
+levels(SEX$Mars)<-c("NIU (not in universe)",
+                    "Single /\nnever married",
+                     "Married /\nin union",
+                     "Separated/divorced /\nspouse absent",
+                     "Widowed","Unknown /\nmissing")
+
+ggplot(SEX[SEX$Sex!="Unknown",], aes(x=Age2, y=n,fill=Mars)) + 
+  geom_bar(stat = "identity", colour="black", size=.01)+
+  coord_flip()+
+  facet_wrap(Sex~Mars, ncol=length(unique(SEX$Mars)))+
+  theme(plot.title = element_text(lineheight=5.6, vjust=1.5,size=12, face="bold"),
+        legend.title = element_blank(),
+        legend.text = element_text(colour="black", size = 12),
+        legend.position="none",
+        axis.text.y = element_text(colour="black", size = 14),
+        axis.text.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        strip.text.x = element_text(size = 14, face="bold"),
+        strip.text.y = element_text(size = 14, face="bold"),
+        legend.background = element_rect(fill = NA),
+        panel.background = element_rect(fill = "#ffffff"),
+        plot.background = element_rect(fill = "#ffffff"),
+        panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
+        panel.grid.minor=element_line(colour=NA))
+}
+```
+
+### 3.5 AGE x SEX x EDATTAIN (Graph)
+
+```{r fig.width=12, fig.height=10}
+#| echo: false
+#| warning: FALSE
+
+variable<-"EDATTAIN"
+variables_NAs<-df %>% keep(~all(is.na(.x))) %>% names
+
+if(ifelse((variable %in% variables_NAs),1,0)==1){
+print("Variable EDATTAIN has 100% NAs.")
+} else {
+EDATTAIN<- df%>% 
+  group_by(as_factor(SEX),as_factor(df$AGE2B),as_factor(df$EDATTAIN)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+colnames(EDATTAIN)<-c("Sex", "Age2", "Education", "n", "rel")
+
+levels(EDATTAIN$Education)<-c("NIU\n(not in universe)",
+                              "Less than\nprimary completed",
+                              "Primary\ncompleted",
+                              "Secondary\ncompleted",
+                              "University\ncompleted",
+                              "Unknown")
+
+ggplot(EDATTAIN[EDATTAIN$Sex!="Unknown",], aes(x=Age2, y=n,fill=Education)) + 
+  geom_bar(stat = "identity", colour="black", size=.01)+
+  coord_flip()+
+  facet_wrap (Sex~Education, ncol=length(unique(EDATTAIN$Education)))+
+  theme(plot.title = element_text(lineheight=5.6, vjust=1.5,size=12, face="bold"),
+        legend.title = element_blank(),
+        legend.text = element_text(colour="black", size = 12),
+        legend.position="none",
+        axis.text.y = element_text(colour="black", size = 14),
+        axis.text.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        strip.text.x = element_text(size = 14, face="bold"),
+        strip.text.y = element_text(size = 14, face="bold"),
+        legend.background = element_rect(fill = NA),
+        panel.background = element_rect(fill = "#ffffff"),
+        plot.background = element_rect(fill = "#ffffff"),
+        panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
+        panel.grid.minor=element_line(colour=NA))
+}
+```
+
+### 3.6 AGE x SEX x RELATE (Graph)
+
+```{r fig.width=12, fig.height=10}
+#| echo: false
+#| warning: FALSE
+
+variable<-"RELATE"
+variables_NAs<-df %>% keep(~all(is.na(.x))) %>% names
+
+if(ifelse((variable %in% variables_NAs),1,0)==1){
+print("Variable RELATE has 100% NAs.")
+} else {
+
+RELATE<- df%>% 
+  group_by(as_factor(SEX),as_factor(df$AGE2B),as_factor(df$RELATE)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+colnames(RELATE)<-c("Sex", "Age2", "Relate", "n", "rel")
+
+levels(RELATE$Relate)<-c("Head",
+                         "Spouse/\npartner",
+                         "Child", 
+                         "Other\nrelative",
+                         "Other relative or\n non-relative",
+                         "Non\nrelative",
+                         "Unknown")
+
+ggplot(RELATE[RELATE$Sex!="Unknown",], aes(x=Age2, y=n,fill=Relate)) + 
+  geom_bar(stat = "identity", colour="black", size=.01)+
+  coord_flip()+
+  facet_wrap (Sex~Relate, ncol=length(unique(RELATE$Relate)))+
+  theme(plot.title = element_text(lineheight=5.6, vjust=1.5,size=12, face="bold"),
+        legend.title = element_blank(),
+        legend.text = element_text(colour="black", size = 12),
+        legend.position="none",
+        axis.text.y = element_text(colour="black", size = 14),
+        axis.text.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        strip.text.x = element_text(size = 14, face="bold"),
+        strip.text.y = element_text(size = 14, face="bold"),
+        legend.background = element_rect(fill = NA),
+        panel.background = element_rect(fill = "#ffffff"),
+        plot.background = element_rect(fill = "#ffffff"),
+        panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
+        panel.grid.minor=element_line(colour=NA))
+}
+```
+
+### 4. POPULATION PYRAMID (AGE x SEX)
 
 ```{r fig.width=12, fig.height=8.5}
 #| echo: false
@@ -185,7 +474,7 @@ ggplot(df_PIR, aes(x=AGE, y=pop2, fill=factor(SEX)))+
 
 ```
 
-### 2.1 Frequencies SEX
+### 4.1 Frequencies SEX
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -201,14 +490,14 @@ column_spec(1, width = "30em")
 
 ```
 
-### 2.2 Frequencies AGE2
+### 4.2 Frequencies AGE2
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
 #| warning: FALSE
 AGE2<- df%>% 
-  select(AGE2)%>%
-  group_by(as_factor(AGE2)) %>% 
+  select(AGE2B)%>%
+  group_by(as_factor(AGE2B)) %>% 
   summarise(n=n())%>% 
   mutate(n_rel = round(n / sum(n)*100,2))
 
@@ -217,7 +506,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 3. RELATION OF INDIVIDUAL TO THE HEAD OF THE HOUSEHOLD: RELATE
+### 5. RELATION OF INDIVIDUAL TO THE HEAD OF THE HOUSEHOLD: RELATE
 
 `r attributes(df$RELATE)$var_desc`
 
@@ -228,7 +517,7 @@ REL<-df%>%
   select(RELATE, RELATED)
 ```
 
-### 3.1 Frequencies RELATE
+### 5.1 Frequencies RELATE
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -243,7 +532,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 3.2 Frequencies RELATED
+### 5.2 Frequencies RELATED
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -258,47 +547,35 @@ column_spec(1, width = "30em")
 
 ```
 
-### 3.3 Population pyramid (AGE x SEX x RELATE)
+### 5.3 Population pyramid (AGE x SEX x RELATE)
 
 ```{r fig.width=12, fig.height=8.5}
 #| echo: false
 #| warning: FALSE
-
 SEX_AGE_RELATE<-df%>%
   select(SEX,AGE,RELATE)%>%
   filter(SEX!=9)
-
 SEX_AGE_RELATE$id<-paste(SEX_AGE_RELATE$AGE,SEX_AGE_RELATE$SEX,SEX_AGE_RELATE$RELATE, sep="-")
-
 SEX_AGE_RELATE <- SEX_AGE_RELATE %>% group_by(id,SEX,AGE,RELATE) %>%
   summarise(pop = n())
-
 dfedades_relate<-data.frame(AGE=rep(c(0:110),14),
                      SEX=rep(rep(c(1,2),each=111),7),
                      RELATE=rep(rep(c(1:7), each=111),2))
-
 dfedades_relate$id<-paste(dfedades_relate$AGE,dfedades_relate$SEX,dfedades_relate$RELATE, sep="-")
-
 SEX_AGE_RELATE<-as.data.frame(SEX_AGE_RELATE)
 dfedades_relate<-as.data.frame(dfedades_relate)
 df_PIR_RELATE <- data.frame(dfedades_relate,
                SEX_AGE_RELATE[match(dfedades_relate[,"id"],
                                           SEX_AGE_RELATE[,"id"]),])
-
 df_PIR_RELATE<-df_PIR_RELATE %>%
   select(AGE,SEX,RELATE,id,pop)%>%
   mutate(pop2=ifelse(SEX==1, pop*-1, pop))
-
 df_PIR_RELATE$pop2[is.na(df_PIR_RELATE$pop2)] <- 0
-
 cols_relate = gg_color_hue(7)
-
 df_PIR_RELATE$SEX<-as.factor(df_PIR_RELATE$SEX)
 levels(df_PIR_RELATE$SEX)<-c("Male", "Female")
-
 df_PIR_RELATE$RELATE<-as.factor(df_PIR_RELATE$RELATE)
 levels(df_PIR_RELATE$RELATE)<-c("Head","Spouse/partner","Child","Other relative","Non-relative","Other relative or\nnon-relative","Unknown")
-
 ggplot(df_PIR_RELATE, aes(x=AGE, y=pop2, fill=factor(RELATE)))+
   geom_bar(colour = I("Black"),
            stat="identity", 
@@ -327,10 +604,12 @@ ggplot(df_PIR_RELATE, aes(x=AGE, y=pop2, fill=factor(RELATE)))+
         panel.background = element_rect(fill = "#ffffff"),
         plot.background = element_rect(fill = "#ffffff"),
         panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
-        panel.grid.minor=element_line(colour="#f2f2f2")) 
+        panel.grid.minor=element_line(colour="#f2f2f2"))  
+
+
 ```
 
-### 4. NATIVITY and COUNTRY OF BIRTH: NATIVITY, BPLCOUNTRY
+### 6. NATIVITY and COUNTRY OF BIRTH: NATIVITY, BPLCOUNTRY
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -339,7 +618,7 @@ NATIVITY_BPLCOUNTRY<-df%>%
   select(NATIVITY,BPLCOUNTRY)
 ```
 
-### 4.1 Frequencies NATIVITY
+### 6.1 Frequencies NATIVITY
 
 `r attributes(df$NATIVITY)$var_desc`
 
@@ -355,7 +634,7 @@ kbl(NATIVITY, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "ce
 column_spec(1, width = "30em")
 ```
 
-### 4.2 Frequencies BPLCOUNTRY
+### 6.2 Frequencies BPLCOUNTRY
 
 `r attributes(df$BPLCOUNTRY)$var_desc`
 
@@ -378,7 +657,7 @@ kbl(BPLCOUNTRY, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "
 column_spec(1, width = "30em")
 ```
 
-### 5. HEADLOC, MOMLOC, POPLOC, SPLOC
+### 7. HEADLOC, MOMLOC, POPLOC, SPLOC
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -387,7 +666,7 @@ LOC<-df%>%
   select(HEADLOC,MOMLOC,POPLOC,SPLOC)
 ```
 
-### 5.1 Frequencies HEADLOC
+### 7.1 Frequencies HEADLOC
 
 `r attributes(df$HEADLOC)$var_desc`
 
@@ -405,7 +684,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 5.2 Frequencies MOMLOC
+### 7.2 Frequencies MOMLOC
 
 `r attributes(df$MOMLOC)$var_desc`
 
@@ -423,7 +702,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 5.3 Frequencies POPLOC
+### 7.3 Frequencies POPLOC
 
 `r attributes(df$POPLOC)$var_desc`
 
@@ -441,7 +720,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 5.4 Frequencies SPLOC
+### 7.4 Frequencies SPLOC
 
 `r attributes(df$SPLOC)$var_desc`
 
@@ -459,7 +738,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 6. NFAMS, NCOUPLES, NMOTHERS, NFATHERS, NCHILD, NCHLT5
+### 8. NFAMS, NCOUPLES, NMOTHERS, NFATHERS, NCHILD, NCHLT5
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -468,7 +747,7 @@ N_FAM<-df%>%
   select(NFAMS, NCOUPLES, NMOTHERS, NFATHERS,NCHILD,NCHLT5)
 ```
 
-### 6.1 Frequencies NFAMS
+### 8.1 Frequencies NFAMS
 
 `r attributes(df$NFAMS)$var_desc`
 
@@ -485,7 +764,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 6.2 Frequencies NCOUPLES
+### 8.2 Frequencies NCOUPLES
 
 `r attributes(df$NCOUPLES)$var_desc`
 
@@ -502,7 +781,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 6.3 Frequencies NMOTHERS
+### 8.3 Frequencies NMOTHERS
 
 `r attributes(df$NMOTHERS)$var_desc`
 
@@ -519,7 +798,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 6.4 Frequencies NFATHERS
+### 8.4 Frequencies NFATHERS
 
 `r attributes(df$NFATHERS)$var_desc`
 
@@ -536,7 +815,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 6.5 Frequencies NCHILD
+### 8.5 Frequencies NCHILD
 
 `r attributes(df$NCHILD)$var_desc`
 
@@ -553,7 +832,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 6.6 Frequencies NCHLT5
+### 8.6 Frequencies NCHLT5
 
 `r attributes(df$NCHLT5)$var_desc`
 
@@ -570,7 +849,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 7. AGE_HEAD, AGE_MOM, AGE_POP, AGE_SP
+### 9. AGE_HEAD, AGE_MOM, AGE_POP, AGE_SP
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -579,7 +858,7 @@ AGE<-df%>%
   select(AGE_HEAD, AGE_MOM, AGE_POP, AGE_SP)
 ```
 
-### 7.1 AGE_HEAD (summary)
+### 9.1 AGE_HEAD (summary)
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -587,7 +866,7 @@ AGE<-df%>%
 summary(df$AGE_HEAD)
 ```
 
-### 7.2 AGE_MOM (summary)
+### 9.2 AGE_MOM (summary)
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -595,7 +874,7 @@ summary(df$AGE_HEAD)
 summary(df$AGE_MOM)
 ```
 
-### 7.3 AGE_POP (summary)
+### 9.3 AGE_POP (summary)
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -603,7 +882,7 @@ summary(df$AGE_MOM)
 summary(df$AGE_POP)
 ```
 
-### 7.4 AGE_SP (summary)
+### 9.4 AGE_SP (summary)
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -611,7 +890,7 @@ summary(df$AGE_POP)
 summary(df$AGE_SP)
 ```
 
-### 8. ELDCH and YNGCH
+### 10. ELDCH and YNGCH
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -620,7 +899,7 @@ ELDCH0<-df%>%
   select(ELDCH, YNGCH)
 ```
 
-### 8.1 Frequencies in ELDCH
+### 10.1 Frequencies in ELDCH
 
 `r attributes(df$ELDCH)$var_desc`
 
@@ -672,7 +951,7 @@ ELDCH_AGE2<- ELDCH%>%
 kbl(ELDCH_AGE2, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%column_spec(1, width = "30em")
 ```
 
-### 8.2 Frequencies in YNGCH
+### 10.2 Frequencies in YNGCH
 
 `r attributes(df$YNGCH)$var_desc`
 
@@ -724,7 +1003,7 @@ YNGCH_AGE2<- YNGCH%>%
 kbl(YNGCH_AGE2, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>% column_spec(1, width = "30em")
 ```
 
-### 9. NUMBER OF CHILDREN BORN: CHBORN, CHSURV
+### 11. NUMBER OF CHILDREN BORN: CHBORN, CHSURV
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -733,7 +1012,7 @@ CHBORN_SURV<-df%>%
   select(CHBORN,CHSURV)
 ```
 
-### 9.1 Frequencies CHBORN
+### 11.1 Frequencies CHBORN
 
 `r attributes(df$CHBORN)$var_desc`
 
@@ -749,7 +1028,7 @@ kbl(CHBORN, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "cent
 column_spec(1, width = "30em")
 ```
 
-### 9.2 Frequencies CHSURV
+### 11.2 Frequencies CHSURV
 
 `r attributes(df$CHSURV)$var_desc`
 
@@ -765,7 +1044,7 @@ kbl(CHSURV, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "cent
 column_spec(1, width = "30em")
 ```
 
-### 10. FAMSIZE
+### 12. FAMSIZE
 
 `r attributes(df$FAMSIZE)$var_desc`
 
@@ -776,7 +1055,7 @@ FAMSIZE0<-df%>%
   select(FAMSIZE)
 ```
 
-### 10.1 Frequencies in FAMSIZE
+### 12.1 Frequencies in FAMSIZE
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -790,7 +1069,7 @@ kbl(FAMSIZE, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "cen
 column_spec(1, width = "30em")
 ```
 
-### 11. EDUCATION: EDATTAIN, EDATTAIND
+### 13. EDUCATION: EDATTAIN, EDATTAIND
 
 `r attributes(df$EDATTAIN_HEAD)$var_desc`
 
@@ -801,7 +1080,7 @@ EDATTAIN<-df%>%
   select(EDATTAIN,EDATTAIND)
 ```
 
-### 11.1 Frequencies EDATTAIN
+### 13.1 Frequencies EDATTAIN
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -815,7 +1094,7 @@ kbl(EDATTAIN0, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "c
 column_spec(1, width = "30em")
 ```
 
-### 11.2 Frequencies EDATTAIND
+### 13.2 Frequencies EDATTAIND
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -829,7 +1108,7 @@ kbl(EDATTAIND, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "c
 column_spec(1, width = "30em")
 ```
 
-### 11.3 EDATTAIN_HEAD, EDATTAIN_MOM, EDATTAIN_POP, EDATTAIN_SP
+### 13.3 EDATTAIN_HEAD, EDATTAIN_MOM, EDATTAIN_POP, EDATTAIN_SP
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -838,7 +1117,7 @@ EDATTAIN1<-df%>%
   select(EDATTAIN_HEAD, EDATTAIN_MOM, EDATTAIN_POP, EDATTAIN_SP)
 ```
 
-### 11.4 Frequencies EDATTAIN_HEAD
+### 13.4 Frequencies EDATTAIN_HEAD
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -852,7 +1131,7 @@ kbl(EDATTAIN_HEAD, booktabs = T, "latex", longtable=T)%>%kable_styling(position 
 column_spec(1, width = "30em")
 ```
 
-### 11.5 Frequencies EDATTAIN_MOM
+### 13.5 Frequencies EDATTAIN_MOM
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -867,7 +1146,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 11.6 Frequencies EDATTAIN_POP
+### 13.6 Frequencies EDATTAIN_POP
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -882,7 +1161,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 11.7 Frequencies EDATTAIN_SP
+### 13.7 Frequencies EDATTAIN_SP
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -896,7 +1175,7 @@ kbl(EDATTAIN_SP, booktabs = T, "latex", longtable=T)%>%kable_styling(position = 
 column_spec(1, width = "30em")
 ```
 
-### 11.8 SCHOOL
+### 13.8 SCHOOL
 
 `r attributes(df$SCHOOL)$var_desc`
 
@@ -907,7 +1186,7 @@ SCHOOL0<-df%>%
   select(SCHOOL)
 ```
 
-### 11.9 Frequencies in SCHOOL
+### 13.9 Frequencies in SCHOOL
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -921,7 +1200,7 @@ kbl(SCHOOL, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "cent
 column_spec(1, width = "30em")
 ```
 
-### 11.10 LIT
+### 13.10 LIT
 
 `r attributes(df$LIT)$var_desc`
 
@@ -932,7 +1211,7 @@ LIT0<-df%>%
   select(LIT)
 ```
 
-### 11.11 Frequencies in LIT
+### 13.11 Frequencies in LIT
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -946,7 +1225,7 @@ kbl(LIT, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center"
 column_spec(1, width = "30em")
 ```
 
-### 12. LABOUR FORCE: EMPSTAT, EMPSTATD
+### 14. LABOUR FORCE: EMPSTAT, EMPSTATD
 
 `r attributes(df$EMPSTAT)$var_desc`
 
@@ -957,7 +1236,7 @@ EMPSTAT<-df%>%
   select(EMPSTAT, EMPSTATD)
 ```
 
-### 12.1 Frequencies EMPSTAT
+### 14.1 Frequencies EMPSTAT
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -972,7 +1251,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 12.2 Frequencies EMPSTATD
+### 14.2 Frequencies EMPSTATD
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -987,7 +1266,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 12.3 EMPSTAT_HEAD, EMPSTAT_MOM, EMPSTAT_POP, EMPSTAT_SP
+### 14.3 EMPSTAT_HEAD, EMPSTAT_MOM, EMPSTAT_POP, EMPSTT_SP
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -996,7 +1275,7 @@ EMPSTAT1<-df%>%
   select(EMPSTAT_HEAD, EMPSTAT_MOM, EMPSTAT_POP, EMPSTAT_SP)
 ```
 
-### 12.4 Frequencies EMPSTAT_HEAD
+### 14.4 Frequencies EMPSTAT_HEAD
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1011,7 +1290,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 12.5 Frequencies EMPSTAT_MOM
+### 14.5 Frequencies EMPSTAT_MOM
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1026,7 +1305,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 12.6 Frequencies EMPSTAT_POP
+### 14.6 Frequencies EMPSTAT_POP
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1041,7 +1320,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 12.7 Frequencies EMPSTAT_SP
+### 14.7 Frequencies EMPSTAT_SP
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1056,7 +1335,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 12.8 LABFORCE
+### 14.8 LABFORCE
 
 `r attributes(df$LABFORCE)$var_desc`
 
@@ -1067,7 +1346,7 @@ LABFORCE0<-df%>%
   select(LABFORCE)
 ```
 
-### 12.9 Frequencies in LABFORCE
+### 14.9 Frequencies in LABFORCE
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1081,7 +1360,7 @@ kbl(LABFORCE, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "ce
 column_spec(1, width = "30em")
 ```
 
-### 12.10 OCCISCO
+### 14.10 OCCISCO
 
 `r attributes(df$OCCISCO)$var_desc`
 
@@ -1092,7 +1371,7 @@ OCCISCO0<-df%>%
   select(OCCISCO)
 ```
 
-### 12.11 Frequencies in OCCISCO
+### 14.11 Frequencies in OCCISCO
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1106,7 +1385,7 @@ kbl(OCCISCO, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "cen
 column_spec(1, width = "30em")
 ```
 
-### 12.12 STATUS OF ECONOMICALLY ACTIVE PERSON: CLASSWK, CLASSWKD
+### 14.12 STATUS OF ECONOMICALLY ACTIVE PERSON: CLASSWK, CLASSWKD
 
 `r attributes(df$CLASSWK)$var_desc`
 
@@ -1117,7 +1396,7 @@ CLASSWK0<-df%>%
   select(CLASSWK, CLASSWKD)
 ```
 
-### 12.13 Frequencies in CLASSWK
+### 14.13 Frequencies in CLASSWK
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1131,7 +1410,7 @@ kbl(CLASSWK, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "cen
 column_spec(1, width = "30em")
 ```
 
-### 12.14 Frequencies in CLASSWKD
+### 14.14 Frequencies in CLASSWKD
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1145,7 +1424,7 @@ kbl(CLASSWKD, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "ce
 column_spec(1, width = "30em")
 ```
 
-### 12.15 INDGEN
+### 14.15 INDGEN
 
 `r attributes(df$INDGEN)$var_desc`
 
@@ -1156,7 +1435,7 @@ INDGEN0<-df%>%
   select(INDGEN)
 ```
 
-### 12.16 Frequencies in INDGEN
+### 14.16 Frequencies in INDGEN
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1170,7 +1449,7 @@ kbl(INDGEN, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "cent
 column_spec(1, width = "30em")
 ```
 
-### 13. OWNERSHIP, OWNERSHIPD, HHTYPE
+### 15. OWNERSHIP, OWNERSHIPD, HHTYPE
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1179,7 +1458,7 @@ OWNHHT<-df%>%
   select(OWNERSHIP, OWNERSHIPD, HHTYPE)
 ```
 
-### 13.1 Frequencies OWNERSHIP
+### 15.1 Frequencies OWNERSHIP
 
 `r attributes(df$OWNERSHIP)$var_desc`
 
@@ -1196,7 +1475,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 13.2 Frequencies OWNERSHIPD
+### 15.2 Frequencies OWNERSHIPD
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1211,9 +1490,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 13.3 Frequencies HHTYPE
-
-`r attributes(df$HHTYPE)$var_desc`
+### 15.3 Frequencies HHTYPE
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1228,7 +1505,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 14. MARITAL STATUS: MARST, MARSTD, CONSENS
+### 16. MARITAL STATUS: MARST, MARSTD, CONSENS
 
 `r attributes(df$MARST)$var_desc`
 
@@ -1239,7 +1516,7 @@ MARS<-df%>%
   select(MARST, MARSTD, CONSENS)
 ```
 
-### 14.1 Frequencies MARST
+### 16.1 Frequencies MARST
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1254,7 +1531,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 14.2 Frequencies MARSTD
+### 16.2 Frequencies MARSTD
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1269,7 +1546,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 14.3 Frequencies CONSENS
+### 16.3 Frequencies CONSENS
 
 `r attributes(df$CONSENS)$var_desc`
 
@@ -1286,7 +1563,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 15. REGIONW, GEOLEV1, GEOLEV2
+### 17. REGIONW, GEOLEV1, GEOLEV2
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1295,7 +1572,7 @@ GEO<-df%>%
   select(REGIONW, GEOLEV1, GEOLEV2)
 ```
 
-### 15.1 Frequencies REGIONW
+### 17.1 Frequencies REGIONW
 
 `r attributes(df$REGIONW)$var_desc`
 
@@ -1312,7 +1589,7 @@ column_spec(1, width = "30em")
 
 ```
 
-### 15.2 Frequencies GEOLEV1
+### 17.2 Frequencies GEOLEV1
 
 `r attributes(df$GEOLEV1)$var_desc`
 
@@ -1329,11 +1606,11 @@ column_spec(1, width = "30em")
 
 ```
 
-### 15.3 Number of unique codes in GEOLEV2
+### 17.3 Number of unique codes in GEOLEV2
 
 **Number of unique codes:** `r length(unique(df$GEOLEV2))`.
 
-### 16. PERNUM, PERWT
+### 18. PERNUM, PERWT
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
@@ -1342,7 +1619,7 @@ PER<-df%>%
   select(PERNUM, PERWT)
 ```
 
-### 16.1 Frequencies PERNUM
+### 18.1 Frequencies PERNUM
 
 `r attributes(df$PERNUM)$var_desc`
 
@@ -1359,271 +1636,27 @@ column_spec(1, width = "30em")
 
 ```
 
-### 16.2 Frequencies PERWT
+### 18.2 Frequencies PERWT
 
 `r attributes(df$PERWT)$var_desc`
+
 
 ```{r fig.width=12, fig.height=6}
 #| echo: false
 #| warning: FALSE
+
+#There is a problem of codification with in this variable. The next table just shows the first ten cases as an example. 
 PERWT<- PER%>%
   group_by(as_factor(PERWT)) %>% 
   summarise(n=n())%>% 
-  mutate(n_rel = round(n / sum(n)*100,2))
+  mutate(n_rel = round(n / sum(n)*100,2))#%>% 
+  #head(10)
 
 kbl(PERWT, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
 column_spec(1, width = "30em")
 
 ```
 
-### 17. NAs in GQ, UNREL
+------------------------------------------------------------------------
 
-```{r fig.width=12, fig.height=6}
-#| echo: false
-#| warning: FALSE
-GQ_UNREL<-df%>%
-  select(GQ, UNREL)
-```
-
-### 17.1 Frequencies GQ
-
-`r attributes(df$GQ)$var_desc`
-
-```{r fig.width=12, fig.height=6}
-#| echo: false
-#| warning: FALSE
-GQ<- GQ_UNREL%>%
-  group_by(as_factor(GQ)) %>% 
-  summarise(n=n())%>% 
-  mutate(n_rel = round(n / sum(n)*100,2))
-
-kbl(GQ, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
-column_spec(1, width = "30em")
-
-```
-
-### 17.2 Frequencies UNREL
-
-`r attributes(df$UNREL)$var_desc`
-
-```{r fig.width=12, fig.height=6}
-#| echo: false
-#| warning: FALSE
-UNREL<- GQ_UNREL%>%
-  group_by(as_factor(UNREL)) %>% 
-  summarise(n=n())%>% 
-  mutate(n_rel = round(n / sum(n)*100,2))
-
-kbl(UNREL, booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
-column_spec(1, width = "30em")
-
-```
-
-### 18. Crosstables
-
-### 18.1 MOMLOC-RELATE
-
-```{r fig.width=12, fig.height=6}
-#| echo: false
-#| warning: FALSE
-
-RELATE_MOMLOC<-df %>% 
-  select(MOMLOC,RELATE)
-
-kbl(table(as_factor(RELATE_MOMLOC$MOMLOC),as_factor(RELATE_MOMLOC$RELATE),useNA="always"),
-    booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center",font_size = 9)%>%column_spec(1, width = "6em")%>%
-  column_spec(2, width = "4em")%>%
-  column_spec(3, width = "4em")%>%
-  column_spec(4, width = "4em")%>%
-  column_spec(5, width = "4em")%>%
-  column_spec(6, width = "4em")%>%
-  column_spec(7, width = "4em")%>%
-  column_spec(8, width = "4em")
-```
-
-### 18.2 POPLOC-RELATE
-
-```{r fig.width=12, fig.height=6}
-#| echo: false
-#| warning: FALSE
-RELATE_POPLOC<-df %>% 
-  select(POPLOC,RELATE)
-
-kbl(table(as_factor(RELATE_POPLOC$POPLOC),as_factor(RELATE_POPLOC$RELATE),useNA="always"),
-    booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center",font_size = 9)%>%column_spec(1, width = "6em")%>%
-  column_spec(2, width = "4em")%>%
-  column_spec(3, width = "4em")%>%
-  column_spec(4, width = "4em")%>%
-  column_spec(5, width = "4em")%>%
-  column_spec(6, width = "4em")%>%
-  column_spec(7, width = "4em")%>%
-  column_spec(8, width = "4em")
-```
-
-### 18.3 SPLOC-RELATE
-
-```{r fig.width=12, fig.height=6}
-#| echo: false
-#| warning: FALSE
-RELATE_SPLOC<-df %>% 
-  select(SPLOC,RELATE)
-
-kbl(table(as_factor(RELATE_SPLOC$SPLOC),as_factor(RELATE_SPLOC$RELATE),useNA="always"),
-    booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center",font_size = 9)%>%column_spec(1, width = "6em")%>%
-  column_spec(2, width = "4em")%>%
-  column_spec(3, width = "4em")%>%
-  column_spec(4, width = "4em")%>%
-  column_spec(5, width = "4em")%>%
-  column_spec(6, width = "4em")%>%
-  column_spec(7, width = "4em")%>%
-  column_spec(8, width = "4em")
-```
-
-### 18.4 AGE x SEX x MARST (Graph)
-
-```{r fig.width=12, fig.height=10}
-#| echo: false
-#| warning: FALSE
-
-variable<-"MARST"
-variables_NAs<-df %>% keep(~all(is.na(.x))) %>% names
-
-if(ifelse((variable %in% variables_NAs),1,0)==1){
-print("Variable MARST has 100% NAs.")
-} else {
-SEX<- df%>% 
-  group_by(as_factor(SEX),as_factor(df$AGE2),as_factor(df$MARST)) %>% 
-  summarise(n=n())%>% 
-  mutate(n_rel = round(n / sum(n)*100,2))
-
-colnames(SEX)<-c("Sex", "Age2", "Mars", "n", "rel")
-
-levels(SEX$Mars)<-c("NIU (not in universe)",
-                    "Single /\nnever married",
-                     "Married /\nin union",
-                     "Separated/divorced /\nspouse absent",
-                     "Widowed","Unknown /\nmissing")
-
-ggplot(SEX[SEX$Sex!="Unknown",], aes(x=Age2, y=n,fill=Mars)) + 
-  geom_bar(stat = "identity", colour="black", size=.01)+
-  coord_flip()+
-  facet_wrap(Sex~Mars, ncol=length(unique(SEX$Mars)))+
-  theme(plot.title = element_text(lineheight=5.6, vjust=1.5,size=12, face="bold"),
-        legend.title = element_blank(),
-        legend.text = element_text(colour="black", size = 12),
-        legend.position="none",
-        axis.text.y = element_text(colour="black", size = 14),
-        axis.text.x = element_blank(),
-        axis.title.y = element_blank(),
-        axis.title.x = element_blank(),
-        axis.ticks.x = element_blank(),
-        strip.text.x = element_text(size = 14, face="bold"),
-        strip.text.y = element_text(size = 14, face="bold"),
-        legend.background = element_rect(fill = NA),
-        panel.background = element_rect(fill = "#ffffff"),
-        plot.background = element_rect(fill = "#ffffff"),
-        panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
-        panel.grid.minor=element_line(colour=NA))
-}
-```
-
-### 18.5 AGE x SEX x EDATTAIN (Graph)
-
-```{r fig.width=12, fig.height=10}
-#| echo: false
-#| warning: FALSE
-
-variable<-"EDATTAIN"
-variables_NAs<-df %>% keep(~all(is.na(.x))) %>% names
-
-if(ifelse((variable %in% variables_NAs),1,0)==1){
-print("Variable EDATTAIN has 100% NAs.")
-} else {
-EDATTAIN<- df%>% 
-  group_by(as_factor(SEX),as_factor(df$AGE2),as_factor(df$EDATTAIN)) %>% 
-  summarise(n=n())%>% 
-  mutate(n_rel = round(n / sum(n)*100,2))
-
-colnames(EDATTAIN)<-c("Sex", "Age2", "Education", "n", "rel")
-
-levels(EDATTAIN$Education)<-c("NIU\n(not in universe)",
-                              "Less than\nprimary completed",
-                              "Primary\ncompleted",
-                              "Secondary\ncompleted",
-                              "University\ncompleted",
-                              "Unknown")
-
-ggplot(EDATTAIN[EDATTAIN$Sex!="Unknown",], aes(x=Age2, y=n,fill=Education)) + 
-  geom_bar(stat = "identity", colour="black", size=.01)+
-  coord_flip()+
-  facet_wrap (Sex~Education, ncol=length(unique(EDATTAIN$Education)))+
-  theme(plot.title = element_text(lineheight=5.6, vjust=1.5,size=12, face="bold"),
-        legend.title = element_blank(),
-        legend.text = element_text(colour="black", size = 12),
-        legend.position="none",
-        axis.text.y = element_text(colour="black", size = 14),
-        axis.text.x = element_blank(),
-        axis.title.y = element_blank(),
-        axis.title.x = element_blank(),
-        axis.ticks.x = element_blank(),
-        strip.text.x = element_text(size = 14, face="bold"),
-        strip.text.y = element_text(size = 14, face="bold"),
-        legend.background = element_rect(fill = NA),
-        panel.background = element_rect(fill = "#ffffff"),
-        plot.background = element_rect(fill = "#ffffff"),
-        panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
-        panel.grid.minor=element_line(colour=NA))
-}
-```
-
-### 18.6 AGE x SEX x RELATE (Graph)
-
-```{r fig.width=12, fig.height=10}
-#| echo: false
-#| warning: FALSE
-
-variable<-"RELATE"
-variables_NAs<-df %>% keep(~all(is.na(.x))) %>% names
-
-if(ifelse((variable %in% variables_NAs),1,0)==1){
-print("Variable RELATE has 100% NAs.")
-} else {
-
-RELATE<- df%>% 
-  group_by(as_factor(SEX),as_factor(df$AGE2),as_factor(df$RELATE)) %>% 
-  summarise(n=n())%>% 
-  mutate(n_rel = round(n / sum(n)*100,2))
-
-colnames(RELATE)<-c("Sex", "Age2", "Relate", "n", "rel")
-
-levels(RELATE$Relate)<-c("Head",
-                         "Spouse/\npartner",
-                         "Child", 
-                         "Other\nrelative",
-                         "Other relative or\n non-relative",
-                         "Non\nrelative",
-                         "Unknown")
-
-ggplot(RELATE[RELATE$Sex!="Unknown",], aes(x=Age2, y=n,fill=Relate)) + 
-  geom_bar(stat = "identity", colour="black", size=.01)+
-  coord_flip()+
-  facet_wrap (Sex~Relate, ncol=length(unique(RELATE$Relate)))+
-  theme(plot.title = element_text(lineheight=5.6, vjust=1.5,size=12, face="bold"),
-        legend.title = element_blank(),
-        legend.text = element_text(colour="black", size = 12),
-        legend.position="none",
-        axis.text.y = element_text(colour="black", size = 14),
-        axis.text.x = element_blank(),
-        axis.title.y = element_blank(),
-        axis.title.x = element_blank(),
-        axis.ticks.x = element_blank(),
-        strip.text.x = element_text(size = 14, face="bold"),
-        strip.text.y = element_text(size = 14, face="bold"),
-        legend.background = element_rect(fill = NA),
-        panel.background = element_rect(fill = "#ffffff"),
-        plot.background = element_rect(fill = "#ffffff"),
-        panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
-        panel.grid.minor=element_line(colour=NA))
-}
-```
 
