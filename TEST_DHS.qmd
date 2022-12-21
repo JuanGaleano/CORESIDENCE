@@ -1,0 +1,1865 @@
+---
+title: "TEST: MOZ_2018_DHS"
+subtitle: "Reference: HE-ERC-2021-AdG-GA No 101052787-CORESIDENCE"
+author: "CORESIDENCE PROJECT"
+abstract: "**Abstract: **This document provides a summary description of variables included in the samples downloaded from DHS to build the CORESIDENCE database. If you need to report any mistake, please contact _jgaleano@ced.uab.es_. You can access the source R-code to render this document at: [GitHub: CORESIDENCE](https://github.com/JuanGaleano/CORESIDENCE/blob/main/TEST_IPUMS.qmd)"
+mainfont: Arial
+monofont: Arial
+format: pdf
+editor: visual
+---
+
+------------------------------------------------------------------------
+
+```{r}
+#| echo: false
+#| warning: false
+library(purrr)
+library(readxl)
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+library(RColorBrewer)
+
+load("G:/Shared drives/CORESIDENCE/WP2_DATA/2_1_Input Data/DHS_ORIGINALS/MOZ_2018_DHS.RData")
+
+codes_countries <- read_excel("G:/Shared drives/CORESIDENCE/WP2_DATA/2_1_Input Data/CENSUS_IPUMS/A1_IMPUS_MOTHERS/codes_countries.xlsx",sheet = "TODOS")
+
+variables_dhs <- read_excel("G:/Shared drives/CORESIDENCE/TEAM FOLDERS/Juan Galeano/variables_dhs.xlsx")
+
+var<-c("HHID","HVIDX","HV000","HV001","HV002","HV003","HV005","HV006","HV007","HV009","HV010","HV011","HV012","HV013","HV014","HV024","HV025",
+       "HV026","HV217","HV218","HV219","HV220","SHDISTR","HV101","HV102","HV103","HV104","HV105","HV106","HV107","HV108","HV109","HV110","HV111",
+       "HV112","HV113","HV114","HV115","HV116","HV134","HV135","HV136","SH07AY","HA51")
+
+`%notin%` <- Negate(`%in%`)
+
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+```
+
+## COUNTRY: `r toupper(as.character(codes_countries[codes_countries$iso3==unique(df$country_control), "country"]))` \| YEAR: `r as.character(unique(df$year_control))` \| SAMPLE SIZE: `r formatC(nrow(df), format="f", big.mark=",",digits=0)` CASES
+
+### 1. VARIABLES NOT included in this sample
+
+```{r}
+#| echo: false
+#| warning: false
+var_missing<-variables_dhs%>%
+  filter(var%in%c(setdiff(var, colnames(df))))
+colnames(var_missing)<-c("Name", "Description")
+
+
+kbl(var_missing,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "7em")%>%
+column_spec(2, width = "35em")
+
+```
+
+### 1.1 VARIABLES included in this sample but with 100% NAs
+
+```{r}
+#| echo: false
+#| warning: false
+df_all_nas<-df%>%
+  #select(colnames(df[colSums(is.na(df))>0]))%>%
+  select((df %>% keep(~all(is.na(.x))) %>% names))
+
+var_all_nas<-variables_dhs%>%
+  filter(var%in%c(colnames(df_all_nas)))
+colnames(var_all_nas)<-c("Name", "Description")
+
+kbl(var_all_nas,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "7em")%>%
+column_spec(2, width = "35em")
+
+```
+
+### 1.2 VARIABLES with NAs
+
+```{r fig.width=12, fig.height=4.5}
+#| echo: false
+#| warning: FALSE
+
+#if((ifelse(length(setdiff(colnames(df[colSums(is.na(df))>0]),
+ #        df %>% keep(~all(is.na(.x))) %>% names))==0,0,1))==0){
+#print("All variables with NAs included in this sample have 100% NAs.")
+#} else {
+  
+df_nas<-df%>%
+  select(colnames(df[colSums(is.na(df))>0]))%>%
+  #select(-(df %>% keep(~all(is.na(.x))) %>% names)) %>%  
+  summarise_all(funs(sum(is.na(.))/length(df$country_control)))%>%
+  pivot_longer(cols = everything())%>%
+  arrange(-value)%>%
+  mutate(name=fct_reorder(name, value, .desc = FALSE))
+
+df_nas$cat<-with(df_nas, as.factor(ifelse(value<0.01,"<1%",
+                                          ifelse(value<0.03,"1-3%",
+                                                 ifelse(value<0.05,"3-5%",
+                                                        ifelse(value<0.1,"5-10%",
+                                                               ifelse(value<0.25,"10-25%",
+                                                                      ifelse(value<0.5,"25-50%",">50%"
+                                                                      )))))))) 
+
+df_nas$cat<-factor(df_nas$cat, levels=c("<1%",
+                                        "1-3%",
+                                        "3-5%",
+                                        "5-10%",
+                                        "10-25%",
+                                        "25-50%",">50%"))
+
+myColors <- c(brewer.pal(7, "Reds"))
+
+names(myColors) <- levels(df_nas$cat)
+
+ggplot(df_nas,aes(x=name, y=value, fill=factor(cat)))+
+  coord_flip()+
+  expand_limits(y = 1)+
+  scale_y_continuous(breaks = seq(0,1, by= .2),
+                     labels = scales::percent)+
+  scale_fill_manual(values=myColors)+
+  geom_bar(stat="identity", 
+           size=.25,
+           color="black")+
+  geom_text(aes(label = round(value*100,2)),size=4.5,hjust = -.25)+
+  theme(plot.title = element_text(lineheight=5.6, vjust=1.5,size=12, face="bold"),
+        legend.title = element_blank(),
+        legend.text = element_text(colour="black",face="bold", size = 15),
+        legend.position=c("none"),
+        axis.text.x = element_text(angle = 0,vjust=0.5, size=15,colour="black"),
+        axis.ticks.x = element_blank(),
+        axis.text  = element_text(angle = 0,vjust=0.5, size=15,colour="black"),
+        axis.title  = element_blank(),
+        legend.background = element_rect(fill = NA),
+        panel.background = element_rect(fill = "#ffffff"),
+        plot.background = element_rect(fill = "#ffffff"),
+        panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
+        panel.grid.minor=element_line(colour="#f2f2f2")) 
+
+#}
+var_some_nas<-variables_dhs%>%
+  filter(var%in%c(df_nas$name))
+
+var_some_nas <- var_some_nas %>%                           #
+  arrange(match(var_some_nas$var, rev(levels(df_nas$name))))
+
+colnames(var_some_nas)<-c("Name", "Description")
+
+kbl(var_some_nas,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "7em")%>%
+column_spec(2, width = "35em")
+
+
+```
+
+### 2. HHID: Household ID
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHHID <- function() {
+  'HHID' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHHID() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HHID:** `r if('HHID' %in% colnames(df)) {paste(sum(is.na(df$HHID)),paste("(",sum(is.na(df$HHID))/length(df$HHID)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HHID:** `r if('HHID' %in% colnames(df)) {length(unique(df$HHID))}else {"NOT AVALILABLE"}`
+
+### 2.1 HVIDX: Line number
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHVIDX <- function() {
+  'HVIDX' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHVIDX() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HVIDX:** `r if('HVIDX' %in% colnames(df)) {paste(sum(is.na(df$HVIDX)),paste("(",sum(is.na(df$HVIDX))/length(df$HVIDX)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HVIDX:** `r if('HVIDX' %in% colnames(df)) {length(unique(df$HVIDX))}else {"NOT AVALILABLE"}`
+
+### 2.2 HV000: Country code and phase
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV000 <- function() {
+  'HV000' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV000() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV000:** `r if('HV000' %in% colnames(df)) {paste(sum(is.na(df$HV000)),paste("(",sum(is.na(df$HV000))/length(df$HV000)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV000:** `r if('HV000' %in% colnames(df)) {length(unique(df$HV000))}else {"NOT AVALILABLE"}`
+
+### 2.3 HV001: Cluster number
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV001 <- function() {
+  'HV001' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV001() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV001:** `r if('HV001' %in% colnames(df)) {paste(sum(is.na(df$HV001)),paste("(",sum(is.na(df$HV001))/length(df$HV001)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV001:** `r if('HV001' %in% colnames(df)) {length(unique(df$HV001))}else {"NOT AVALILABLE"}`
+
+### 2.4 HV002: Household number
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV002 <- function() {
+  'HV002' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV002() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV002:** `r if('HV002' %in% colnames(df)) {paste(sum(is.na(df$HV002)),paste("(",sum(is.na(df$HV002))/length(df$HV002)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV002:** `r if('HV002' %in% colnames(df)) {length(unique(df$HV002))}else {"NOT AVALILABLE"}`
+
+### 2.4 HV003: Respondent's line number
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV003 <- function() {
+  'HV003' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV003() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV003:** `r if('HV003' %in% colnames(df)) {paste(sum(is.na(df$HV003)),paste("(",sum(is.na(df$HV003))/length(df$HV003)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV003:** `r if('HV003' %in% colnames(df)) {length(unique(df$HV003))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV003:** `r if('HV003' %in% colnames(df)) {sort(unique(as_factor(df$HV003)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 2.4.1 Frequencies HV003
+
+```{r conditionalHV003, eval = 'HV003' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV003<-df%>%
+  select(HV003)%>%
+  group_by(as_factor(HV003)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV003, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV003() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 2.5 HV005: Household sample weight
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV005 <- function() {
+  'HV005' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV005() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV005:** `r if('HV005' %in% colnames(df)) {paste(sum(is.na(df$HV005)),paste("(",sum(is.na(df$HV005))/length(df$HV005)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV005:** `r if('HV005' %in% colnames(df)) {length(unique(df$HV005))}else {"NOT AVALILABLE"}`
+
+### 2.6 HV006: Month of interview
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV006 <- function() {
+  'HV006' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV006() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV006:** `r if('HV006' %in% colnames(df)) {paste(sum(is.na(df$HV006)),paste("(",sum(is.na(df$HV006))/length(df$HV006)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV006:** `r if('HV006' %in% colnames(df)) {length(unique(df$HV006))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV006:** `r if('HV006' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV006),na_level = "NA")),decreasing = FALSE)} else {"NOT AVALILABLE"}`.
+
+### 2.6.1 Frequencies HV006
+
+```{r conditionalHV006, eval = 'HV006' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV006<-df%>%
+  select(HV006)%>%
+  group_by(as_factor(HV006)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV006, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV006() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 2.7 HV007: Year of interview
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV007 <- function() {
+  'HV007' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV007() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV007:** `r if('HV007' %in% colnames(df)) {paste(sum(is.na(df$HV007)),paste("(",sum(is.na(df$HV007))/length(df$HV007)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV007:** `r if('HV007' %in% colnames(df)) {length(unique(df$HV007))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV007:** `r if('HV007' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV007),na_level = "NA")),decreasing = FALSE)} else {"NOT AVALILABLE"}`.
+
+### 3 HV009: Number of Household members
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV009 <- function() {
+  'HV009' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV009() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV009:** `r if('HV009' %in% colnames(df)) {paste(sum(is.na(df$HV009)),paste("(",sum(is.na(df$HV009))/length(df$HV009)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV009:** `r if('HV009' %in% colnames(df)) {length(unique(df$HV009))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV009:** `r if('HV009' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV009),na_level = "NA")),decreasing = FALSE)} else {"NOT AVALILABLE"}`.
+
+### 3.1 Frequencies HV009
+
+```{r conditionalHV009, eval = 'HV009' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV009<-df%>%
+  select(HV009)%>%
+  group_by(as_factor(HV009)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV009, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV009() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 3.2 HV010: Number of elegible women in household
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV010 <- function() {
+  'HV010' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV010() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV010:** `r if('HV010' %in% colnames(df)) {paste(sum(is.na(df$HV010)),paste("(",sum(is.na(df$HV010))/length(df$HV010)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV010:** `r if('HV010' %in% colnames(df)) {length(unique(df$HV010))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV010:** `r if('HV010' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV010),na_level = "NA")),decreasing = FALSE)} else {"NOT AVALILABLE"}`.
+
+### 3.2.1 Frequencies HV010
+
+```{r conditionalHV010, eval = 'HV010' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV010<-df%>%
+  select(HV010)%>%
+  group_by(as_factor(HV010)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV010, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV010() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 3.3 HV011: Number of elegible men in household
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV011 <- function() {
+  'HV011' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV011() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV011:** `r if('HV011' %in% colnames(df)) {paste(sum(is.na(df$HV011)),paste("(",sum(is.na(df$HV011))/length(df$HV011)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV011:** `r if('HV011' %in% colnames(df)) {length(unique(df$HV011))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV011:** `r if('HV011' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV011),na_level = "NA")),decreasing = FALSE)} else {"NOT AVALILABLE"}`.
+
+### 3.3.1 Frequencies HV011
+
+```{r conditionalHV011, eval = 'HV011' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV011<-df%>%
+  select(HV011)%>%
+  group_by(as_factor(HV011)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV011, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV011() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 3.4 HV012: Number of the jure members
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV012 <- function() {
+  'HV012' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV012() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV011:** `r if('HV012' %in% colnames(df)) {paste(sum(is.na(df$HV012)),paste("(",sum(is.na(df$HV012))/length(df$HV012)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV012:** `r if('HV012' %in% colnames(df)) {length(unique(df$HV012))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV012:** `r if('HV012' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV012),na_level = "NA")),decreasing = FALSE)} else {"NOT AVALILABLE"}`.
+
+### 3.4.1 Frequencies HV012
+
+```{r conditionalHV012, eval = 'HV012' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV012<-df%>%
+  select(HV012)%>%
+  group_by(as_factor(HV012)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV012, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV012() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 3.5 HV013: Number of the facto members
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV013 <- function() {
+  'HV013' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV013() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV013:** `r if('HV013' %in% colnames(df)) {paste(sum(is.na(df$HV013)),paste("(",sum(is.na(df$HV013))/length(df$HV013)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV013:** `r if('HV013' %in% colnames(df)) {length(unique(df$HV013))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV013:** `r if('HV013' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV013),na_level = "NA")),decreasing = FALSE)} else {"NOT AVALILABLE"}`.
+
+### 3.5.1 Frequencies HV013
+
+```{r conditionalHV013, eval = 'HV013' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV013<-df%>%
+  select(HV013)%>%
+  group_by(as_factor(HV013)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV013, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV013() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 3.6 HV014: Number of children 5 and under (de jure)
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV014 <- function() {
+  'HV014' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV014() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV014:** `r if('HV014' %in% colnames(df)) {paste(sum(is.na(df$HV014)),paste("(",sum(is.na(df$HV014))/length(df$HV014)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV014:** `r if('HV014' %in% colnames(df)) {length(unique(df$HV014))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV014:** `r if('HV014' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV014),na_level = "NA")),decreasing = FALSE)} else {"NOT AVALILABLE"}`.
+
+### 3.6.1 Frequencies HV014
+
+```{r conditionalHV014, eval = 'HV014' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV014<-df%>%
+  select(HV014)%>%
+  group_by(as_factor(HV014)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV014, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV014() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 4. HV024: Region
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV024 <- function() {
+  'HV024' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV024() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV024:** `r if('HV024' %in% colnames(df)) {paste(sum(is.na(df$HV024)),paste("(",sum(is.na(df$HV024))/length(df$HV024)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV024:** `r if('HV024' %in% colnames(df)) {length(unique(df$HV024))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV024:** `r if('HV024' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV024),na_level = "NA")),decreasing = FALSE)}`.
+
+### 4.1 Frequencies HV024
+
+```{r conditionalHV024, eval = 'HV024' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV024<-df%>%
+  select(HV024)%>%
+  group_by(as_factor(HV024)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV024, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV024() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 4. SHDISTR: District
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getSHDISTR <- function() {
+  'SHDISTR' %in% colnames(df)
+}
+```
+
+```{asis, echo = getSHDISTR() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in SHDISTR:** `r if('SHDISTR' %in% colnames(df)) {paste(sum(is.na(df$SHDISTR)),paste("(",sum(is.na(df$SHDISTR))/length(df$SHDISTR)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in SHDISTR:** `r if('SHDISTR' %in% colnames(df)) {length(unique(df$SHDISTR))}else {"NOT AVALILABLE"}`
+
+**Unique values in SHDISTR:** `r if('SHDISTR' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$SHDISTR),na_level = "NA")),decreasing = FALSE)}`.
+
+### 4.1 Frequencies SHDISTR
+
+```{r conditionalSHDISTR, eval = 'SHDISTR' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+SHDISTR<-df%>%
+  select(SHDISTR)%>%
+  group_by(as_factor(SHDISTR)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(SHDISTR, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getSHDISTR() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 5. HV025: Type of place of residence
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV025 <- function() {
+  'HV025' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV025() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV025:** `r if('HV025' %in% colnames(df)) {paste(sum(is.na(df$HV025)),paste("(",sum(is.na(df$HV025))/length(df$HV025)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV025:** `r if('HV025' %in% colnames(df)) {length(unique(df$HV025))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV025:** `r if('HV025' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV025),na_level = "NA")),decreasing = FALSE)}`.
+
+### 5.1 Frequencies HV025
+
+```{r conditionalHV025, eval = 'HV025' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV025<-df%>%
+  select(HV025)%>%
+  group_by(as_factor(HV025)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV025, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV025() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 6. HV026: Place of residence
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV026 <- function() {
+  'HV026' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV026() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV026:** `r if('HV026' %in% colnames(df)) {paste(sum(is.na(df$HV026)),paste("(",sum(is.na(df$HV026))/length(df$HV026)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV026:** `r if('HV026' %in% colnames(df)) {length(unique(df$HV026))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV026:** `r if('HV026' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV026),na_level = "NA")),decreasing = FALSE)}`.
+
+### 6.1 Frequencies HV026
+
+```{r conditionalHV026, eval = 'HV026' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV026<-df%>%
+  select(HV026)%>%
+  group_by(as_factor(HV026)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV026, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV026() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 7. HV217: Relationship structure
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV217 <- function() {
+  'HV217' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV217() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV217:** `r if('HV217' %in% colnames(df)) {paste(sum(is.na(df$HV217)),paste("(",sum(is.na(df$HV217))/length(df$HV217)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV217:** `r if('HV217' %in% colnames(df)) {length(unique(df$HV217))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV217:** `r if('HV217' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV217),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 7.1 Frequencies HV217
+
+```{r conditionalHV217, eval = 'HV217' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV217<-df%>%
+  select(HV217)%>%
+  group_by(as_factor(HV217)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV217, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV217() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 8. HV218: Line number of head of household
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV218 <- function() {
+  'HV218' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV218() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV218:** `r if('HV218' %in% colnames(df)) {paste(sum(is.na(df$HV218)),paste("(",sum(is.na(df$HV218))/length(df$HV218)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV218:** `r if('HV218' %in% colnames(df)) {length(unique(df$HV218))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV218:** `r if('HV218' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV218),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 8.1 Frequencies HV218
+
+```{r conditionalHV218, eval = 'HV218' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV218<-df%>%
+  select(HV218)%>%
+  group_by(as_factor(HV218)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV218, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV218() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 9. HV219: Sex of head of household
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV219 <- function() {
+  'HV219' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV219() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV219:** `r if('HV219' %in% colnames(df)) {paste(sum(is.na(df$HV219)),paste("(",sum(is.na(df$HV219))/length(df$HV219)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV219:** `r if('HV219' %in% colnames(df)) {length(unique(df$HV219))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV219:** `r if('HV219' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV219),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 9.1 Frequencies HV219
+
+```{r conditionalHV219, eval = 'HV219' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV219<-df%>%
+  select(HV219)%>%
+  group_by(as_factor(HV219)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV219, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV219() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 10. HV220: Age of head of household
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV220 <- function() {
+  'HV220' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV220() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV220:** `r if('HV220' %in% colnames(df)) {paste(sum(is.na(df$HV220)),paste("(",round(sum(is.na(df$HV220))/length(df$HV220)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV220:** `r if('HV220' %in% colnames(df)) {length(unique(df$HV220))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV220:** `r if('HV220' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV220),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 10.1 Frequencies HV220
+
+```{r conditionalHV220, eval = 'HV220' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV220<-df%>%
+  select(HV220)%>%
+  group_by(as_factor(HV220)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV220, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV220() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 11. POPULATION PYRAMID (AGE x SEX)
+
+```{r fig.width=12, fig.height=8.5}
+#| echo: false
+#| warning: FALSE
+SEX_AGE<-df%>%
+  select(HV104,HV105)%>%
+  filter(HV104!=9)
+
+SEX_AGE<-SEX_AGE[complete.cases(SEX_AGE), ]
+
+
+SEX_AGE$id<-paste(SEX_AGE$HV105,SEX_AGE$HV104, sep="-")
+SEX_AGE <- SEX_AGE %>% 
+  group_by(id,HV104,HV105) %>%
+  summarise(pop = n())
+
+dfedades<-data.frame(HV105=rep(c(0:110),2),
+                     HV104=rep(c(1,2),each=111))
+
+dfedades$id<-paste(dfedades$HV105,dfedades$HV104, sep="-")
+
+SEX_AGE<-as.data.frame(SEX_AGE)
+dfedades<-as.data.frame(dfedades)
+df_PIR <- data.frame(dfedades,
+                     SEX_AGE[match(dfedades[,"id"],
+                                   SEX_AGE[,"id"]),])
+
+df_PIR<-df_PIR %>%
+        select(HV105,HV104,id,pop)%>%
+        mutate(pop2=ifelse(HV104==1, pop*-1, pop))
+
+df_PIR$pop2[is.na(df_PIR$pop2)] <- 0
+
+
+cols = gg_color_hue(2)
+df_PIR$HV104<-as.factor(df_PIR$HV104)
+levels(df_PIR$HV104)<-c("Male", "Female")
+
+ggplot(df_PIR, aes(x=HV105, y=pop2, fill=factor(HV104)))+
+  geom_bar(colour = I("Black"),
+           stat="identity", 
+           position="identity", 
+           size=.1, alpha =1)+
+  coord_flip()+
+  labs(#title=unique(df$ndis),
+       x="Age",
+       y="")+
+  scale_fill_manual(values = rev(c(cols)),
+                    guide = guide_legend(direction = "horizontal",
+                                         nrow = 1,
+                                         keywidth=5,
+                                         keyheight=1,
+                                         label.position = "bottom"))+
+  scale_x_continuous(breaks=seq(0,110,5))+
+  theme(plot.title = element_text(lineheight=5.6, vjust=1.5,size=12, face="bold"),
+        legend.title = element_blank(),
+        legend.text = element_text(colour="black",face="bold", size = 15),
+        legend.position="bottom",
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text  = element_text(angle = 0,vjust=0.5, size=15,colour="black"),
+        axis.title  = element_text(angle = 0,vjust=0.5, size=15,colour="black"),
+        legend.background = element_rect(fill = NA),
+        panel.background = element_rect(fill = "#ffffff"),
+        plot.background = element_rect(fill = "#ffffff"),
+        panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
+        panel.grid.minor=element_line(colour="#f2f2f2")) 
+
+```
+
+### 11.1 HV104: Sex of household members
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV104 <- function() {
+  'HV104' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV104() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV104:** `r if('HV104' %in% colnames(df)) {paste(sum(is.na(df$HV104)),paste("(",round(sum(is.na(df$HV104))/length(df$HV104)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV104:** `r if('HV104' %in% colnames(df)) {length(unique(df$HV104))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV104:** `r if('HV104' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV104),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 11.1.1 Frequencies HV104
+
+```{r conditionalHV104, eval = 'HV104' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV104<-df%>%
+  select(HV104)%>%
+  group_by(as_factor(HV104)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV104, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV104() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 11.2 HV105: Age of household members
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV105 <- function() {
+  'HV105' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV105() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV105:** `r if('HV105' %in% colnames(df)) {paste(sum(is.na(df$HV105)),paste("(",round(sum(is.na(df$HV105))/length(df$HV105)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV105:** `r if('HV105' %in% colnames(df)) {length(unique(df$HV105))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV105:** `r if('HV105' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV105),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 12. Population pyramid (AGE x SEX x RELATE)
+
+```{r fig.width=12, fig.height=10}
+#| echo: false
+#| warning: FALSE
+
+SEX_AGE_RELATE<-df%>%
+  select(HV104,HV105,HV101)%>%
+  filter(HV104!=9)
+
+SEX_AGE_RELATE<-SEX_AGE_RELATE[complete.cases(SEX_AGE_RELATE), ]
+
+colnames(SEX_AGE_RELATE)<-c("SEX","AGE", "RELATE")
+SEX_AGE_RELATE$RELATE2<-as_factor(SEX_AGE_RELATE$RELATE)
+
+SEX_AGE_RELATE$id<-paste(SEX_AGE_RELATE$AGE,SEX_AGE_RELATE$SEX,SEX_AGE_RELATE$RELATE2, sep="-")
+
+
+SEX_AGE_RELATE <- SEX_AGE_RELATE %>% group_by(id,SEX,AGE,RELATE) %>%
+  summarise(pop = n())
+
+length(unique(SEX_AGE_RELATE$RELATE))
+
+dfedades_relate<-data.frame(AGE=rep(c(0:110),length(levels(as_factor(SEX_AGE_RELATE$RELATE)))*2),
+                            SEX=rep(rep(c(1,2),each=111),length(levels(as_factor(SEX_AGE_RELATE$RELATE)))),
+                            RELATE=rep(rep(c(levels(as_factor(SEX_AGE_RELATE$RELATE))), each=222),1))
+
+dfedades_relate$id<-paste(dfedades_relate$AGE,
+                          dfedades_relate$SEX,
+                          dfedades_relate$RELATE, sep="-")
+
+SEX_AGE_RELATE<-as.data.frame(SEX_AGE_RELATE)
+dfedades_relate<-as.data.frame(dfedades_relate)
+df_PIR_RELATE <- data.frame(dfedades_relate,
+                            SEX_AGE_RELATE[match(dfedades_relate[,"id"],
+                                                 SEX_AGE_RELATE[,"id"]),])
+
+df_PIR_RELATE$RELATE<-factor(df_PIR_RELATE$RELATE, levels=c(levels(as_factor(SEX_AGE_RELATE$RELATE))))
+df_PIR_RELATE<-df_PIR_RELATE %>%
+  select(AGE,SEX,RELATE,id,pop)%>%
+  mutate(pop2=ifelse(SEX==1, pop*-1, pop))
+
+df_PIR_RELATE$pop2[is.na(df_PIR_RELATE$pop2)] <- 0
+
+cols_relate = gg_color_hue(length(levels(df_PIR_RELATE$RELATE)))
+
+names(cols_relate) <- levels(df_PIR_RELATE$RELATE)
+
+df_PIR_RELATE$SEX<-as.factor(df_PIR_RELATE$SEX)
+levels(df_PIR_RELATE$SEX)<-c("Male", "Female")
+
+ggplot(df_PIR_RELATE, aes(x=AGE, y=pop2, fill=RELATE))+
+  geom_bar(colour = I("Black"),
+           stat="identity", 
+           position="stack", 
+           size=.3, alpha =1)+
+  coord_flip()+
+  labs(#title=unique(df$ndis),
+    x="Age",
+    y="")+
+  scale_fill_manual(values = c(cols_relate),
+                    guide = guide_legend(direction = "horizontal",
+                                         nrow = 3,
+                                         keywidth=7,
+                                         keyheight=1.25,
+                                         label.position = "bottom"))+
+  scale_x_continuous(breaks=seq(0,110,5))+
+  theme(plot.title = element_text(lineheight=5.6, vjust=1.5,size=12, face="bold"),
+        legend.title = element_blank(),
+        legend.text = element_text(colour="black", size = 12),
+        legend.position="bottom",
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(colour="black", size = 12),
+        axis.title.y = element_text(colour="black", size = 12),
+        axis.ticks.x = element_blank(),
+        legend.background = element_rect(fill = NA),
+        panel.background = element_rect(fill = "#ffffff"),
+        plot.background = element_rect(fill = "#ffffff"),
+        panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
+        panel.grid.minor=element_line(colour="#f2f2f2")) 
+
+
+```
+
+### 12.1 HV101: Relation to the head
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV101 <- function() {
+  'HV101' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV101() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV101:** `r if('HV101' %in% colnames(df)) {paste(sum(is.na(df$HV101)),paste("(",round(sum(is.na(df$HV101))/length(df$HV101)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV101:** `r if('HV101' %in% colnames(df)) {length(unique(df$HV101))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV101:** `r if('HV101' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV101),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 12.1.1 Frequencies HV101
+
+```{r conditionalHV101, eval = 'HV101' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV101<-df%>%
+  select(HV101)%>%
+  group_by(as_factor(HV101)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV101, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV101() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 13. HV102: Usual resident
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV102 <- function() {
+  'HV102' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV102() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV102:** `r if('HV102' %in% colnames(df)) {paste(sum(is.na(df$HV102)),paste("(",round(sum(is.na(df$HV102))/length(df$HV102)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV102:** `r if('HV102' %in% colnames(df)) {length(unique(df$HV102))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV102:** `r if('HV102' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV102),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 13.1 Frequencies HV102
+
+```{r conditionalHV102, eval = 'HV102' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV102<-df%>%
+  select(HV102)%>%
+  group_by(as_factor(HV102)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV102, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV102() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 14. HV103: Slept last night
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV103 <- function() {
+  'HV103' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV103() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV103:** `r if('HV103' %in% colnames(df)) {paste(sum(is.na(df$HV103)),paste("(",round(sum(is.na(df$HV103))/length(df$HV103)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV103:** `r if('HV103' %in% colnames(df)) {length(unique(df$HV103))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV103:** `r if('HV103' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV103),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 14.1 Frequencies HV103
+
+```{r conditionalHV103, eval = 'HV103' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV103<-df%>%
+  select(HV103)%>%
+  group_by(as_factor(HV103)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV103, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV103() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 15. HV106: Highest educational level attained
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV106 <- function() {
+  'HV106' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV106() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV106:** `r if('HV106' %in% colnames(df)) {paste(sum(is.na(df$HV106)),paste("(",round(sum(is.na(df$HV106))/length(df$HV106)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV106:** `r if('HV106' %in% colnames(df)) {length(unique(df$HV106))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV106:** `r if('HV106' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV106),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 15.1 Frequencies HV106
+
+```{r conditionalHV106, eval = 'HV106' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV106<-df%>%
+  select(HV106)%>%
+  group_by(as_factor(HV106)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV106, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV106() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 16. HV107: Highest year of education completed
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV107 <- function() {
+  'HV107' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV107() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV107:** `r if('HV107' %in% colnames(df)) {paste(sum(is.na(df$HV107)),paste("(",round(sum(is.na(df$HV107))/length(df$HV107)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV107:** `r if('HV107' %in% colnames(df)) {length(unique(df$HV107))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV107:** `r if('HV107' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV107),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 16.1 Frequencies HV107
+
+```{r conditionalHV107, eval = 'HV107' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV107<-df%>%
+  select(HV107)%>%
+  group_by(as_factor(HV107)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV107, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV107() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 17. HV108: Education completed in single years
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV108 <- function() {
+  'HV108' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV108() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV108:** `r if('HV108' %in% colnames(df)) {paste(sum(is.na(df$HV108)),paste("(",round(sum(is.na(df$HV108))/length(df$HV108)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV108:** `r if('HV108' %in% colnames(df)) {length(unique(df$HV108))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV108:** `r if('HV108' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV108),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 17.1 Frequencies HV108
+
+```{r conditionalHV108, eval = 'HV108' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV108<-df%>%
+  select(HV108)%>%
+  group_by(as_factor(HV108)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV108, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV108() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 18. HV109: Education attainment
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV109 <- function() {
+  'HV109' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV109() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV109:** `r if('HV109' %in% colnames(df)) {paste(sum(is.na(df$HV109)),paste("(",round(sum(is.na(df$HV109))/length(df$HV109)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV109:** `r if('HV109' %in% colnames(df)) {length(unique(df$HV109))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV109:** `r if('HV109' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV109),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 18.1 Frequencies HV109
+
+```{r conditionalHV109, eval = 'HV109' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV109<-df%>%
+  select(HV109)%>%
+  group_by(as_factor(HV109)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV109, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV109() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 19. HV110: Members still in school
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV110 <- function() {
+  'HV110' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV110() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV110:** `r if('HV110' %in% colnames(df)) {paste(sum(is.na(df$HV110)),paste("(",round(sum(is.na(df$HV110))/length(df$HV110)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV110:** `r if('HV110' %in% colnames(df)) {length(unique(df$HV110))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV110:** `r if('HV110' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV110),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 19.1 Frequencies HV110
+
+```{r conditionalHV110, eval = 'HV110' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV110<-df%>%
+  select(HV110)%>%
+  group_by(as_factor(HV110)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV110, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV110() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 20. HV111: Mother alive
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV111 <- function() {
+  'HV111' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV111() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV111:** `r if('HV111' %in% colnames(df)) {paste(sum(is.na(df$HV111)),paste("(",round(sum(is.na(df$HV111))/length(df$HV111)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV111:** `r if('HV111' %in% colnames(df)) {length(unique(df$HV111))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV111:** `r if('HV111' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV111),na_level = "NA")),decreasing = FALSE)} else {"NOT AVALILABLE"}`.
+
+### 20.1 Frequencies HV111
+
+```{r conditionalHV111, eval = 'HV111' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV111<-df%>%
+  select(HV111)%>%
+  group_by(as_factor(HV111)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV111, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV111() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 21. HV112: Mother's line number
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV112 <- function() {
+  'HV112' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV112() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV112:** `r if('HV112' %in% colnames(df)) {paste(sum(is.na(df$HV112)),paste("(",round(sum(is.na(df$HV112))/length(df$HV112)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV112:** `r if('HV112' %in% colnames(df)) {length(unique(df$HV112))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV112:** `r if('HV112' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV112),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 21.1 Frequencies HV112
+
+```{r conditionalHV112, eval = 'HV112' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV112<-df%>%
+  select(HV112)%>%
+  group_by(as_factor(HV112)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV112, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV112() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 22. HV113: Father Alive
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV113 <- function() {
+  'HV113' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV113() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV113:** `r if('HV113' %in% colnames(df)) {paste(sum(is.na(df$HV113)),paste("(",round(sum(is.na(df$HV113))/length(df$HV113)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV113:** `r if('HV113' %in% colnames(df)) {length(unique(df$HV113))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV113:** `r if('HV113' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV113),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 22.1 Frequencies HV113
+
+```{r conditionalHV113, eval = 'HV113' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV113<-df%>%
+  select(HV113)%>%
+  group_by(as_factor(HV113)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV113, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV113() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 23. HV114: Father's line number
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV114 <- function() {
+  'HV114' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV114() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV114:** `r if('HV114' %in% colnames(df)) {paste(sum(is.na(df$HV114)),paste("(",round(sum(is.na(df$HV114))/length(df$HV114)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV114:** `r if('HV114' %in% colnames(df)) {length(unique(df$HV114))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV114:** `r if('HV114' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV114),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 23.1 Frequencies HV114
+
+```{r conditionalHV114, eval = 'HV114' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV114<-df%>%
+  select(HV114)%>%
+  group_by(as_factor(HV114)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV114, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV114() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 24. HV115: Current marital Status
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV115 <- function() {
+  'HV115' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV115() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV115:** `r if('HV115' %in% colnames(df)) {paste(sum(is.na(df$HV115)),paste("(",round(sum(is.na(df$HV115))/length(df$HV115)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV115:** `r if('HV115' %in% colnames(df)) {length(unique(df$HV115))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV115:** `r if('HV115' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV115),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 24.1 Frequencies HV115
+
+```{r conditionalHV115, eval = 'HV115' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV115<-df%>%
+  select(HV115)%>%
+  group_by(as_factor(HV115)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV115, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV115() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 25. HV116: Currently, formerly, never married
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV116 <- function() {
+  'HV116' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV116() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV116:** `r if('HV116' %in% colnames(df)) {paste(sum(is.na(df$HV116)),paste("(",round(sum(is.na(df$HV116))/length(df$HV116)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV116:** `r if('HV116' %in% colnames(df)) {length(unique(df$HV116))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV116:** `r if('HV116' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV116),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 25.1 Frequencies HV116
+
+```{r conditionalHV116, eval = 'HV116' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV116<-df%>%
+  select(HV116)%>%
+  group_by(as_factor(HV116)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV116, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV116() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 26. HV134: Both parents alive
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV134 <- function() {
+  'HV134' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV134() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV134:** `r if('HV134' %in% colnames(df)) {paste(sum(is.na(df$HV134)),paste("(",round(sum(is.na(df$HV134))/length(df$HV134)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV134:** `r if('HV134' %in% colnames(df)) {length(unique(df$HV134))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV134:** `r if('HV134' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV134),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 26.1 Frequencies HV134
+
+```{r conditional, eval = 'HV134' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV134<-df%>%
+  select(HV134)%>%
+  group_by(as_factor(HV134)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV134, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV134() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 27. HV135: Has brothers/sisters under 18 of the same household
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV135 <- function() {
+  'HV135' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV135() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV135:** `r if('HV135' %in% colnames(df)) {paste(sum(is.na(df$HV135)),paste("(",round(sum(is.na(df$HV135))/length(df$HV135)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV135:** `r if('HV135' %in% colnames(df)) {length(unique(df$HV135))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV135:** `r if('HV135' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV135),na_level = "NA")),decreasing = FALSE)} else {"NOT AVALILABLE"}`.
+
+### 27.1 Frequencies HV135
+
+```{r conditionalHV135, eval = 'HV135' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV135<-df%>%
+  select(HV135)%>%
+  group_by(as_factor(HV135)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV135, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV135() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 28. HV136: Brothers/sisters under 18 that don't live in the same household
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHV136 <- function() {
+  'HV136' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHV136() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HV136:** `r if('HV136' %in% colnames(df)) {paste(sum(is.na(df$HV136)),paste("(",round(sum(is.na(df$HV136))/length(df$HV136)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV136:** `r if('HV136' %in% colnames(df)) {length(unique(df$HV136))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV136:** `r if('HV136' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HV136),na_level = "NA")),decreasing = FALSE)} else {"NOT AVALILABLE"}`.
+
+### 28.1 Frequencies HV136
+
+```{r conditionalHV136, eval = 'HV136' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HV136<-df%>%
+  select(HV136)%>%
+  group_by(as_factor(HV136)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HV136, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHV136() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 29. SH07AY: Year of birth of household member
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getSH07AY <- function() {
+  'SH07AY' %in% colnames(df)
+}
+```
+
+```{asis, echo = getSH07AY() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in this SH07AY:** `r if('SH07AY' %in% colnames(df)) {unique(is.na(df$SH07AY))}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HV217:** `r if('SH07AY' %in% colnames(df)) {length(unique(df$SH07AY))}else {"NOT AVALILABLE"}`
+
+**Unique values in HV217:** `r if('SH07AY' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$SH07AY),na_level = "NA")),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 29.1 Frequencies SH07AY
+
+```{r conditionalSH07AY, eval = 'SH07AY' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+SH07AY<-df%>%
+  select(SH07AY)%>%
+  group_by(as_factor(SH07AY)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(SH07AY, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getSH07AY() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+### 30. HA51: Line number of parent/care taker
+
+```{r}
+#| echo: false
+#| warning: FALSE
+getHA51 <- function() {
+  'HA51' %in% colnames(df)
+}
+```
+
+```{asis, echo = getHA51() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+**NAs in HA51:** `r if('HA51' %in% colnames(df)) {paste(sum(is.na(df$HA51)),paste("(",round(sum(is.na(df$HA51))/length(df$HA51)*100,2),"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HA51:** `r if('HA51' %in% colnames(df)) {length(unique(df$HA51))}else {"NOT AVALILABLE"}`
+
+**Unique values in HA51:** `r if('HA51' %in% colnames(df)) {sort(unique(fct_explicit_na(as_factor(df$HA51),na_level = "NA")),decreasing = FALSE)} else {"NOT AVALILABLE"}`.
+
+### 30.1 Frequencies HA51
+
+```{r conditionalHA51, eval = 'HA51' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HA51<-df%>%
+  select(HA51)%>%
+  group_by(as_factor(HA51)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HA51, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+```{asis, echo = getHA51() == FALSE}
+The variable under evaluation is not included in this  sample.
+```
+
+------------------------------------------------------------------------
