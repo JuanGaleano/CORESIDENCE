@@ -1,0 +1,668 @@
+---
+title: "TEST: PRT_1995_LFS"
+subtitle: "Reference: HE-ERC-2021-AdG-GA No 101052787-CORESIDENCE"
+author: "CORESIDENCE PROJECT"
+abstract: "**Abstract: **This document provides a summary description of variables included in the samples downloaded from LFS to build the CORESIDENCE database. If you need to report any mistake, please contact _jgaleano@ced.uab.es_. You can access the source R-code to render this document at: [GitHub: CORESIDENCE](https://github.com/JuanGaleano/CORESIDENCE/blob/main/TEST_IPUMS.qmd)"
+mainfont: Arial
+monofont: Arial
+format: pdf
+editor: visual
+---
+
+------------------------------------------------------------------------
+
+```{r}
+#| echo: false
+#| warning: false
+library(purrr)
+library(readxl)
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+library(RColorBrewer)
+
+load("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_1_Input Data\\LFS\\PRT_1995_LFS.RData")
+
+`%notin%` <- Negate(`%in%`)
+
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+df$DEGURBA <-as.factor(df$DEGURBA)
+levels(df$DEGURBA)<-c(1:3)
+
+df$HHTYPE <-as.factor(df$HHTYPE)
+levels(df$HHTYPE)<-c(1:4)
+
+df$HHLINK <-as.factor(df$HHLINK)
+#levels(df$HHLINK)<-c("1","2","3","4","5","6","9")
+
+df$SEX <-as.factor(df$SEX)
+levels(df$SEX)<-c(1:2)
+
+df$MARSTAT <-as.factor(df$MARSTAT)
+levels(df$MARSTAT)<-c(0,1,2,3,4)
+
+df$HATLEV1D<-as.character(df$HATLEV1D)
+df$HATLEV1D <-fct_explicit_na(df$HATLEV1D, na_level = "Missing")
+levels(df$HATLEV1D)<-c("9","H","L","M","Missing")
+df$HATLEV1D<-factor(df$HATLEV1D, levels=c("9","L","M","H","Missing"))
+
+
+df$ILOSTAT <-as.factor(df$ILOSTAT)
+levels(df$ILOSTAT)<-c(1,2,3,4,9)
+
+variables_lfs<-data.frame(var=c("REFWEEK","HHNUM","HHSEQNUM","COEFF",
+                                "QUARTER","REGION","DEGURBA","HHTYPE", "HHLINK","SEX","AGE","HHSPOU","HHFATH","HHMOTH","HATLEV1D","ILOSTAT", "MARSTAT", "NATIONAL","COUNTRYB"),
+                          des=c("Reference week","Household number",
+                                "Sequence number in the household","Coefficients","Fixed reference quarter","Region of place of work","Degree of urbanisation","Type of household", "Relationship to reference person in the household", "Sex", "Age", "Sequence number of spouse or cohabiting partner", "Sequence number of father", "Sequence number of mother","Level of education", "ILO working status", "Marital Status","Nationality", "Country of birth"))
+
+```
+
+## COUNTRY: SLOVENIA \| YEAR: `r as.character(unique(df$REFYEAR))` \| SAMPLE SIZE: `r formatC(nrow(df), format="f", big.mark=",",digits=0)` CASES
+
+### 1. VARIABLES included in this sample but with 100% NAs
+
+```{r}
+#| echo: false
+#| warning: false
+df_all_nas<-df%>%
+  #select(colnames(df[colSums(is.na(df))>0]))%>%
+  select((df %>% keep(~all(is.na(.x))) %>% names))
+
+var_all_nas<-variables_lfs%>%
+  filter(var%in%c(colnames(df_all_nas)))
+colnames(var_all_nas)<-c("Name", "Description")
+
+kbl(var_all_nas,booktabs = T, "latex", longtable=T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "7em")%>%
+column_spec(2, width = "35em")
+
+```
+
+### 2. REFWEEK: Reference week
+
+**NAs in REFWEEK:** `r if('REFWEEK' %in% colnames(df)) {paste(sum(is.na(df$REFWEEK)),paste("(",sum(is.na(df$REFWEEK))/length(df$REFWEEK)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in REFWEEK:** `r if('REFWEEK' %in% colnames(df)) {length(unique(df$REFWEEK))}else {"NOT AVALILABLE"}`
+
+**Unique values in REFWEEK:** `r if('REFWEEK' %in% colnames(df)) {sort(unique(as_factor(df$REFWEEK)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 2.1 Frequencies REFWEEK
+
+```{r conditionalREFWEEK, eval = 'REFWEEK' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+REFWEEK<-df%>%
+  select(REFWEEK)%>%
+  group_by(as_factor(REFWEEK)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(REFWEEK, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 3. HHNUM: Household number
+
+**NAs in HHNUM:** `r if('HHNUM' %in% colnames(df)) {paste(sum(is.na(df$HHNUM)),paste("(",sum(is.na(df$HHNUM))/length(df$HHNUM)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HHNUM:** `r if('HHNUM' %in% colnames(df)) {length(unique(df$HHNUM))}else {"NOT AVALILABLE"}`
+
+### 4. HHSEQNUM: Sequence number in the household
+
+**NAs in HHSEQNUM:** `r if('HHSEQNUM' %in% colnames(df)) {paste(sum(is.na(df$HHSEQNUM)),paste("(",sum(is.na(df$HHSEQNUM))/length(df$HHSEQNUM)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HHSEQNUM:** `r if('HHSEQNUM' %in% colnames(df)) {length(unique(df$HHSEQNUM))}else {"NOT AVALILABLE"}`
+
+**Unique values in HHSEQNUM:** `r if('HHSEQNUM' %in% colnames(df)) {sort(unique(as_factor(df$HHSEQNUM)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 4.1 Frequencies HHSEQNUM
+
+```{r conditionalHHSEQNUM, eval = 'REFWEEK' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HHSEQNUM<-df%>%
+  select(HHSEQNUM)%>%
+  group_by(as_factor(HHSEQNUM)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HHSEQNUM, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 5. COEFF:Coefficients
+
+**NAs in COEFF:** `r if('COEFF' %in% colnames(df)) {paste(sum(is.na(df$COEFF)),paste("(",sum(is.na(df$COEFF))/length(df$COEFF)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in COEFF:** `r if('COEFF' %in% colnames(df)) {length(unique(df$COEFF))}else {"NOT AVALILABLE"}`
+
+### 6. QUARTER: Fixed reference quarter
+
+**NAs in QUARTER:** `r if('QUARTER' %in% colnames(df)) {paste(sum(is.na(df$QUARTER)),paste("(",sum(is.na(df$QUARTER))/length(df$QUARTER)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in QUARTER:** `r if('QUARTER' %in% colnames(df)) {length(unique(df$QUARTER))}else {"NOT AVALILABLE"}`
+
+**Unique values in QUARTER:** `r if('QUARTER' %in% colnames(df)) {sort(unique(as_factor(df$QUARTER)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 7. REGION: Region of place of work
+
+**NAs in REGION:** `r if('REGION' %in% colnames(df)) {paste(sum(is.na(df$REGION)),paste("(",sum(is.na(df$REGION))/length(df$REGION)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in REGION:** `r if('REGION' %in% colnames(df)) {length(unique(df$REGION))}else {"NOT AVALILABLE"}`
+
+**Unique values in REGION:** `r if('REGION' %in% colnames(df)) {sort(unique(as_factor(df$REGION)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 7.1 Frequencies REGION
+
+```{r conditionalREGION, eval = 'REGION' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+REGION<-df%>%
+  select(REGION)%>%
+  group_by(as_factor(REGION)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(REGION, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 8. DEGURBA: Degree of urbanisation
+
+**NAs in DEGURBA:** `r if('DEGURBA' %in% colnames(df)) {paste(sum(is.na(df$DEGURBA)),paste("(",sum(is.na(df$DEGURBA))/length(df$DEGURBA)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in DEGURBA:** `r if('DEGURBA' %in% colnames(df)) {length(unique(df$DEGURBA))}else {"NOT AVALILABLE"}`
+
+**Unique values in DEGURBA:** `r if('DEGURBA' %in% colnames(df)) {sort(unique(as_factor(df$DEGURBA)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 8.1 Frequencies DEGURBA
+
+```{r conditionalDEGURBA, eval = 'DEGURBA' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+DEGURBA<-df%>%
+  select(DEGURBA)%>%
+  group_by(DEGURBA) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))%>%
+  mutate(DEGURBA=case_when(DEGURBA == "1" ~ "Densely-populated area",
+                           DEGURBA == "2" ~ "Intermediate area",
+                           DEGURBA == "3" ~ "Thinly-populated area"))
+
+kbl(DEGURBA, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 9. HHTYPE: Type of household
+
+**NAs in HHTYPE:** `r if('HHTYPE' %in% colnames(df)) {paste(sum(is.na(df$HHTYPE)),paste("(",sum(is.na(df$HHTYPE))/length(df$HHTYPE)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HHTYPE:** `r if('HHTYPE' %in% colnames(df)) {length(unique(df$HHTYPE))}else {"NOT AVALILABLE"}`
+
+**Unique values in HHTYPE:** `r if('HHTYPE' %in% colnames(df)) {sort(unique(as_factor(df$HHTYPE)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 9.1 Frequencies HHTYPE
+
+```{r conditionalHHTYPE, eval = 'HHTYPE' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HHTYPE<-df%>%
+  select(HHTYPE)%>%
+  group_by(HHTYPE) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))%>%
+  mutate(HHTYPE=case_when(HHTYPE == "1" ~ "Person living in private household (or permanently in a hotel) and surveyed in this
+household",
+                           HHTYPE == "2" ~ "Person living in an institution and surveyed in this institution",
+                           HHTYPE == "3" ~ "Person living in an institution but surveyed in this private household",
+                           HHTYPE == "4" ~ "Person living in another private household on the territory of the country but surveyed in this household of origin"))
+
+kbl(HHTYPE, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 10. HHLINK: Relationship to reference person in the household
+
+**NAs in HHLINK:** `r if('HHLINK' %in% colnames(df)) {paste(sum(is.na(df$HHLINK)),paste("(",sum(is.na(df$HHLINK))/length(df$HHLINK)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HHLINK:** `r if('HHLINK' %in% colnames(df)) {length(unique(df$HHLINK))}else {"NOT AVALILABLE"}`
+
+**Unique values in HHLINK:** `r if('HHLINK' %in% colnames(df)) {sort(unique(as_factor(df$HHLINK)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 10.1 Frequencies HHLINK
+
+```{r conditionalHHLINK, eval = 'HHLINK' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HHLINK<-df%>%
+  select(HHLINK)%>%
+  group_by(HHLINK) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))%>%
+  mutate(HHLINK=case_when(HHLINK == "1" ~ "Reference person",
+                           HHLINK == "2" ~ "Spouse (or cohabiting partner) of reference person",
+                           HHLINK == "3" ~ "Child of reference person (or of his/her spouse or cohabiting partner)",
+                           HHLINK == "4" ~ "Ascendant relative of reference person (or of his/her spouse or cohabiting partner)",
+                           HHLINK == "5" ~ "Other relative",
+                           HHLINK == "6" ~ "Other",
+                           HHLINK == "7" ~ "Not applicable"))
+
+kbl(HHLINK, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 11. SEX: Sex
+
+**NAs in SEX:** `r if('SEX' %in% colnames(df)) {paste(sum(is.na(df$SEX)),paste("(",sum(is.na(df$SEX))/length(df$SEX)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in SEX:** `r if('SEX' %in% colnames(df)) {length(unique(df$SEX))}else {"NOT AVALILABLE"}`
+
+**Unique values in SEX:** `r if('SEX' %in% colnames(df)) {sort(unique(as_factor(df$SEX)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 11.1 Frequencies SEX
+
+```{r conditionalSEX, eval = 'SEX' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+SEX<-df%>%
+  select(SEX)%>%
+  group_by(SEX) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))%>%
+  mutate(SEX=case_when(SEX == "1" ~ "Male",
+                           SEX == "2" ~ "Female"))
+
+kbl(SEX, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 12. AGE: Age
+
+**NAs in AGE:** `r if('AGE' %in% colnames(df)) {paste(sum(is.na(df$AGE)),paste("(",sum(is.na(df$AGE))/length(df$AGE)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in AGE:** `r if('AGE' %in% colnames(df)) {length(unique(df$AGE))}else {"NOT AVALILABLE"}`
+
+**Unique values in AGE:** `r if('AGE' %in% colnames(df)) {sort(unique(as_factor(df$AGE)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 12.1 Frequencies AGE
+
+```{r conditionalAGE, eval = 'AGE' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+AGE<-df%>%
+  select(AGE)%>%
+  group_by(as_factor(AGE)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(AGE, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 13. Population pyramid (AGE x SEX)
+
+```{r fig.width=12, fig.height=8.5}
+#| echo: false
+#| warning: FALSE
+
+SEX_AGE<-df%>%
+  select(SEX,AGE)
+
+SEX_AGE<-SEX_AGE[complete.cases(SEX_AGE), ]
+
+
+SEX_AGE$id<-paste(SEX_AGE$SEX,SEX_AGE$AGE, sep="-")
+SEX_AGE <- SEX_AGE %>% 
+  group_by(id,SEX,AGE) %>%
+  summarise(pop = n())
+
+dfedades<-data.frame(AGE=rep(seq(2,97,5),2),
+                     SEX=rep(c(1,2),each=20))
+
+dfedades$id<-paste(dfedades$SEX,dfedades$AGE, sep="-")
+
+SEX_AGE<-as.data.frame(SEX_AGE)
+dfedades<-as.data.frame(dfedades)
+df_PIR <- data.frame(dfedades,
+                     SEX_AGE[match(dfedades[,"id"],
+                                   SEX_AGE[,"id"]),])
+
+df_PIR<-df_PIR %>%
+  select(SEX,AGE,id,pop)%>%
+  mutate(pop2=ifelse(SEX==1, pop*-1, pop))
+
+df_PIR$pop2[is.na(df_PIR$pop2)] <- 0
+
+
+cols = gg_color_hue(2)
+df_PIR$SEX<-as.factor(df_PIR$SEX)
+levels(df_PIR$SEX)<-c("Male", "Female")
+
+ggplot(df_PIR, aes(x=AGE, y=pop2, fill=factor(SEX)))+
+  geom_bar(colour = I("Black"),
+           stat="identity", 
+           position="identity", 
+           size=.1, alpha =1)+
+  coord_flip()+
+  labs(#title=unique(df$ndis),
+    x="Age",
+    y="")+
+  scale_fill_manual(values = rev(c(cols)),
+                    guide = guide_legend(direction = "horizontal",
+                                         nrow = 1,
+                                         keywidth=5,
+                                         keyheight=1,
+                                         label.position = "bottom"))+
+  scale_x_continuous(breaks=seq(2,97,5))+
+  theme(plot.title = element_text(lineheight=5.6, vjust=1.5,size=12, face="bold"),
+        legend.title = element_blank(),
+        legend.text = element_text(colour="black",face="bold", size = 15),
+        legend.position="bottom",
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text  = element_text(angle = 0,vjust=0.5, size=15,colour="black"),
+        axis.title  = element_text(angle = 0,vjust=0.5, size=15,colour="black"),
+        legend.background = element_rect(fill = NA),
+        panel.background = element_rect(fill = "#ffffff"),
+        plot.background = element_rect(fill = "#ffffff"),
+        panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
+        panel.grid.minor=element_line(colour="#f2f2f2")) 
+
+```
+
+### 14. Population pyramid (AGE x SEX x RELATE)
+
+```{r fig.width=12, fig.height=10}
+#| echo: false
+#| warning: FALSE
+SEX_AGE_RELATE<-df%>%
+  select(SEX,AGE,HHLINK)
+
+SEX_AGE_RELATE<-SEX_AGE_RELATE[complete.cases(SEX_AGE_RELATE), ]
+
+colnames(SEX_AGE_RELATE)<-c("SEX","AGE", "RELATE")
+SEX_AGE_RELATE$RELATE2<-as_factor(SEX_AGE_RELATE$RELATE)
+
+SEX_AGE_RELATE$id<-paste(SEX_AGE_RELATE$AGE,SEX_AGE_RELATE$SEX,SEX_AGE_RELATE$RELATE2, sep="-")
+
+
+SEX_AGE_RELATE <- SEX_AGE_RELATE %>% group_by(id,SEX,AGE,RELATE) %>%
+  summarise(pop = n())
+
+dfedades_relate<-data.frame(AGE=rep(seq(2,97,5),7*2),
+                            SEX=rep(rep(c(1,2),each=20),7),
+                            RELATE=rep(rep(c("1","2","3","4","5","6","9"), each=20),1))
+
+dfedades_relate$id<-paste(dfedades_relate$AGE,
+                          dfedades_relate$SEX,
+                          dfedades_relate$RELATE, sep="-")
+
+SEX_AGE_RELATE<-as.data.frame(SEX_AGE_RELATE)
+dfedades_relate<-as.data.frame(dfedades_relate)
+df_PIR_RELATE <- data.frame(dfedades_relate,
+                            SEX_AGE_RELATE[match(dfedades_relate[,"id"],
+                                                 SEX_AGE_RELATE[,"id"]),])
+
+df_PIR_RELATE$RELATE<-factor(df_PIR_RELATE$RELATE, levels=c("1","2","3","4","5","6","9"))
+
+
+
+df_PIR_RELATE<-df_PIR_RELATE %>%
+  select(AGE,SEX,RELATE,id,pop)%>%
+  mutate(pop2=ifelse(SEX==1, pop*-1, pop))
+
+df_PIR_RELATE$pop2[is.na(df_PIR_RELATE$pop2)] <- 0
+
+cols_relate = gg_color_hue(length(levels(df_PIR_RELATE$RELATE)))
+
+
+
+df_PIR_RELATE$SEX<-as.factor(df_PIR_RELATE$SEX)
+levels(df_PIR_RELATE$SEX)<-c("Male", "Female")
+
+levels(df_PIR_RELATE$RELATE)<-c("Reference person",
+                                "Spouse (or cohabiting partner)\nof reference person",
+                                "Child of reference person\n(or of his/her spouse or cohabiting partner)",
+                                "Ascendant relative of reference person\n(or of his/her spouse or cohabiting partner)",
+                                "Other relative",
+                                "Other", 
+                                "Not applicable")
+
+names(cols_relate) <- levels(df_PIR_RELATE$RELATE)
+
+
+ggplot(df_PIR_RELATE, aes(x=AGE, y=pop2, fill=RELATE))+
+  geom_bar(colour = I("Black"),
+           stat="identity", 
+           position="stack", 
+           size=.3, alpha =1)+
+  coord_flip()+
+  labs(#title=unique(df$ndis),
+    x="Age",
+    y="")+
+  scale_fill_manual(values = c(cols_relate),
+                    guide = guide_legend(direction = "horizontal",
+                                         nrow = 3,
+                                         keywidth=7,
+                                         keyheight=1.25,
+                                         label.position = "bottom"))+
+  scale_x_continuous(breaks=seq(2,97,5))+
+  theme(plot.title = element_text(lineheight=5.6, vjust=1.5,size=12, face="bold"),
+        legend.title = element_blank(),
+        legend.text = element_text(colour="black", size = 12),
+        legend.position="bottom",
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(colour="black", size = 12),
+        axis.title.y = element_text(colour="black", size = 12),
+        axis.ticks.x = element_blank(),
+        legend.background = element_rect(fill = NA),
+        panel.background = element_rect(fill = "#ffffff"),
+        plot.background = element_rect(fill = "#ffffff"),
+        panel.grid.major=element_line(colour="#f2f2f2",size = .2), 
+        panel.grid.minor=element_line(colour="#f2f2f2")) 
+
+
+```
+
+### 15. HHSPOU: Sequence number of spouse or cohabiting partner
+
+**NAs in HHSPOU:** `r if('HHSPOU' %in% colnames(df)) {paste(sum(is.na(df$HHSPOU)),paste("(",sum(is.na(df$HHSPOU))/length(df$HHSPOU)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HHSPOU:** `r if('HHSPOU' %in% colnames(df)) {length(unique(df$HHSPOU))}else {"NOT AVALILABLE"}`
+
+**Unique values in HHSPOU:** `r if('HHSPOU' %in% colnames(df)) {sort(unique(as_factor(df$HHSPOU)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 15.1 Frequencies HHSPOU
+
+```{r conditionalHHSPOU, eval = 'HHSPOU' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HHSPOU<-df%>%
+  select(HHSPOU)%>%
+  group_by(as_factor(HHSPOU)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HHSPOU, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 16. HHFATH: Sequence number of father
+
+**NAs in HHFATH:** `r if('HHFATH' %in% colnames(df)) {paste(sum(is.na(df$HHFATH)),paste("(",sum(is.na(df$HHFATH))/length(df$HHFATH)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HHFATH:** `r if('HHFATH' %in% colnames(df)) {length(unique(df$HHFATH))}else {"NOT AVALILABLE"}`
+
+**Unique values in HHFATH:** `r if('HHFATH' %in% colnames(df)) {sort(unique(as_factor(df$HHFATH)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 16.1 Frequencies HHFATH
+
+```{r conditionalHHFATH, eval = 'HHFATH' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HHFATH<-df%>%
+  select(HHFATH)%>%
+  group_by(as_factor(HHFATH)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HHFATH, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 17. HHMOTH: Sequence number of mother
+
+**NAs in HHMOTH:** `r if('HHMOTH' %in% colnames(df)) {paste(sum(is.na(df$HHMOTH)),paste("(",sum(is.na(df$HHMOTH))/length(df$HHMOTH)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HHMOTH:** `r if('HHMOTH' %in% colnames(df)) {length(unique(df$HHMOTH))}else {"NOT AVALILABLE"}`
+
+**Unique values in HHMOTH:** `r if('HHMOTH' %in% colnames(df)) {sort(unique(as_factor(df$HHMOTH)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 17.1 Frequencies HHMOTH
+
+```{r conditionalHHMOTH, eval = 'HHMOTH' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HHMOTH<-df%>%
+  select(HHMOTH)%>%
+  group_by(as_factor(HHMOTH)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(HHMOTH, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 18. HATLEV1D: Level of education
+
+**NAs in HATLEV1D:** `r if('HATLEV1D' %in% colnames(df)) {paste(sum(is.na(df$HATLEV1D)),paste("(",sum(is.na(df$HATLEV1D))/length(df$HATLEV1D)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in HATLEV1D:** `r if('HATLEV1D' %in% colnames(df)) {length(unique(df$HATLEV1D))}else {"NOT AVALILABLE"}`
+
+**Unique values in HATLEV1D:** `r if('HATLEV1D' %in% colnames(df)) {sort(unique(as_factor(df$HATLEV1D)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 18.1 Frequencies HATLEV1D
+
+```{r conditionalHATLEV1D, eval = 'HATLEV1D' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+HATLEV1D<-df%>%
+  select(HATLEV1D)%>%
+  group_by(HATLEV1D) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))%>%
+  mutate(HATLEV1D=case_when(HATLEV1D == "9" ~ "Not applicable (child less than 15 years old)",
+                           HATLEV1D == "H" ~ "High: Third level",
+                           HATLEV1D == "L" ~ "Low: Lower secondary",
+                           HATLEV1D == "M" ~ "Medium: Upper secondary",
+                           HATLEV1D == "Missing" ~ "Missing"))
+
+kbl(HATLEV1D, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 19. ILOSTAT: ILO working status
+
+**NAs in ILOSTAT:** `r if('ILOSTAT' %in% colnames(df)) {paste(sum(is.na(df$ILOSTAT)),paste("(",sum(is.na(df$ILOSTAT))/length(df$ILOSTAT)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in ILOSTAT:** `r if('ILOSTAT' %in% colnames(df)) {length(unique(df$ILOSTAT))}else {"NOT AVALILABLE"}`
+
+**Unique values in ILOSTAT:** `r if('ILOSTAT' %in% colnames(df)) {sort(unique(as_factor(df$ILOSTAT)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 19.1 Frequencies ILOSTAT
+
+```{r conditionalILOSTAT, eval = 'ILOSTAT' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+ILOSTAT<-df%>%
+  select(ILOSTAT)%>%
+  group_by(ILOSTAT) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))%>%
+  mutate(ILOSTAT=case_when(ILOSTAT == "1" ~ "Employed",
+                           ILOSTAT == "2" ~ "Unemployed",
+                           ILOSTAT == "3" ~ "Inactive",
+                           ILOSTAT == "4" ~ "Compulsory military service",
+                           ILOSTAT == "9" ~ "Persons less than 15 years old"))
+
+kbl(ILOSTAT, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 20. MARSTAT: Marital Status
+
+**NAs in MARSTAT:** `r if('MARSTAT' %in% colnames(df)) {paste(sum(is.na(df$MARSTAT)),paste("(",sum(is.na(df$MARSTAT))/length(df$MARSTAT)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in MARSTAT:** `r if('MARSTAT' %in% colnames(df)) {length(unique(df$MARSTAT))}else {"NOT AVALILABLE"}`
+
+**Unique values in MARSTAT:** `r if('MARSTAT' %in% colnames(df)) {sort(unique(as_factor(df$MARSTAT)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 20.1 Frequencies MARSTAT
+
+```{r conditionalMARSTAT, eval = 'MARSTAT' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+MARSTAT<-df%>%
+  select(MARSTAT)%>%
+  group_by(MARSTAT) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))%>%
+  mutate(MARSTAT=case_when(MARSTAT == "0" ~ "No answer",
+                           MARSTAT == "1" ~ "Single",
+                           MARSTAT == "2" ~ "Married",
+                           MARSTAT == "3" ~ "Widowed",
+                           MARSTAT == "4" ~ "Divorced or legally separated"))
+
+kbl(MARSTAT, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 21. NATIONAL: Nationality
+
+**NAs in NATIONAL:** `r if('NATIONAL' %in% colnames(df)) {paste(sum(is.na(df$NATIONAL)),paste("(",sum(is.na(df$NATIONAL))/length(df$NATIONAL)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in NATIONAL:** `r if('NATIONAL' %in% colnames(df)) {length(unique(df$NATIONAL))}else {"NOT AVALILABLE"}`
+
+**Unique values in NATIONAL:** `r if('NATIONAL' %in% colnames(df)) {sort(unique(as_factor(df$NATIONAL)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 21.1 Frequencies NATIONAL
+
+```{r conditionalNATIONAL, eval = 'NATIONAL' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+NATIONAL<-df%>%
+  select(NATIONAL)%>%
+  group_by(as_factor(NATIONAL)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(NATIONAL, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
+
+### 22. COUNTRYB: Country of birth
+
+**NAs in COUNTRYB:** `r if('COUNTRYB' %in% colnames(df)) {paste(sum(is.na(df$COUNTRYB)),paste("(",sum(is.na(df$COUNTRYB))/length(df$COUNTRYB)*100,"%)",sep=""),sep=" ")}else {"NOT AVALILABLE"}`
+
+**Number of unique values in COUNTRYB:** `r if('COUNTRYB' %in% colnames(df)) {length(unique(df$COUNTRYB))}else {"NOT AVALILABLE"}`
+
+**Unique values in COUNTRYB:** `r if('COUNTRYB' %in% colnames(df)) {sort(unique(as_factor(df$COUNTRYB)),decreasing = FALSE)}else {"NOT AVALILABLE"}`.
+
+### 22.1 Frequencies COUNTRYB
+
+```{r conditionalCOUNTRYB, eval = 'COUNTRYB' %in% colnames(df)}
+#| echo: false
+#| warning: FALSE
+COUNTRYB<-df%>%
+  select(COUNTRYB)%>%
+  group_by(as_factor(COUNTRYB)) %>% 
+  summarise(n=n())%>% 
+  mutate(n_rel = round(n / sum(n)*100,2))
+
+kbl(COUNTRYB, "latex", longtable = T, booktabs = T)%>%kable_styling(position = "center") %>%
+column_spec(1, width = "30em") 
+```
