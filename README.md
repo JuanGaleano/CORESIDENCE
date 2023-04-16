@@ -19,4 +19,9 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
  <p align="justify"> 1) The syntax produced for building the three branches (national, subnational and subnational harmonized) of the CORESIDENCE DATABASE.</p>
 
- <p align="justify"> 2) The syntax produced for harmonizing subnational regions between sources and within each source (when necessary).</p>
+ <p align="justify"> 2) The syntax produced for harmonizing subnational regions between sources and within each source, when necessary.</p>
+ 
+ ## Contact
+ 
+ <p align="justify"> Juan Galeano: jgaleano@ced.uab.es </p>
+ 
