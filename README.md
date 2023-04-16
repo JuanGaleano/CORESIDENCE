@@ -15,6 +15,7 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
 ## About this repository
 
-<p align="justify"> This respository contains       
-  1) the syntax produced for building the three branches (national, subnational and subnational harmonized) of the CORESIDENCE DATABASE.</p>
+<p align="justify"> This respository contains: </p>
+
+ <p align="justify"> 1) the syntax produced for building the three branches (national, subnational and subnational harmonized) of the CORESIDENCE DATABASE.</p>
 
