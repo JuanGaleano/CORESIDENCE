@@ -10153,7 +10153,7 @@ df<-df%>%mutate(S3H=case_when(
   S3 == "DEU_2005_LFS_D0"~ 276014,
   S3 == "DEU_2005_LFS_E0"~ 276015,
   S3 == "DEU_2005_LFS_F0"~ 276001,
-  S3 == "DEU_2005_LFS_G0"~ 276015
+  S3 == "DEU_2005_LFS_G0"~ 276016
 ))
 
 
@@ -10190,7 +10190,7 @@ df<-df%>%mutate(S3H=case_when(
   S3 == "DEU_2010_LFS_D0"~ 276014,
   S3 == "DEU_2010_LFS_E0"~ 276015,
   S3 == "DEU_2010_LFS_F0"~ 276001,
-  S3 == "DEU_2010_LFS_G0"~ 276015
+  S3 == "DEU_2010_LFS_G0"~ 276016
 ))
 
 
@@ -10227,7 +10227,7 @@ df<-df%>%mutate(S3H=case_when(
   S3 == "DEU_2015_LFS_D0"~ 276014,
   S3 == "DEU_2015_LFS_E0"~ 276015,
   S3 == "DEU_2015_LFS_F0"~ 276001,
-  S3 == "DEU_2015_LFS_G0"~ 276015
+  S3 == "DEU_2015_LFS_G0"~ 276016
 ))
 
 
