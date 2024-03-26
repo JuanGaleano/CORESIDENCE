@@ -681,29 +681,3 @@ df[,29]<-NULL
 df<-df|>select(-POPLOC,-MOMLOC,-SPLOC,-cnd)
 
 save(df, file="G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_4_CORESIDENCE_DATABASE\\CORESIDENCE_LIVING_ARRANGEMENTS\\CORE_FILES\\DHS_TO_GELAI\\ALB_2008_DHS_GELAI.Rda")
-
-#### pruebas #######
-
-df<-data.frame(HHID=c(rep("A",5)),
-               PERNUM=c(1:5),
-               RELATED=c(1000, 3100, 3100, 3100, 3400),
-               SPLOC2=c(0,NA, NA, 5, 4), 
-               HV104=c(1,2,2,1,2))
-
-df <- df %>%
- # group_by(HHID) %>%
-  mutate(
-    all_na_related_3100 = all(RELATED[is.na(SPLOC2)] == 3100, na.rm = TRUE),
-    condition_column = if_else(RELATED == 3100 & all_na_related_3100 &is.na(SPLOC2), 0, 1)
-  ) %>%
-  select(-all_na_related_3100) # remove the intermediate column
-
-
-df <- df %>%
-  mutate(
-    new_column = if_else(
-      is.na(SPLOC2) & n_distinct(HV104[is.na(SPLOC2)]) == 1, 
-      0, 
-      1
-    )
-  ) 
