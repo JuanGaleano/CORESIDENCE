@@ -25,9 +25,12 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
 ## Articles published within the CORESIDENCE PROJECT 
 
-[2024, Scientific Data, **CORESIDENCE: National and subnational data on household size and composition around the world, 1964–2021**](https://www.nature.com/articles/s41597-024-02964-3)
+[2024, Scientific Data, **CORESIDENCE: National and subnational data on household size and composition around the world, 1964–2021**](https://www.nature.com/articles/s41597-024-02964-3)      
 
- 
+[2024, Genus, **A global perspective on household size and composition, 1970–2020**](https://genus.springeropen.com/articles/10.1186/s41118-024-00211-6)     
+
+[2024, Population and Development Review, **Trends in Living Arrangements Around the World**](https://onlinelibrary.wiley.com/doi/10.1111/padr.12603)      
+
  ## Contact
  
  <p align="justify"> Juan Galeano: jgaleano@ced.uab.es </p>
