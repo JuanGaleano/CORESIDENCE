@@ -20,6 +20,13 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
  <p align="justify"> 1) The syntax produced for building the three branches (national, subnational and subnational harmonized) of the CORESIDENCE DATABASE.</p>
 
  <p align="justify"> 2) The syntax produced for harmonizing subnational regions between sources and within each source, when necessary.</p>
+
+  <p align="justify"> 3) The syntax produced for creating pointer variables over DHS samples.</p>
+
+## Articles published within the CORESIDENCE PROJECT 
+
+[2024, Scientific Data, **CORESIDENCE: National and subnational data on household size and composition around the world, 1964–2021**](https://www.nature.com/articles/s41597-024-02964-3)
+
  
  ## Contact
  
