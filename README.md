@@ -31,7 +31,7 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
 [2024, Population and Development Review, **Trends in Living Arrangements Around the World**](https://onlinelibrary.wiley.com/doi/10.1111/padr.12603)      
 
-## Access and dowloand the CORESIDENCE database (CoDB)
+## Access and download the CORESIDENCE database (CoDB)
 
 [2023, Zenodo, **CORESIDENCE: National and subnational data on household size and composition around the world, 1964–2021**](https://zenodo.org/records/8142652) 
 
