@@ -19,22 +19,17 @@ df<-df|>
   mutate(RELATED1=as_factor(RELATED))
 
 
-child<-df|>
-  filter(RELATED %in% c(3100,3210))|>
-  mutate(HV112=unclass(HV112),
-         HV114=unclass(HV114))|>
-  group_by(HV112,HV114)|>
-  summarise(n=n())|>
-  arrange(HV112,HV114)
 
 
-no_cores <- detectCores() -5
+no_cores <- detectCores() -2
 registerDoParallel(cores = no_cores)
 cl <- makeCluster(no_cores)
 
 listPOP <- split(df, f = df$HHID2)
 unique(df$RELATED)
 
+# pruebas<-listPOP[["00010001"]]
+# df<-pruebas
 
 #### POPLOC ######
 FUN_POPLOC_DHS <- function(df) {
@@ -45,89 +40,112 @@ FUN_POPLOC_DHS <- function(df) {
   #POPLOC ######
   df <- df |>
     mutate(
-      POPLOC2 = ifelse(HV114>0, HV114,NA))
+      POPLOC2 = ifelse(HV114 > 0, HV114, NA_real_)
+    )
   
   ## CHILDREN #####
   df <- df |>
     mutate(
       POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,   
-      ifelse(RELATED %in% c(3100,3210) & any(RELATED == 1000 & HV104 == 1), 
-      HVIDX[RELATED == 1000 & HV104 == 1],
-      ifelse(RELATED  %in% c(3100,3210) & HV219 == 2 & any(RELATED %in% c(2100,2200) & HV104 == 1), 
-      HVIDX[RELATED %in% c(2100,2200) & HV104 == 1],
-      ifelse(RELATED %in% c(3100,3210) & !any(RELATED == 1000 & HV104 == 1),0,
-      ifelse(RELATED  %in% c(3100,3210) & HV219 == 2 & !any(RELATED %in% c(2100,2200) & HV104 == 1),0,
-      NA))))))
+                       ifelse(RELATED %in% c(3100, 3210) & any(RELATED == 1000 & HV104 == 1), 
+                              HVIDX[which.max(RELATED == 1000 & HV104 == 1)],
+                              ifelse(RELATED  %in% c(3100, 3210) & HV219 == 2 & any(RELATED %in% c(2100, 2200) & HV104 == 1), 
+                                     HVIDX[which.max(RELATED %in% c(2100, 2200) & HV104 == 1)],
+                                     ifelse(RELATED %in% c(3100, 3210), 0, NA)
+                              )
+                       )
+      )
+    )
   
   ## HEAD #####
-  df <- df |>
+  df <- df |> 
     mutate(
       POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,   
-                ifelse((RELATED == 1000 & any(RELATED == 4210 & HV104 == 1)), 
-                              HVIDX[RELATED == 4210 & HV104 == 1],
-                ifelse((RELATED == 1000 & !any(RELATED == 4210) |
-                        RELATED == 1000 & sum(RELATED == 4210) == 1 & any(RELATED == 4210 & HV104 != 1)),0,
-                       NA))))
+                       ifelse(RELATED == 1000 & any(RELATED == 4210 & HV104 == 1), 
+                              HVIDX[which(RELATED == 4210 & HV104 == 1)][1],
+                              ifelse(RELATED == 1000 & (!any(RELATED == 4210) |
+                                                          (sum(RELATED == 4210) == 1 & any(RELATED == 4210 & HV104 != 1))), 0,
+                                     NA)))
+    )
   
   ## PARTNER #####
-  df <- df |>
+  df <- df |> 
     mutate(
       POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,   
-                       ifelse((RELATED == 2100 & any(RELATED == 4220 & HV104 == 1)), 
-                              HVIDX[RELATED == 4220 & HV104 == 1],
-                              ifelse((RELATED  ==2200 & any(RELATED == 4220 & HV104 == 1)), 
-                                     HVIDX[RELATED == 4220 & HV104 == 1],
-                                     ifelse((RELATED == 2100 & !any(RELATED == 4220) |
-                                               RELATED == 2100 & sum(RELATED == 4220) == 1 & any(RELATED == 4220 & HV104 != 1)),0,
-                                            ifelse((RELATED == 2200 & !any(RELATED == 4220) |
-                                                      RELATED == 2200 & sum(RELATED == 4220) == 1 & any(RELATED == 4220 & HV104 != 1)),0,
-                                                   NA))))))
+                       ifelse((RELATED %in% c(2100, 2200) & any(RELATED == 4220 & HV104 == 1)), 
+                              HVIDX[which(RELATED == 4220 & HV104 == 1)][1],
+                              ifelse((RELATED %in% c(2100, 2200) & !any(RELATED == 4220)) | 
+                                       (RELATED %in% c(2100, 2200) & sum(RELATED == 4220) == 1 & any(RELATED == 4220 & HV104 != 1)), 0,
+                                     NA)))
+    )
   
   ## CHILD IN LAW #####
   df <- df |>
     mutate(
       POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,   
-                ifelse((RELATED == 3400 & !any(RELATED == 4900 | RELATED == 4920))|
-                       (RELATED == 3400 & !any((RELATED == 4900 | RELATED == 4920) & HV104 == 1))|
-                       (RELATED == 3400 & (max(HV105[RELATED == 4900])-HV105) < 20),0,
-                       NA)))
+                       ifelse(RELATED == 3400 & (
+                         !any(RELATED == 4900 | RELATED == 4920) |
+                           !any((RELATED == 4900 | RELATED == 4920) & HV104 == 1) |
+                           (max(HV105[RELATED == 4900], na.rm = TRUE) - HV105 < 20)
+                       ), 0, NA))
+    )
   
   ## GRANDCHILD #####
   df <- df |>
     mutate(
       POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,   
-                ifelse((RELATED == 4100 & sum (RELATED == 3100 & HV104 == 1)==1), HVIDX[RELATED == 3100 & HV104 == 1], # ok   
-                ifelse((RELATED == 4100 & sum (RELATED == 3400 & HV104 == 1)==1), HVIDX[RELATED == 3400 & HV104 == 1], # ok 
-                ifelse((RELATED == 4100 & !any((RELATED == 3100 |RELATED == 3400)  & HV104 == 1)), 0, # ok
-                              NA)))))
+                       ifelse(RELATED == 4100 & sum(RELATED == 3100 & HV104 == 1) == 1, 
+                              HVIDX[which(RELATED == 3100 & HV104 == 1)][1], # Ensure selection of the specific HVIDX
+                              ifelse(RELATED == 4100 & sum(RELATED == 3400 & HV104 == 1) == 1, 
+                                     HVIDX[which(RELATED == 3400 & HV104 == 1)][1], # Ensure selection of the specific HVIDX
+                                     ifelse(RELATED == 4100 & !any((RELATED == 3100 | RELATED == 3400) & HV104 == 1), 
+                                            0, 
+                                            NA))))
+    )
   
   ## PARENTS #####
   df <- df |>
     mutate(
+      max_HV105_4900 = max(HV105[RELATED == 4900], na.rm = TRUE), # Calculate once for efficiency
       POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,   
-                ifelse((RELATED == 4210 & !any(RELATED == 4900 | RELATED == 4920))|
-                       (RELATED == 4210 & !any((RELATED == 4900 | RELATED == 4920) & HV104 == 1))|
-                       (RELATED == 4210 & (max(HV105[RELATED == 4900])-HV105) < 20),0,
-                              NA)))
+                       ifelse(
+                         RELATED == 4210 & (
+                           !any(RELATED == 4900 | RELATED == 4920) |
+                             !any((RELATED == 4900 | RELATED == 4920) & HV104 == 1) |
+                             (max_HV105_4900 - HV105 < 20)
+                         ), 0, NA)
+      )
+    ) %>%
+    select(-max_HV105_4900)
   
   
   ## PARENTS IN LAW #####
   df <- df |>
     mutate(
+      max_HV105_4900 = max(HV105[RELATED == 4900], na.rm = TRUE), # Calculate the maximum once for efficiency
       POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,   
-                       ifelse((RELATED == 4220 & !any(RELATED == 4900 | RELATED == 4920))|
-                                (RELATED == 4220 & !any((RELATED == 4900 | RELATED == 4920) & HV104 == 1))|
-                                (RELATED == 4220 & (max(HV105[RELATED == 4900])-HV105) < 20),0,
-                              NA)))
+                       ifelse(RELATED == 4220 & (
+                         !any(RELATED == 4900 | RELATED == 4920) |
+                           !any((RELATED == 4900 | RELATED == 4920) & HV104 == 1) |
+                           (max_HV105_4900 - HV105 < 20)
+                       ), 0, NA))
+    ) %>%
+    select(-max_HV105_4900) # Clean up by removing the auxiliary column
+  
   ## SIBLING #####
-  df <- df |>
+  df <- df %>%
     mutate(
-      POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,   
-                ifelse(RELATED == 4410, POPLOC2[RELATED == 1000], NA)),
-      #POPLOC = ifelse(RELATED == 3100 & (any(RELATED == 2100 & HV104 == 2) & !any(RELATED == 1000)), 0, POPLOC),
-      POPLOC2 == ifelse(!is.na(POPLOC2), POPLOC2,    
-                ifelse(is.na(POPLOC2) & RELATED == 4100 & lead(RELATED == 4100 & !is.na(POPLOC2)),
-                       lead(POPLOC2),NA))
+      first_POPLOC2_1000 = first(POPLOC2[RELATED == 1000], default = NA), # Get the first POPLOC2 value for RELATED == 1000
+      POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,
+                       ifelse(RELATED == 4410, first_POPLOC2_1000, NA))
+    ) %>%
+    select(-first_POPLOC2_1000) # Remove the auxiliary column
+  
+  df <- df %>%
+    mutate(
+      POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,  
+                       ifelse(RELATED == 4100 & lead(RELATED) == 4100 & !is.na(lead(POPLOC2)),
+                              lead(POPLOC2), NA))
     )
   
   
@@ -135,39 +153,51 @@ FUN_POPLOC_DHS <- function(df) {
   df <- df |>
     mutate(
       POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,   
-                ifelse((RELATED == 4812 & any(RELATED == 4410 & HV104 == 1)), HVIDX[RELATED == 4410 & HV104 == 1], # ok     
-                ifelse((RELATED == 4812 & !any(RELATED == 4410))| # ok
-                       (RELATED == 4812 & !any(RELATED == 4410 & HV104 == 1)),0,NA))))
+                       ifelse(RELATED == 4812 & any(RELATED == 4410 & HV104 == 1), 
+                              HVIDX[which(RELATED == 4410 & HV104 == 1)][1], # Assuming you want the first matching HVIDX
+                              ifelse(RELATED == 4812 & !any(RELATED == 4410 & HV104 == 1), 
+                                     0, 
+                                     NA)))
+    )
   
   ## Niece/nephew by marriage (4813) #####
   df <- df |>
     mutate(
       POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,   
-                ifelse((RELATED == 4813 & !any(RELATED == 4900 | RELATED == 4920))|
-                       (RELATED == 4813 & !any((RELATED == 4900 | RELATED == 4920) & HV104 == 1)),0,
-                              NA)))
+                       ifelse(RELATED == 4813 & !any((RELATED == 4900 | RELATED == 4920) & HV104 == 1), 0, NA))
+    )
   
 
   ## OTHER RELATIVE (4900) #####
-  df <- df |>
+  df <- df %>%
     mutate(
+      max_HV105_4900 = max(HV105[RELATED == 4900], na.rm = TRUE), # Calculate max HV105 for RELATED == 4900
       POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,
-                ifelse((RELATED == 4900 & !any(RELATED == 4900 & HV104 == 1))| # ok
-                       (RELATED == 4900 & sum(RELATED == 4900) == 1)| # ok
-                       (RELATED == 4900 & HV105 >= max(HV105[RELATED == 4900])),0,NA)))
+                       ifelse(RELATED == 4900 & 
+                                (!any(RELATED == 4900 & HV104 == 1) | 
+                                   sum(RELATED == 4900) == 1 | 
+                                   HV105 >= max_HV105_4900), 0, NA))
+    ) %>%
+    select(-max_HV105_4900) # Remove auxiliary column after use
     
   ## Non-relative, n.e.c. (5900) #####
   df <- df |>
     mutate(
+      max_HV105_5900 = max(HV105[RELATED == 5900], na.rm = TRUE), # Calculate max HV105 for RELATED == 5900 once for efficiency
       POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,
-                ifelse((RELATED == 5900 & !any(RELATED == 5900 & HV104 == 1))| # ok
-                       (RELATED == 5900 & sum(RELATED == 5900) == 1)|# ok
-                       (RELATED == 5900 & HV105 == max(HV105[RELATED == 5900]))| # ok
-                       (RELATED == 5900 & HV105 <= max(HV105[RELATED == 5900])), 0,NA)))
+                       ifelse(RELATED == 5900 & 
+                                (!any(RELATED == 5900 & HV104 == 1) | 
+                                   sum(RELATED == 5900) == 1 | 
+                                   HV105 == max_HV105_5900 | 
+                                   HV105 < max_HV105_5900), 0, NA))
+    ) %>%
+    select(-max_HV105_5900) # Remove auxiliary column after use
   
+  # RESIDUALS ####
   df <- df |>
     mutate(
-      MOMLOC2 = ifelse(HV112>0, HV112,NA))
+      POPLOC2 = ifelse(!is.na(POPLOC2), POPLOC2,
+                       ifelse(RELATED==4100 & HV112>0,HV114,NA)))
   
   
   ### MOMLOC #####
@@ -175,126 +205,161 @@ FUN_POPLOC_DHS <- function(df) {
     mutate(
       MOMLOC2 = ifelse(HV112>0, HV112,NA))
   
+
   ## CHILDREN #####
   df <- df |>
     mutate(
       MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,   
-                       ifelse(RELATED %in% c(3100,3210) & any(RELATED == 1000 & HV104 == 2), 
-                              HVIDX[RELATED == 1000 & HV104 == 2],
-                              ifelse(RELATED  %in% c(3100,3210) & HV219 == 1 & any(RELATED %in% c(2100,2200) & HV104 == 2), 
-                                     HVIDX[RELATED %in% c(2100,2200) & HV104 == 2],
-                                     ifelse(RELATED %in% c(3100,3210) & !any(RELATED == 1000 & HV104 == 2),0,
-                                            ifelse(RELATED  %in% c(3100,3210) & HV219 == 1 & !any(RELATED %in% c(2100,2200) & HV104 == 2),0,
-                                                   NA))))))
+                       ifelse(RELATED %in% c(3100, 3210) & any(RELATED == 1000 & HV104 == 2), 
+                              HVIDX[which.max(RELATED == 1000 & HV104 == 2)],
+                              ifelse(RELATED  %in% c(3100, 3210) & HV219 == 1 & any(RELATED %in% c(2100, 2200) & HV104 == 2), 
+                                     HVIDX[which.max(RELATED %in% c(2100, 2200) & HV104 == 2)],
+                                     ifelse(RELATED %in% c(3100, 3210), 0, 
+                                            NA)))))
+  
+  
   
   ## HEAD #####
-  df <- df |>
+  df <- df |> 
     mutate(
       MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,   
-                       ifelse((RELATED == 1000 & any(RELATED == 4210 & HV104 == 2)), 
-                              HVIDX[RELATED == 4210 & HV104 == 2],
-                              ifelse((RELATED == 1000 & !any(RELATED == 4210) |
-                                        RELATED == 1000 & sum(RELATED == 4210) == 1 & any(RELATED == 4210 & HV104 != 2)),0,
+                       ifelse(RELATED == 1000 & any(RELATED == 4210 & HV104 == 2), 
+                              HVIDX[which(RELATED == 4210 & HV104 == 2)][1],
+                              ifelse(RELATED == 1000 & (!any(RELATED == 4210) |
+                                                          (sum(RELATED == 4210) == 1 & any(RELATED == 4210 & HV104 != 2))), 0,
                                      NA))))
   
+  
+  
   ## PARTNER #####
-  df <- df |>
+  df <- df |> 
     mutate(
       MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,   
-                       ifelse((RELATED == 2100 & any(RELATED == 4220 & HV104 == 2)), 
-                              HVIDX[RELATED == 4220 & HV104 == 2],
-                              ifelse((RELATED  ==2200 & any(RELATED == 4220 & HV104 == 2)), 
-                                     HVIDX[RELATED == 4220 & HV104 == 2],
-                                     ifelse((RELATED == 2100 & !any(RELATED == 4220) |
-                                               RELATED == 2100 & sum(RELATED == 4220) == 1 & any(RELATED == 4220 & HV104 != 2)),0,
-                                            ifelse((RELATED == 2200 & !any(RELATED == 4220) |
-                                                      RELATED == 2200 & sum(RELATED == 4220) == 1 & any(RELATED == 4220 & HV104 != 2)),0,
-                                                   NA))))))
+                       ifelse((RELATED %in% c(2100, 2200) & any(RELATED == 4220 & HV104 == 2)), 
+                              HVIDX[which(RELATED == 4220 & HV104 == 2)][1],
+                              ifelse((RELATED %in% c(2100, 2200) & !any(RELATED == 4220)) | 
+                                       (RELATED %in% c(2100, 2200) & sum(RELATED == 4220) == 1 & any(RELATED == 4220 & HV104 != 2)), 0,
+                                     NA)))
+    )
+  
   
   ## CHILD IN LAW #####
   df <- df |>
     mutate(
       MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,   
-                       ifelse((RELATED == 3400 & !any(RELATED == 4900 | RELATED == 4920))|
-                                (RELATED == 3400 & !any((RELATED == 4900 | RELATED == 4920) & HV104 == 2))|
-                                (RELATED == 3400 & (max(HV105[RELATED == 4900])-HV105) < 20),0,
-                              NA)))
+                       ifelse(RELATED == 3400 & (
+                         !any(RELATED == 4900 | RELATED == 4920) |
+                           !any((RELATED == 4900 | RELATED == 4920) & HV104 == 2) |
+                           (max(HV105[RELATED == 4900], na.rm = TRUE) - HV105 < 20)
+                       ), 0, NA))
+    )
+  
   
   ## GRANDCHILD #####
   df <- df |>
     mutate(
       MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,   
-                       ifelse((RELATED == 4100 & sum (RELATED == 3100 & HV104 == 2)==1), HVIDX[RELATED == 3100 & HV104 == 2], # ok   
-                              ifelse((RELATED == 4100 & sum (RELATED == 3400 & HV104 == 2)==1), HVIDX[RELATED == 3400 & HV104 == 2], # ok 
-                                     ifelse((RELATED == 4100 & !any((RELATED == 3100 |RELATED == 3400)  & HV104 == 2)), 0, # ok
-                                            NA)))))
+                       ifelse(RELATED == 4100 & sum(RELATED == 3100 & HV104 == 2) == 1, 
+                              HVIDX[which(RELATED == 3100 & HV104 == 2)][1], # Ensure selection of the specific HVIDX
+                              ifelse(RELATED == 4100 & sum(RELATED == 3400 & HV104 == 2) == 1, 
+                                     HVIDX[which(RELATED == 3400 & HV104 == 2)][1], # Ensure selection of the specific HVIDX
+                                     ifelse(RELATED == 4100 & !any((RELATED == 3100 | RELATED == 3400) & HV104 == 2), 
+                                            0, 
+                                            NA))))
+    )
   
   ## PARENTS #####
   df <- df |>
     mutate(
+      max_HV105_4900 = max(HV105[RELATED == 4900], na.rm = TRUE), # Calculate once for efficiency
       MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,   
-                       ifelse((RELATED == 4210 & !any(RELATED == 4900 | RELATED == 4920))|
-                                (RELATED == 4210 & !any((RELATED == 4900 | RELATED == 4920) & HV104 == 2))|
-                                (RELATED == 4210 & (max(HV105[RELATED == 4900])-HV105) < 20),0,
-                              NA)))
-  
+                       ifelse(
+                         RELATED == 4210 & (
+                           !any(RELATED == 4900 | RELATED == 4920) |
+                             !any((RELATED == 4900 | RELATED == 4920) & HV104 == 2) |
+                             (max_HV105_4900 - HV105 < 20)
+                         ), 0, NA)
+      )
+    ) %>%
+    select(-max_HV105_4900)
   
   ## PARENTS IN LAW #####
   df <- df |>
     mutate(
+      max_HV105_4900 = max(HV105[RELATED == 4900], na.rm = TRUE), # Calculate the maximum once for efficiency
       MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,   
-                       ifelse((RELATED == 4220 & !any(RELATED == 4900 | RELATED == 4920))|
-                                (RELATED == 4220 & !any((RELATED == 4900 | RELATED == 4920) & HV104 == 2))|
-                                (RELATED == 4220 & (max(HV105[RELATED == 4900])-HV105) < 20),0,
-                              NA)))
+                       ifelse(RELATED == 4220 & (
+                         !any(RELATED == 4900 | RELATED == 4920) |
+                           !any((RELATED == 4900 | RELATED == 4920) & HV104 == 2) |
+                           (max_HV105_4900 - HV105 < 20)
+                       ), 0, NA))
+    ) %>%
+    select(-max_HV105_4900) # Clean up by removing the auxiliary column
   ## SIBLING #####
-  df <- df |>
+  df <- df %>%
     mutate(
-      MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,   
-                       ifelse(RELATED == 4410, MOMLOC2[RELATED == 1000], NA)),
-      #POPLOC = ifelse(RELATED == 3100 & (any(RELATED == 2100 & HV104 == 2) & !any(RELATED == 1000)), 0, POPLOC),
-      POPLOC2 == ifelse(!is.na(MOMLOC2), MOMLOC2,    
-                        ifelse(is.na(MOMLOC2) & RELATED == 4100 & lead(RELATED == 4100 & !is.na(MOMLOC2)),
-                               lead(MOMLOC2),NA))
-    )
+      first_MOMLOC2_1000 = first(MOMLOC2[RELATED == 1000], default = NA), # Get the first POPLOC2 value for RELATED == 1000
+      MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,
+                       ifelse(RELATED == 4410, first_MOMLOC2_1000, NA))
+    ) %>%
+    select(-first_MOMLOC2_1000) # Remove the auxiliary column
   
+  df <- df %>%
+    mutate(
+      MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,  
+                       ifelse(RELATED == 4100 & lead(RELATED) == 4100 & !is.na(lead(MOMLOC2)),
+                              lead(MOMLOC2), NA))
+    )
   
   ## Niece/nephew by blood (4812) #####
   df <- df |>
     mutate(
       MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,   
-                       ifelse((RELATED == 4812 & any(RELATED == 4410 & HV104 == 2)), 
-                              HVIDX[RELATED == 4410 & HV104 == 2], # ok     
-                              ifelse((RELATED == 4812 & !any(RELATED == 4410))| # ok
-                                       (RELATED == 4812 & !any(RELATED == 4410 & HV104 == 2)),0,NA))))
+                       ifelse(RELATED == 4812 & any(RELATED == 4410 & HV104 == 2), 
+                              HVIDX[which(RELATED == 4410 & HV104 == 2)][1], # Assuming you want the first matching HVIDX
+                              ifelse(RELATED == 4812 & !any(RELATED == 4410 & HV104 == 2), 
+                                     0, 
+                                     NA)))
+    )
+  
   
   ## Niece/nephew by marriage (4813) #####
   df <- df |>
     mutate(
       MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,   
-                       ifelse((RELATED == 4813 & !any(RELATED == 4900 | RELATED == 4920))|
-                                (RELATED == 4813 & !any((RELATED == 4900 | RELATED == 4920) & HV104 == 2)),0,
-                              NA)))
+                       ifelse(RELATED == 4813 & !any((RELATED == 4900 | RELATED == 4920) & HV104 == 2), 0, NA))
+    )
   
   
   ## OTHER RELATIVE (4900) #####
-  df <- df |>
+  df <- df %>%
     mutate(
+      max_HV105_4900 = max(HV105[RELATED == 4900], na.rm = TRUE), # Calculate max HV105 for RELATED == 4900
       MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,
-                       ifelse((RELATED == 4900 & !any(RELATED == 4900 & HV104 == 2))| # ok
-                                (RELATED == 4900 & sum(RELATED == 4900) == 1)| # ok
-                                (RELATED == 4900 & HV105 >= max(HV105[RELATED == 4900])),0,NA)))
+                       ifelse(RELATED == 4900 & 
+                                (!any(RELATED == 4900 & HV104 == 2) | 
+                                   sum(RELATED == 4900) == 1 | 
+                                   HV105 >= max_HV105_4900), 0, NA))
+    ) %>%
+    select(-max_HV105_4900) # Remove auxiliary column after use
   
   ## Non-relative, n.e.c. (5900) #####
   df <- df |>
     mutate(
+      max_HV105_5900 = max(HV105[RELATED == 5900], na.rm = TRUE), # Calculate max HV105 for RELATED == 5900 once for efficiency
       MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,
-                       ifelse((RELATED == 5900 & !any(RELATED == 5900 & HV104 == 2))| # ok
-                                (RELATED == 5900 & sum(RELATED == 5900) == 1)|# ok
-                                (RELATED == 5900 & HV105 == max(HV105[RELATED == 5900]))| # ok
-                                (RELATED == 5900 & HV105 <= max(HV105[RELATED == 5900])), 0,NA)))
-  
-  
+                       ifelse(RELATED == 5900 & 
+                                (!any(RELATED == 5900 & HV104 == 2) | 
+                                   sum(RELATED == 5900) == 1 | 
+                                   HV105 == max_HV105_5900 | 
+                                   HV105 < max_HV105_5900), 0, NA))
+    ) %>%
+    select(-max_HV105_5900) # Remove auxiliary column after use
+  # RESIDUALS #####
+  df <- df |>
+    mutate(
+      MOMLOC2 = ifelse(!is.na(MOMLOC2), MOMLOC2,
+                       ifelse(RELATED==4100 & HV114>0,HV112,NA)))
   
 } 
 
@@ -667,17 +732,11 @@ colnames(out)[1]<-"NA values"
 out<-out|>mutate(variable=row.names(out))|>
   relocate(variable, .before = `NA values`)
 rownames(out) <- NULL
-
-napoploc<-SPLOC_DHS_DF|>
-  group_by(RELATED,SPLOC2)|>
-  summarise(n=n())|>
-  mutate(n_rel = round(n / sum(n)*100,2))
-
+out
 
 
 df<-SPLOC_DHS_DF
-df[,29]<-NULL
 
-df<-df|>select(-POPLOC,-MOMLOC,-SPLOC,-cnd)
+df<-df|>select(-POPLOC,-MOMLOC,-SPLOC,-cnd,-RELATED1)
 
 save(df, file="G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_4_CORESIDENCE_DATABASE\\CORESIDENCE_LIVING_ARRANGEMENTS\\CORE_FILES\\DHS_TO_GELAI\\ALB_2008_DHS_GELAI.Rda")
