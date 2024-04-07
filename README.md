@@ -35,6 +35,9 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
 [2023, Zenodo, **CORESIDENCE: National and subnational data on household size and composition around the world, 1964–2021**](https://zenodo.org/records/8142652) 
 
+
+![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/CORESIDENCE.png)
+
 ## Contact
  
  <p align="justify"> Juan Galeano: jgaleano@ced.uab.es </p>
