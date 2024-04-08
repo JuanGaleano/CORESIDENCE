@@ -35,7 +35,9 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
 [2023, Zenodo, **CORESIDENCE: National and subnational data on household size and composition around the world, 1964–2021**](https://zenodo.org/records/8142652) 
 
+## International conferences    
 
+Annual meeting of the Populationa Association of America (PAA) 2024, Columbus, Ohio, EEUU. 17-20 April, 2024.
 ![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/CORESIDENCE.png)
 
 ## Contact
