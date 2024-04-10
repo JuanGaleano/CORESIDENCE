@@ -38,7 +38,10 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 ## International conferences    
 
 #### Annual meeting of the Populationa Association of America (PAA) 2024, Columbus, Ohio, EEUU. 17-20 April, 2024
-![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/CORESIDENCE.png)
+![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/CORESIDENCE.png)     
+
+![alt text](https://github.com/JuanGaleano/CORESIDENCE/upload/main)
+
 
 ## Contact
  
