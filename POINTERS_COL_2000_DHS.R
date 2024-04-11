@@ -19,7 +19,9 @@ df<-df|>
   mutate(RELATED1=as_factor(RELATED))
 
 
-
+df<-df|>
+  mutate(HV112=ifelse(RELATED1=="Biological child"&HV112==0&HV114==0,NA,HV112),
+         HV114=ifelse(RELATED1=="Biological child"&HV112==0&HV114==0,NA,HV114))
 
 no_cores <- detectCores() -68
 registerDoParallel(cores = no_cores)
