@@ -572,28 +572,28 @@ FUN_SPLOC_DHS <-  function(df) {
   df <- df |>
     mutate(
       SPLOC2 = ifelse(!is.na(SPLOC2), SPLOC2,
-                      ifelse(RELATED == 4410 & !any(RELATED==4430),0,
+                      ifelse(RELATED == 4410 & !any(RELATED==4900),0,
                              NA)))
   
   df <- df |>
     mutate(
       SPLOC2 = ifelse(!is.na(SPLOC2), SPLOC2,
-                      ifelse(RELATED == 4430 & !any(RELATED==4410),0,
+                      ifelse(RELATED == 4900 & !any(RELATED==4410),0,
                              NA)))
   
   
   df <- df |>
     mutate(
       SPLOC2 = ifelse(!is.na(SPLOC2), SPLOC2,
-                      ifelse((RELATED == 4410 &  HV104==1) & lead(RELATED == 4430 &  HV104==2), lead(HVIDX),
-                             ifelse((RELATED == 4430 &  HV104==2) & lag(RELATED == 4410 &  HV104==1), lag(HVIDX),
+                      ifelse((RELATED == 4410 &  HV104==1) & lead(RELATED == 4900 &  HV104==2), lead(HVIDX),
+                             ifelse((RELATED == 4900 &  HV104==2) & lag(RELATED == 4410 &  HV104==1), lag(HVIDX),
                                     NA))))
   
   df <- df |>
     mutate(
       SPLOC2 = ifelse(!is.na(SPLOC2), SPLOC2,
-                      ifelse((RELATED == 4410 &  HV104==2) & lead(RELATED == 4430 &  HV104==1), lead(HVIDX),
-                             ifelse((RELATED == 4430 &  HV104==1) & lag(RELATED == 4410 &  HV104==2), lag(HVIDX),
+                      ifelse((RELATED == 4410 &  HV104==2) & lead(RELATED == 4900 &  HV104==1), lead(HVIDX),
+                             ifelse((RELATED == 4900 &  HV104==1) & lag(RELATED == 4410 &  HV104==2), lag(HVIDX),
                                     NA))))
   
   df <- df %>%
