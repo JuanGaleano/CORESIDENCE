@@ -93,10 +93,6 @@ head(df)
 unique(df$GEOLEVEL1)
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
-
 # AUT 1971 IPUMS #####
 
 df<-CORE_LIST[["AUT_1971_IPUMS.RData.df"]]
@@ -120,8 +116,6 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
 
 # AUT 1981 IPUMS #####
 df<-CORE_LIST[["AUT_1981_IPUMS.RData.df"]]
@@ -367,12 +361,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
-
-
-
 # BLR_1999_IPUMS ######
 df<-CORE_LIST[["BLR_1999_IPUMS.RData.df"]]
 
@@ -458,8 +446,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
 # BOL_2012_IPUMS ####
 df<-CORE_LIST[["BOL_2012_IPUMS.RData.df"]]
 
@@ -517,7 +503,6 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
 
 # BRA 1980 IPUMS ####
 df<-CORE_LIST[["BRA_1980_IPUMS.RData.df"]]
@@ -668,10 +653,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
-
 # BWA_1981_IPUMS ######
 df<-CORE_LIST[["BWA_1981_IPUMS.RData.df"]]
 
@@ -726,7 +707,6 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
 
 # CHE_1970_IPUMS ######
 df<-CORE_LIST[["CHE_1970_IPUMS.RData.df"]]
@@ -853,9 +833,6 @@ save(df, file=paste0(unique(df$SAMPLE),".RData"))
 # 
 # save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
 # CIV_1998_IPUMS ######
 # df<-CORE_LIST[["CIV_1998_IPUMS.RData.df"]]
 # 
@@ -870,9 +847,6 @@ save(df, file=paste0(unique(df$SAMPLE),".RData"))
 # 
 # 
 # save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
 
 # CMR_1976_IPUMS ######
 df<-CORE_LIST[["CMR_1976_IPUMS.RData.df"]]
@@ -1043,8 +1017,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
 # ECU_1974_IPUMS ######
 df<-CORE_LIST[["ECU_1974_IPUMS.RData.df"]]
 
@@ -1104,9 +1076,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
 
 # EGY_1986_IPUMS ####
 df<-CORE_LIST[["EGY_1986_IPUMS.RData.df"]]
@@ -1182,7 +1151,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
 # EGY_2006_IPUMS ####
 df<-CORE_LIST[["EGY_2006_IPUMS.RData.df"]]
 
@@ -1219,8 +1187,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
 
 # ESP_1991_IPUMS ######
 df<-CORE_LIST[["ESP_1991_IPUMS.RData.df"]]
@@ -1512,7 +1478,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
 # GIN_1996_IPUMS ####
 df<-CORE_LIST[["GIN_1996_IPUMS.RData.df"]]
 
@@ -1618,11 +1583,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
-
-
 
 # GRC 1971 IPUMS #####
 df<-CORE_LIST[["GRC_1971_IPUMS.RData.df"]]
@@ -1759,8 +1719,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
 # GRC 1991 IPUMS #####
 df<-CORE_LIST[["GRC_1991_IPUMS.RData.df"]]
 
@@ -1827,8 +1785,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
 
 # GRC 2001 IPUMS #####
 
@@ -1934,7 +1890,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
 # GTM_1973_IPUMS ####
 df<-CORE_LIST[["GTM_1973_IPUMS.RData.df"]]
 
@@ -1969,7 +1924,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
 
 # GTM_1981_IPUMS ####
 df<-CORE_LIST[["GTM_1981_IPUMS.RData.df"]]
@@ -2078,13 +2032,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
-
-
-
-
 # HND_1974_IPUMS ######
 df<-CORE_LIST[["HND_1974_IPUMS.RData.df"]]
 
@@ -2120,8 +2067,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
 
 # HTI_1971_IPUMS ######
 df<-CORE_LIST[["HTI_1971_IPUMS.RData.df"]]
@@ -2159,9 +2104,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
 # IDN_1971_IPUMS ######
 df<-CORE_LIST[["IDN_1971_IPUMS.RData.df"]]
 
@@ -2185,7 +2127,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
 
 # IDN_1980_IPUMS ######
 df<-CORE_LIST[["IDN_1980_IPUMS.RData.df"]]
@@ -2568,7 +2509,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
 # IND_2004_IPUMS ####
 df<-CORE_LIST[["IND_2004_IPUMS.RData.df"]]
 
@@ -2639,9 +2579,7 @@ df<-df%>%mutate(S3H=case_when(
 df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
-
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
 
 # IND_2009_IPUMS ####
 df<-CORE_LIST[["IND_2009_IPUMS.RData.df"]]
@@ -2714,15 +2652,6 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
-
-
-
-
-
-
 
 # IRL_1971_IPUMS ######
 df<-CORE_LIST[["IRL_1971_IPUMS.RData.df"]]
@@ -2954,8 +2883,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
 # JOR_2004_IPUMS ####
 df<-CORE_LIST[["JOR_2004_IPUMS.RData.df"]]
 
@@ -2983,10 +2910,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
-
 
 # KEN_1969_IPUMS ######
 df<-CORE_LIST[["KEN_1969_IPUMS.RData.df"]]
@@ -3061,10 +2984,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
-
 # KHM 1998 IPUMS ####
 df<-CORE_LIST[["KHM_1998_IPUMS.RData.df"]]
 
@@ -3099,7 +3018,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
 
 # KHM 2004 IPUMS ####
 df<-CORE_LIST[["KHM_2004_IPUMS.RData.df"]]
@@ -3144,7 +3062,6 @@ df$S3<-with(df, paste(SAMPLE,GEOLEVEL1 , sep="_"))
 
 length(unique(df$GEOLEVEL1))
 unique(df$GEOLEVEL1)
-
 
 df<-df%>%mutate(S3H=case_when(
 S3 == "KHM_2008_IPUMS_116001" ~ 116001,
@@ -3216,9 +3133,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
 # KHM 2019 IPUMS ####
 df<-CORE_LIST[["KHM_2019_IPUMS.RData.df"]]
 
@@ -3261,10 +3175,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
-
 # LAO 1995 IPUMS ####
 df<-CORE_LIST[["LAO_1995_IPUMS.RData.df"]]
 
@@ -3300,12 +3210,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
-
-
-
 
 # LCA 1980 IPUMS ####
 df<-CORE_LIST[["LCA_1980_IPUMS.RData.df"]]
@@ -3355,15 +3259,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
-
-
-
-
-
-
 
 # MEX 1970 IPUMS ####
 df<-CORE_LIST[["MEX_1970_IPUMS.RData.df"]]
@@ -3426,8 +3321,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
 # MEX 2015 IPUMS ####
 df<-CORE_LIST[["MEX_2015_IPUMS.RData.df"]]
 
@@ -3451,9 +3344,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
 
 # MLI 1987 IPUMS ####
 df<-CORE_LIST[["MLI_1987_IPUMS.RData.df"]]
@@ -3536,8 +3426,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
 # MNG_1989_IPUMS ####
 df<-CORE_LIST[["MNG_1989_IPUMS.RData.df"]]
 
@@ -3570,10 +3458,6 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
-
 
 # MOZ 1997 IPUMS ####
 df<-CORE_LIST[["MOZ_1997_IPUMS.RData.df"]]
@@ -3715,11 +3599,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
-
-
 # MYS 1970 IPUMS ####
 df<-CORE_LIST[["MYS_1970_IPUMS.RData.df"]]
 
@@ -3767,7 +3646,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
 
 # NGA_2006_IPUMS ####
 df<-CORE_LIST[["NGA_2006_IPUMS.RData.df"]]
@@ -4835,9 +4713,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
 # POL 2002 IPUMS ####
 df<-CORE_LIST[["POL_2002_IPUMS.RData.df"]]
 
@@ -4900,7 +4775,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
 # PRI 2010 IPUMS ####
 df<-CORE_LIST[["PRI_2010_IPUMS.RData.df"]]
 unique(df$GEOLEVEL1)
@@ -4924,7 +4798,6 @@ save(df, file=paste0(unique(df$SAMPLE),".RData"))
 # length(unique(df$S3H))
 # 
 # save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
 
 # PRT 1981 IPUMS#####
 df<-CORE_LIST[["PRT_1981_IPUMS.RData.df"]]
@@ -5063,11 +4936,6 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
-
-
 
 # PRY 1962 IPUMS ####
 df<-CORE_LIST[["PRY_1962_IPUMS.RData.df"]]
@@ -5208,11 +5076,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
-
-
 # THA_1980_IPUMS ####
 df<-CORE_LIST[["THA_1980_IPUMS.RData.df"]]
 
@@ -5293,14 +5156,6 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
-
-
-
-
-
 
 # THA_1990_IPUMS ####
 df<-CORE_LIST[["THA_1990_IPUMS.RData.df"]]
@@ -5464,10 +5319,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
-
 # TZA 1988 IPUMS ####
 df<-CORE_LIST[["TZA_1988_IPUMS.RData.df"]]
 
@@ -5501,8 +5352,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
 
 # UGA_1991_IPUMS ####
 df<-CORE_LIST[["UGA_1991_IPUMS.RData.df"]]
@@ -5906,9 +5755,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
 # SVN_2002_IPUMS ####
 df<-CORE_LIST[["SVN_2002_IPUMS.RData.df"]]
 
@@ -5965,8 +5811,6 @@ S3 == "SLE_2004_IPUMS_694042" ~ 694004
 
 df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
-
-
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
 # SLE_2015_IPUMS ####
@@ -6000,9 +5844,6 @@ head(df)
 setwd("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_4_CORESIDENCE_DATABASE\\CORESIDENCE_IPUMS_HARMO")
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
 
 # SLV 1992 IPUMS ####
 df<-CORE_LIST[["SLV_1992_IPUMS.RData.df"]]
@@ -6063,7 +5904,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
 
 # ROU 1977 IPUMS #####
 df<-CORE_LIST[["ROU_1977_IPUMS.RData.df"]]
@@ -6221,7 +6061,6 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
 # ROU 2011 IPUMS #####
 df<-CORE_LIST[["ROU_2011_IPUMS.RData.df"]]
 
@@ -6297,7 +6136,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
 
 # RWA_1991_IPUMS #### 
 df<-CORE_LIST[["RWA_1991_IPUMS.RData.df"]]
@@ -6403,8 +6241,6 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
 
 # SSD 2008 IPUMS ####
 df<-CORE_LIST[["SSD_2008_IPUMS.RData.df"]]
@@ -6944,11 +6780,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
-
-
 # VEN 1971 IPUMS ####
 df<-CORE_LIST[["VEN_1971_IPUMS.RData.df"]]
 
@@ -7099,8 +6930,6 @@ save(df, file=paste0(unique(df$SAMPLE),".RData"))
 # READ ALL DHS FILES ####
 setwd("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_1_Input Data\\DHS_ORIGINALS")
 
-
-
 patt.shp <- ".*RData*"
 
 data.shp <-list.files(pattern=patt.shp)
@@ -7205,9 +7034,6 @@ sample_DHS_LIST[["UGA_2018-19_DHS.RData.df"]]<-NULL # MIS
 sample_DHS_LIST[["VNM_2005_DHS.RData.df"]]<-NULL # AIS
 
 sample_DHS_LIST[["BRA_1991_DHS.RData.df"]]<-NULL # NORDEST SAMPLE
-
-
-
 
 library(tidyverse)
 library(tidylog)
@@ -7416,10 +7242,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
-
 # AZE_2006_DHS ####
 df<-CORE_DHS_LIST[["AZE_2006_DHS.RData.df"]]
 
@@ -7443,10 +7265,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
-
-
-
 # BDI_2010_DHS ####
 df<-CORE_DHS_LIST[["BDI_2010_DHS.RData.df"]]
 
@@ -7465,10 +7283,6 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
-
 
 # BDI_2016-17_DHS ####
 df<-CORE_DHS_LIST[["BDI_2016-17_DHS.RData.df"]]
@@ -7501,10 +7315,6 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
-
-
-
-
 
 # BEN_1996_DHS ####
 df<-CORE_DHS_LIST[["BEN_1996_DHS.RData.df"]]
@@ -7549,7 +7359,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
 # BEN_2006_DHS ####
 df<-CORE_DHS_LIST[["BEN_2006_DHS.RData.df"]]
 
@@ -7583,7 +7392,6 @@ save(df, file=paste0(unique(df$SAMPLE),".RData"))
 df<-CORE_DHS_LIST[["BEN_2011-12_DHS.RData.df"]]
 
 df$S3<-with(df, paste(SAMPLE,HV024 , sep="_"))
-
 
 df<-df%>%mutate(S3H=case_when(
   
@@ -7636,7 +7444,6 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
-
 # BFA_2003_DHS ####
 df<-CORE_DHS_LIST[["BFA_2003_DHS.RData.df"]]
 
@@ -7660,7 +7467,6 @@ df<-df%>%mutate(S3H=case_when(
   S3 == "BFA_2003_DHS_13" ~ 854012,
   S3 == "BFA_2003_DHS_14" ~ 854013
 ))
-
 
 df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
@@ -7732,7 +7538,6 @@ df<-df%>%mutate(S3H=case_when(
   S3 == "BGD_1996-97_DHS_5" ~ 050050,
   S3 == "BGD_1996-97_DHS_6" ~ 050020
 ))
-
 
 df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
