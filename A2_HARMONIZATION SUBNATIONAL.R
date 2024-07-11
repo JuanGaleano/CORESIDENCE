@@ -93,6 +93,10 @@ head(df)
 unique(df$GEOLEVEL1)
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
+
 # AUT 1971 IPUMS #####
 
 df<-CORE_LIST[["AUT_1971_IPUMS.RData.df"]]
@@ -116,6 +120,8 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
 
 # AUT 1981 IPUMS #####
 df<-CORE_LIST[["AUT_1981_IPUMS.RData.df"]]
@@ -361,6 +367,12 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
+
+
+
 # BLR_1999_IPUMS ######
 df<-CORE_LIST[["BLR_1999_IPUMS.RData.df"]]
 
@@ -446,6 +458,8 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
 # BOL_2012_IPUMS ####
 df<-CORE_LIST[["BOL_2012_IPUMS.RData.df"]]
 
@@ -503,6 +517,7 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
 
 # BRA 1980 IPUMS ####
 df<-CORE_LIST[["BRA_1980_IPUMS.RData.df"]]
@@ -653,6 +668,10 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
+
 # BWA_1981_IPUMS ######
 df<-CORE_LIST[["BWA_1981_IPUMS.RData.df"]]
 
@@ -707,6 +726,7 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
 
 # CHE_1970_IPUMS ######
 df<-CORE_LIST[["CHE_1970_IPUMS.RData.df"]]
@@ -833,6 +853,9 @@ save(df, file=paste0(unique(df$SAMPLE),".RData"))
 # 
 # save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
 # CIV_1998_IPUMS ######
 # df<-CORE_LIST[["CIV_1998_IPUMS.RData.df"]]
 # 
@@ -847,6 +870,9 @@ save(df, file=paste0(unique(df$SAMPLE),".RData"))
 # 
 # 
 # save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
 
 # CMR_1976_IPUMS ######
 df<-CORE_LIST[["CMR_1976_IPUMS.RData.df"]]
@@ -1017,6 +1043,8 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
 # ECU_1974_IPUMS ######
 df<-CORE_LIST[["ECU_1974_IPUMS.RData.df"]]
 
@@ -1076,6 +1104,9 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
 
 # EGY_1986_IPUMS ####
 df<-CORE_LIST[["EGY_1986_IPUMS.RData.df"]]
@@ -1151,6 +1182,7 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
 # EGY_2006_IPUMS ####
 df<-CORE_LIST[["EGY_2006_IPUMS.RData.df"]]
 
@@ -1187,6 +1219,8 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
 
 # ESP_1991_IPUMS ######
 df<-CORE_LIST[["ESP_1991_IPUMS.RData.df"]]
@@ -1478,6 +1512,7 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
 # GIN_1996_IPUMS ####
 df<-CORE_LIST[["GIN_1996_IPUMS.RData.df"]]
 
@@ -1583,6 +1618,11 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
+
+
 
 # GRC 1971 IPUMS #####
 df<-CORE_LIST[["GRC_1971_IPUMS.RData.df"]]
@@ -1719,6 +1759,8 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
 # GRC 1991 IPUMS #####
 df<-CORE_LIST[["GRC_1991_IPUMS.RData.df"]]
 
@@ -1785,6 +1827,8 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
 
 # GRC 2001 IPUMS #####
 
@@ -1890,6 +1934,7 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
 # GTM_1973_IPUMS ####
 df<-CORE_LIST[["GTM_1973_IPUMS.RData.df"]]
 
@@ -1924,6 +1969,7 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
 
 # GTM_1981_IPUMS ####
 df<-CORE_LIST[["GTM_1981_IPUMS.RData.df"]]
@@ -2032,6 +2078,13 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
+
+
+
+
 # HND_1974_IPUMS ######
 df<-CORE_LIST[["HND_1974_IPUMS.RData.df"]]
 
@@ -2067,6 +2120,8 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
 
 # HTI_1971_IPUMS ######
 df<-CORE_LIST[["HTI_1971_IPUMS.RData.df"]]
@@ -2104,6 +2159,9 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
 # IDN_1971_IPUMS ######
 df<-CORE_LIST[["IDN_1971_IPUMS.RData.df"]]
 
@@ -2127,6 +2185,7 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
 
 # IDN_1980_IPUMS ######
 df<-CORE_LIST[["IDN_1980_IPUMS.RData.df"]]
@@ -2509,6 +2568,7 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
 # IND_2004_IPUMS ####
 df<-CORE_LIST[["IND_2004_IPUMS.RData.df"]]
 
@@ -2579,7 +2639,9 @@ df<-df%>%mutate(S3H=case_when(
 df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
+
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
 
 # IND_2009_IPUMS ####
 df<-CORE_LIST[["IND_2009_IPUMS.RData.df"]]
@@ -2652,6 +2714,15 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
+
+
+
+
+
+
 
 # IRL_1971_IPUMS ######
 df<-CORE_LIST[["IRL_1971_IPUMS.RData.df"]]
@@ -2883,6 +2954,8 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
 # JOR_2004_IPUMS ####
 df<-CORE_LIST[["JOR_2004_IPUMS.RData.df"]]
 
@@ -2910,6 +2983,10 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
+
 
 # KEN_1969_IPUMS ######
 df<-CORE_LIST[["KEN_1969_IPUMS.RData.df"]]
@@ -2984,6 +3061,10 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
+
 # KHM 1998 IPUMS ####
 df<-CORE_LIST[["KHM_1998_IPUMS.RData.df"]]
 
@@ -3018,6 +3099,7 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
 
 # KHM 2004 IPUMS ####
 df<-CORE_LIST[["KHM_2004_IPUMS.RData.df"]]
@@ -3062,6 +3144,7 @@ df$S3<-with(df, paste(SAMPLE,GEOLEVEL1 , sep="_"))
 
 length(unique(df$GEOLEVEL1))
 unique(df$GEOLEVEL1)
+
 
 df<-df%>%mutate(S3H=case_when(
 S3 == "KHM_2008_IPUMS_116001" ~ 116001,
@@ -3133,6 +3216,9 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
 # KHM 2019 IPUMS ####
 df<-CORE_LIST[["KHM_2019_IPUMS.RData.df"]]
 
@@ -3175,6 +3261,10 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
+
 # LAO 1995 IPUMS ####
 df<-CORE_LIST[["LAO_1995_IPUMS.RData.df"]]
 
@@ -3210,6 +3300,12 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
+
+
+
 
 # LCA 1980 IPUMS ####
 df<-CORE_LIST[["LCA_1980_IPUMS.RData.df"]]
@@ -3259,6 +3355,15 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
+
+
+
+
+
+
 
 # MEX 1970 IPUMS ####
 df<-CORE_LIST[["MEX_1970_IPUMS.RData.df"]]
@@ -3321,6 +3426,8 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
 # MEX 2015 IPUMS ####
 df<-CORE_LIST[["MEX_2015_IPUMS.RData.df"]]
 
@@ -3344,6 +3451,9 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
 
 # MLI 1987 IPUMS ####
 df<-CORE_LIST[["MLI_1987_IPUMS.RData.df"]]
@@ -3426,6 +3536,8 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
 # MNG_1989_IPUMS ####
 df<-CORE_LIST[["MNG_1989_IPUMS.RData.df"]]
 
@@ -3458,6 +3570,10 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
+
 
 # MOZ 1997 IPUMS ####
 df<-CORE_LIST[["MOZ_1997_IPUMS.RData.df"]]
@@ -3599,6 +3715,11 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
+
+
 # MYS 1970 IPUMS ####
 df<-CORE_LIST[["MYS_1970_IPUMS.RData.df"]]
 
@@ -3646,6 +3767,7 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
 
 # NGA_2006_IPUMS ####
 df<-CORE_LIST[["NGA_2006_IPUMS.RData.df"]]
@@ -4713,6 +4835,9 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
 # POL 2002 IPUMS ####
 df<-CORE_LIST[["POL_2002_IPUMS.RData.df"]]
 
@@ -4775,6 +4900,7 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
 # PRI 2010 IPUMS ####
 df<-CORE_LIST[["PRI_2010_IPUMS.RData.df"]]
 unique(df$GEOLEVEL1)
@@ -4798,6 +4924,7 @@ save(df, file=paste0(unique(df$SAMPLE),".RData"))
 # length(unique(df$S3H))
 # 
 # save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
 
 # PRT 1981 IPUMS#####
 df<-CORE_LIST[["PRT_1981_IPUMS.RData.df"]]
@@ -4936,6 +5063,11 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
+
+
 
 # PRY 1962 IPUMS ####
 df<-CORE_LIST[["PRY_1962_IPUMS.RData.df"]]
@@ -5076,6 +5208,11 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
+
+
 # THA_1980_IPUMS ####
 df<-CORE_LIST[["THA_1980_IPUMS.RData.df"]]
 
@@ -5156,6 +5293,14 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
+
+
+
+
+
 
 # THA_1990_IPUMS ####
 df<-CORE_LIST[["THA_1990_IPUMS.RData.df"]]
@@ -5319,6 +5464,10 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
+
 # TZA 1988 IPUMS ####
 df<-CORE_LIST[["TZA_1988_IPUMS.RData.df"]]
 
@@ -5352,6 +5501,8 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
 
 # UGA_1991_IPUMS ####
 df<-CORE_LIST[["UGA_1991_IPUMS.RData.df"]]
@@ -5755,6 +5906,9 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
 # SVN_2002_IPUMS ####
 df<-CORE_LIST[["SVN_2002_IPUMS.RData.df"]]
 
@@ -5811,6 +5965,8 @@ S3 == "SLE_2004_IPUMS_694042" ~ 694004
 
 df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
+
+
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
 # SLE_2015_IPUMS ####
@@ -5844,6 +6000,9 @@ head(df)
 setwd("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_4_CORESIDENCE_DATABASE\\CORESIDENCE_IPUMS_HARMO")
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
 
 # SLV 1992 IPUMS ####
 df<-CORE_LIST[["SLV_1992_IPUMS.RData.df"]]
@@ -5904,6 +6063,7 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
 
 # ROU 1977 IPUMS #####
 df<-CORE_LIST[["ROU_1977_IPUMS.RData.df"]]
@@ -6061,6 +6221,7 @@ length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
 # ROU 2011 IPUMS #####
 df<-CORE_LIST[["ROU_2011_IPUMS.RData.df"]]
 
@@ -6136,6 +6297,7 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
 
 # RWA_1991_IPUMS #### 
 df<-CORE_LIST[["RWA_1991_IPUMS.RData.df"]]
@@ -6241,6 +6403,8 @@ head(df)
 length(unique(df$S3H))
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
 
 # SSD 2008 IPUMS ####
 df<-CORE_LIST[["SSD_2008_IPUMS.RData.df"]]
@@ -6780,6 +6944,11 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
+
+
 # VEN 1971 IPUMS ####
 df<-CORE_LIST[["VEN_1971_IPUMS.RData.df"]]
 
@@ -6930,6 +7099,8 @@ save(df, file=paste0(unique(df$SAMPLE),".RData"))
 # READ ALL DHS FILES ####
 setwd("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_1_Input Data\\DHS_ORIGINALS")
 
+
+
 patt.shp <- ".*RData*"
 
 data.shp <-list.files(pattern=patt.shp)
@@ -7034,6 +7205,9 @@ sample_DHS_LIST[["UGA_2018-19_DHS.RData.df"]]<-NULL # MIS
 sample_DHS_LIST[["VNM_2005_DHS.RData.df"]]<-NULL # AIS
 
 sample_DHS_LIST[["BRA_1991_DHS.RData.df"]]<-NULL # NORDEST SAMPLE
+
+
+
 
 library(tidyverse)
 library(tidylog)
@@ -7242,6 +7416,10 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
+
 # AZE_2006_DHS ####
 df<-CORE_DHS_LIST[["AZE_2006_DHS.RData.df"]]
 
@@ -7265,6 +7443,10 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
+
+
+
 # BDI_2010_DHS ####
 df<-CORE_DHS_LIST[["BDI_2010_DHS.RData.df"]]
 
@@ -7283,6 +7465,10 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
+
 
 # BDI_2016-17_DHS ####
 df<-CORE_DHS_LIST[["BDI_2016-17_DHS.RData.df"]]
@@ -7315,6 +7501,10 @@ df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+
+
+
 
 # BEN_1996_DHS ####
 df<-CORE_DHS_LIST[["BEN_1996_DHS.RData.df"]]
@@ -7359,6 +7549,7 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
 # BEN_2006_DHS ####
 df<-CORE_DHS_LIST[["BEN_2006_DHS.RData.df"]]
 
@@ -7392,6 +7583,7 @@ save(df, file=paste0(unique(df$SAMPLE),".RData"))
 df<-CORE_DHS_LIST[["BEN_2011-12_DHS.RData.df"]]
 
 df$S3<-with(df, paste(SAMPLE,HV024 , sep="_"))
+
 
 df<-df%>%mutate(S3H=case_when(
   
@@ -7444,6 +7636,7 @@ head(df)
 
 save(df, file=paste0(unique(df$SAMPLE),".RData"))
 
+
 # BFA_2003_DHS ####
 df<-CORE_DHS_LIST[["BFA_2003_DHS.RData.df"]]
 
@@ -7467,6 +7660,7 @@ df<-df%>%mutate(S3H=case_when(
   S3 == "BFA_2003_DHS_13" ~ 854012,
   S3 == "BFA_2003_DHS_14" ~ 854013
 ))
+
 
 df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
@@ -7538,6 +7732,7 @@ df<-df%>%mutate(S3H=case_when(
   S3 == "BGD_1996-97_DHS_5" ~ 050050,
   S3 == "BGD_1996-97_DHS_6" ~ 050020
 ))
+
 
 df$S3H<- sprintf("%.6d",df$S3H)
 head(df)
@@ -16690,12 +16885,258 @@ save(df, file=paste0(unique(df$SAMPLE),".RData"))
 getwd()
 
 
-#######
+# CHINESE CENSUS ######
 
-CORESIDENCE_AGG_SUB<-SUBNAT_DB
-CORESIDENCE_AGG_SUB[CORESIDENCE_AGG_SUB$S1=="VNM_2014_MICS",c(14,7)]%>%arrange(S3)
-CORESIDENCE_AGG_SUB[CORESIDENCE_AGG_SUB$S1=="ITA_2015_LFS",c(5,6,13)]
-clipr::write_clip(df)
+#CHN_2010_CCENSUS ######
+setwd("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_4_CORESIDENCE_DATABASE\\CORESIDENCE_CCENSUS_HARMO")
+
+load("s_2010.Rda")
+df<-data2010
+
+head(df)
+df<-df|>drop_na(RELATE)
+unique(df$GEOLEVEL1_IPUMS)
+
+# ADD NECESSARY COLUMNS AND RECODE RELATE #####
+df$PWEIGHT<-1
+# AGE GOUPS ###### 
+df$AGE2<-with(df,  ifelse(AGE==999, "999",
+                          ifelse(AGE<=4, "0-4",
+                                 ifelse(AGE<=9, "5-9", 
+                                        ifelse(AGE<=14, "10-14",
+                                               ifelse(AGE<=19, "15-19",
+                                                      ifelse(AGE<=24, "20-24",
+                                                             ifelse(AGE<=29, "25-29",
+                                                                    ifelse(AGE<=34, "30-34",
+                                                                           ifelse(AGE<=39, "35-39",
+                                                                                  ifelse(AGE<=44, "40-44",
+                                                                                         ifelse(AGE<=49, "45-49",
+                                                                                                ifelse(AGE<=54, "50-54",
+                                                                                                       ifelse(AGE<=59, "55-59",
+                                                                                                              ifelse(AGE<=64, "60-64",
+                                                                                                                     ifelse(AGE<=69, "65-69",
+                                                                                                                            ifelse(AGE<=74, "70-74",
+                                                                                                                                   ifelse(AGE<=79, "75-79",
+                                                                                                                                          ifelse(AGE<=84, "80-84",
+                                                                                                                                                 ifelse(AGE<=89, "85-89",
+                                                                                                                                                        ifelse(AGE<=94, "90-94","95+")))))))))))))))))))))
+
+# CENSUS ROUND ###### 
+df$CENSUS_ROUND<-with(df,ifelse((YEAR>=1956 & YEAR <=1965), 1960,
+                                ifelse((YEAR>=1966 & YEAR <=1975), 1970,
+                                       ifelse((YEAR>=1976 & YEAR <=1985), 1980,
+                                              ifelse((YEAR>=1986 & YEAR <=1995), 1990,
+                                                     ifelse((YEAR>=1996 & YEAR <=2005), 2000,
+                                                            ifelse((YEAR>=2006 & YEAR <=2015), 2010,
+                                                                   ifelse((YEAR>=2016 & YEAR <=2025), 2020,0))))))))
+# DECADE ###### 
+df$DECADE<-with(df,ifelse((YEAR>=1951 & YEAR <=1960), 1950,
+                          ifelse((YEAR>=1961 & YEAR <=1970), 1960,
+                                 ifelse((YEAR>=1971 & YEAR <=1980), 1970,
+                                        ifelse((YEAR>=1981 & YEAR <=1990), 1980,
+                                               ifelse((YEAR>=1991 & YEAR <=2000), 1990,
+                                                      ifelse((YEAR>=2001 & YEAR <=2010), 2000,
+                                                             ifelse((YEAR>=2011 & YEAR <=2020), 2010,
+                                                                    ifelse((YEAR>=2021 & YEAR <=2030), 2020,0)))))))))
+
+# FIVE YEARS ######
+df$FIVE_YEAR<-with(df,ifelse((YEAR>=1951 & YEAR <=1955), 1951,
+                             ifelse((YEAR>=1956 & YEAR <=1960), 1956,
+                                    ifelse((YEAR>=1961 & YEAR <=1965), 1961,
+                                           ifelse((YEAR>=1966 & YEAR <=1970), 1966,
+                                                  ifelse((YEAR>=1971 & YEAR <=1975), 1971,
+                                                         ifelse((YEAR>=1976 & YEAR <=1980), 1976,
+                                                                ifelse((YEAR>=1981 & YEAR <=1985), 1981,
+                                                                       ifelse((YEAR>=1986 & YEAR <=1990), 1986,
+                                                                              ifelse((YEAR>=1991 & YEAR <=1995), 1991,
+                                                                                     ifelse((YEAR>=1996 & YEAR <=2000), 1996,
+                                                                                            ifelse((YEAR>=2001 & YEAR <=2005), 2001,
+                                                                                                   ifelse((YEAR>=2006 & YEAR <=2010), 2006,
+                                                                                                          ifelse((YEAR>=2011 & YEAR <=2015), 2011,
+                                                                                                                 ifelse((YEAR>=2016 & YEAR <=2020), 2016,
+                                                                                                                        ifelse((YEAR>=2021 & YEAR <=2025), 2021,0))))))))))))))))
 
 
 
+
+
+df$CNTRY_ISO <-"CHN"
+df$CNTRY<-"China"
+df$CONTINENT<-"ASIA"
+df$CONTINENT2<-"Eastern Asia"
+df$SOURCE<-"CCENSUS"
+df$SAMPLE<-with(df,paste(CNTRY_ISO, YEAR, SOURCE, sep="_"))
+df$hh<-1
+df$RELATEO<-unclass(df$RELATE)
+df<-df|>
+  mutate(RELATED= case_when(RELATEO == "0" ~ 1000,
+                            RELATEO == "1" ~ 2100,
+                            RELATEO == "2" ~ 3100,
+                            RELATEO == "3" ~ 4210,
+                            RELATEO == "4" ~ 4220,
+                            RELATEO == "5" ~ 4500,
+                            RELATEO == "6" ~ 4300,
+                            RELATEO == "7" ~ 4100,
+                            RELATEO == "8" ~ 4410,
+                            RELATEO == "9" ~ 4900
+  ),
+  RELATE= case_when(RELATEO == "0" ~ 1,
+                    RELATEO == "1" ~ 2,
+                    RELATEO == "2" ~ 3,
+                    RELATEO == "3" ~ 4,
+                    RELATEO == "4" ~ 4,
+                    RELATEO == "5" ~ 4,
+                    RELATEO == "6" ~ 4,
+                    RELATEO == "7" ~ 4,
+                    RELATEO == "8" ~ 4,
+                    RELATEO == "9" ~ 4
+  )
+  )
+
+
+
+df$S3<-with(df, paste(SAMPLE,GEOLEVEL1 , sep="_"))
+df$S3H<-df$GEOLEVEL1_IPUMS
+
+df$S3H<- sprintf("%.6d",df$S3H)
+head(df)
+
+regions<-c("156011", "156012", "156013", "156014", "156015",
+           "156021", "156022", "156023", "156031", "156032",
+           "156033", "156034", "156035", "156036", "156037",
+           "156041", "156042", "156043", "156044", "156045", 
+           "156051", "156052", "156053", "156054", "156061", 
+           "156062", "156063", "156064", "156065")
+
+df<-df|>filter(S3H %in% regions)
+unique(df$S3H)
+
+
+save(df, file=paste0(unique(df$SAMPLE),".RData"))
+
+#CHN_2015_CCENSUS ######
+setwd("G:\\Shared drives\\CORESIDENCE\\WP2_DATA\\2_4_CORESIDENCE_DATABASE\\CORESIDENCE_CCENSUS_HARMO")
+
+load("s_2015.Rda")
+df<-data2015
+
+head(df)
+df<-df|>drop_na(RELATE)
+unique(df$GEOLEVEL1_IPUMS)
+
+# ADD NECESSARY COLUMNS AND RECODE RELATE #####
+df$PWEIGHT<-1
+# AGE GOUPS ###### 
+df$AGE2<-with(df,  ifelse(AGE==999, "999",
+                          ifelse(AGE<=4, "0-4",
+                                 ifelse(AGE<=9, "5-9", 
+                                        ifelse(AGE<=14, "10-14",
+                                               ifelse(AGE<=19, "15-19",
+                                                      ifelse(AGE<=24, "20-24",
+                                                             ifelse(AGE<=29, "25-29",
+                                                                    ifelse(AGE<=34, "30-34",
+                                                                           ifelse(AGE<=39, "35-39",
+                                                                                  ifelse(AGE<=44, "40-44",
+                                                                                         ifelse(AGE<=49, "45-49",
+                                                                                                ifelse(AGE<=54, "50-54",
+                                                                                                       ifelse(AGE<=59, "55-59",
+                                                                                                              ifelse(AGE<=64, "60-64",
+                                                                                                                     ifelse(AGE<=69, "65-69",
+                                                                                                                            ifelse(AGE<=74, "70-74",
+                                                                                                                                   ifelse(AGE<=79, "75-79",
+                                                                                                                                          ifelse(AGE<=84, "80-84",
+                                                                                                                                                 ifelse(AGE<=89, "85-89",
+                                                                                                                                                        ifelse(AGE<=94, "90-94","95+")))))))))))))))))))))
+
+# CENSUS ROUND ###### 
+df$CENSUS_ROUND<-with(df,ifelse((YEAR>=1956 & YEAR <=1965), 1960,
+                                ifelse((YEAR>=1966 & YEAR <=1975), 1970,
+                                       ifelse((YEAR>=1976 & YEAR <=1985), 1980,
+                                              ifelse((YEAR>=1986 & YEAR <=1995), 1990,
+                                                     ifelse((YEAR>=1996 & YEAR <=2005), 2000,
+                                                            ifelse((YEAR>=2006 & YEAR <=2015), 2010,
+                                                                   ifelse((YEAR>=2016 & YEAR <=2025), 2020,0))))))))
+# DECADE ###### 
+df$DECADE<-with(df,ifelse((YEAR>=1951 & YEAR <=1960), 1950,
+                          ifelse((YEAR>=1961 & YEAR <=1970), 1960,
+                                 ifelse((YEAR>=1971 & YEAR <=1980), 1970,
+                                        ifelse((YEAR>=1981 & YEAR <=1990), 1980,
+                                               ifelse((YEAR>=1991 & YEAR <=2000), 1990,
+                                                      ifelse((YEAR>=2001 & YEAR <=2010), 2000,
+                                                             ifelse((YEAR>=2011 & YEAR <=2020), 2010,
+                                                                    ifelse((YEAR>=2021 & YEAR <=2030), 2020,0)))))))))
+
+# FIVE YEARS ######
+df$FIVE_YEAR<-with(df,ifelse((YEAR>=1951 & YEAR <=1955), 1951,
+                             ifelse((YEAR>=1956 & YEAR <=1960), 1956,
+                                    ifelse((YEAR>=1961 & YEAR <=1965), 1961,
+                                           ifelse((YEAR>=1966 & YEAR <=1970), 1966,
+                                                  ifelse((YEAR>=1971 & YEAR <=1975), 1971,
+                                                         ifelse((YEAR>=1976 & YEAR <=1980), 1976,
+                                                                ifelse((YEAR>=1981 & YEAR <=1985), 1981,
+                                                                       ifelse((YEAR>=1986 & YEAR <=1990), 1986,
+                                                                              ifelse((YEAR>=1991 & YEAR <=1995), 1991,
+                                                                                     ifelse((YEAR>=1996 & YEAR <=2000), 1996,
+                                                                                            ifelse((YEAR>=2001 & YEAR <=2005), 2001,
+                                                                                                   ifelse((YEAR>=2006 & YEAR <=2010), 2006,
+                                                                                                          ifelse((YEAR>=2011 & YEAR <=2015), 2011,
+                                                                                                                 ifelse((YEAR>=2016 & YEAR <=2020), 2016,
+                                                                                                                        ifelse((YEAR>=2021 & YEAR <=2025), 2021,0))))))))))))))))
+
+
+
+
+
+df$CNTRY_ISO <-"CHN"
+df$CNTRY<-"China"
+df$CONTINENT<-"ASIA"
+df$CONTINENT2<-"Eastern Asia"
+df$SOURCE<-"CCENSUS"
+df$SAMPLE<-with(df,paste(CNTRY_ISO, YEAR, SOURCE, sep="_"))
+df$hh<-1
+df$RELATEO<-unclass(df$RELATE)
+df<-df|>
+  mutate(RELATED= case_when(RELATEO == "0" ~ 1000,
+                            RELATEO == "1" ~ 2100,
+                            RELATEO == "2" ~ 3100,
+                            RELATEO == "3" ~ 4210,
+                            RELATEO == "4" ~ 4220,
+                            RELATEO == "5" ~ 4500,
+                            RELATEO == "6" ~ 4300,
+                            RELATEO == "7" ~ 4100,
+                            RELATEO == "8" ~ 4410,
+                            RELATEO == "9" ~ 4900
+  ),
+  RELATE= case_when(RELATEO == "0" ~ 1,
+                    RELATEO == "1" ~ 2,
+                    RELATEO == "2" ~ 3,
+                    RELATEO == "3" ~ 4,
+                    RELATEO == "4" ~ 4,
+                    RELATEO == "5" ~ 4,
+                    RELATEO == "6" ~ 4,
+                    RELATEO == "7" ~ 4,
+                    RELATEO == "8" ~ 4,
+                    RELATEO == "9" ~ 4
+  )
+  )
+
+
+
+df$S3<-with(df, paste(SAMPLE,GEOLEVEL1 , sep="_"))
+df$S3H<-df$GEOLEVEL1_IPUMS
+
+df$S3H<- sprintf("%.6d",df$S3H)
+head(df)
+
+regions<-c("156011", "156012", "156013", "156014", "156015",
+           "156021", "156022", "156023", "156031", "156032",
+           "156033", "156034", "156035", "156036", "156037",
+           "156041", "156042", "156043", "156044", "156045", 
+           "156051", "156052", "156053", "156054", "156061", 
+           "156062", "156063", "156064", "156065")
+
+df<-df|>filter(S3H %in% regions)
+unique(df$S3H)
+
+
+save(df, file=paste0(unique(df$SAMPLE),".RData"))
