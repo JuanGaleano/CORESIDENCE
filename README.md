@@ -33,7 +33,7 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
 [2024, Asian Population Studies, **Five decades of household change across Asian societies**](https://www.tandfonline.com/doi/full/10.1080/17441730.2024.2431752) 
 
-[2024, Population and Develepment Review, **Rising Female-Headed Households: Shifts in Living Arrangements or Heightened Gender Symmetry?**]([https://www.tandfonline.com/doi/full/10.1080/17441730.2024.2431752](https://onlinelibrary.wiley.com/doi/10.1111/padr.12692)) 
+[2024, Population and Develepment Review, **Rising Female-Headed Households: Shifts in Living Arrangements or Heightened Gender Symmetry?**](https://onlinelibrary.wiley.com/doi/10.1111/padr.12692) 
 
 [2025, Population Studies, **African households: National and subnational trends from censuses and surveys**](https://www.tandfonline.com/doi/full/10.1080/00324728.2024.2427580?scroll=top&needAccess=true) 
 
