@@ -29,7 +29,16 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
 [2024, Genus, **A global perspective on household size and composition, 1970–2020**](https://genus.springeropen.com/articles/10.1186/s41118-024-00211-6)     
 
-[2024, Population and Development Review, **Trends in Living Arrangements Around the World**](https://onlinelibrary.wiley.com/doi/10.1111/padr.12603)      
+[2024, Population and Development Review, **Trends in Living Arrangements Around the World**](https://onlinelibrary.wiley.com/doi/10.1111/padr.12603) 
+
+[2024, Asian Population Studies, **Five decades of household change across Asian societies**](https://www.tandfonline.com/doi/full/10.1080/17441730.2024.2431752) 
+
+[2024, Population and Develepment Review, **Rising Female-Headed Households: Shifts in Living Arrangements or Heightened Gender Symmetry?**]([https://www.tandfonline.com/doi/full/10.1080/17441730.2024.2431752](https://onlinelibrary.wiley.com/doi/10.1111/padr.12692)) 
+
+[2025, Population Studies, **African households: National and subnational trends from censuses and surveys**](https://www.tandfonline.com/doi/full/10.1080/00324728.2024.2427580?scroll=top&needAccess=true) 
+
+
+
 
 ## Access and download the CORESIDENCE database (CoDB)
 
