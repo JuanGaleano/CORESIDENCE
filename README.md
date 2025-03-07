@@ -53,6 +53,8 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
       
 ![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/PAAposter_huifen.png)
 
+#### European Population Conference,Edinburgh, Scotland. 12-15 June, 2024
+![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/POSTER_RITA_EPC_2024.jpg)
 
 ## Contact
  
