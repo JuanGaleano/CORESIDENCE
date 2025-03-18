@@ -1,0 +1,513 @@
+LAV,LAVQ,LAT,LATQ,Father,Mother,Sibling,Granchild,Granparent,Other relative,Non-relative,LAI
+0,Living alone,10,Alone,0,0,0,0,0,0,0,100000000
+1,Father,20,With single parent,1,0,0,0,0,0,0,201000000
+17,Father+Sibling,20,With single parent,1,0,3,0,0,0,0,201030000
+2,Mother,20,With single parent,0,2,0,0,0,0,0,200200000
+18,Mother+Sibling,20,With single parent,0,2,3,0,0,0,0,200230000
+33,Father+Grandaparent,21,With single parent extended,1,0,0,0,5,0,0,211000500
+97,Father+Grandaparent+Grandchild,21,With single parent extended,1,0,0,4,5,0,0,211004500
+225,Father+Grandaparent+Grandchild+Other relative,21,With single parent extended,1,0,0,4,5,6,0,211004560
+161,Father+Grandaparent+Other relative,21,With single parent extended,1,0,0,0,5,6,0,211000560
+65,Father+Grandchild,21,With single parent extended,1,0,0,4,0,0,0,211004000
+193,Father+Grandchild+Other relative,21,With single parent extended,1,0,0,4,0,6,0,211004060
+129,Father+Other relative,21,With single parent extended,1,0,0,0,0,6,0,211000060
+49,Father+Sibling+Grandaparent,21,With single parent extended,1,0,3,0,5,0,0,211030500
+113,Father+Sibling+Grandaparent+Grandchild,21,With single parent extended,1,0,3,4,5,0,0,211034500
+241,Father+Sibling+Grandaparent+Grandchild+Other relative,21,With single parent extended,1,0,3,4,5,6,0,211034560
+177,Father+Sibling+Grandaparent+Other relative,21,With single parent extended,1,0,3,0,5,6,0,211030560
+81,Father+Sibling+Grandchild,21,With single parent extended,1,0,3,4,0,0,0,211034000
+209,Father+Sibling+Grandchild+Other relative,21,With single parent extended,1,0,3,4,0,6,0,211034060
+145,Father+Sibling+Other relative,21,With single parent extended,1,0,3,0,0,6,0,211030060
+34,Mother+Grandaparent,21,With single parent extended,0,2,0,0,5,0,0,210200500
+98,Mother+Grandaparent+Grandchild,21,With single parent extended,0,2,0,4,5,0,0,210204500
+226,Mother+Grandaparent+Grandchild+Other relative,21,With single parent extended,0,2,0,4,5,6,0,210204560
+162,Mother+Grandaparent+Other relative,21,With single parent extended,0,2,0,0,5,6,0,210200560
+66,Mother+Grandchild,21,With single parent extended,0,2,0,4,0,0,0,210204000
+194,Mother+Grandchild+Other relative,21,With single parent extended,0,2,0,4,0,6,0,210204060
+130,Mother+Other relative,21,With single parent extended,0,2,0,0,0,6,0,210200060
+50,Mother+Sibling+Grandaparent,21,With single parent extended,0,2,3,0,5,0,0,210230500
+114,Mother+Sibling+Grandaparent+Grandchild,21,With single parent extended,0,2,3,4,5,0,0,210234500
+242,Mother+Sibling+Grandaparent+Grandchild+Other relative,21,With single parent extended,0,2,3,4,5,6,0,210234560
+178,Mother+Sibling+Grandaparent+Other relative,21,With single parent extended,0,2,3,0,5,6,0,210230560
+82,Mother+Sibling+Grandchild,21,With single parent extended,0,2,3,4,0,0,0,210234000
+210,Mother+Sibling+Grandchild+Other relative,21,With single parent extended,0,2,3,4,0,6,0,210234060
+146,Mother+Sibling+Other relative,21,With single parent extended,0,2,3,0,0,6,0,210230060
+353,Father+Grandaparent+Grandchild+Non-relative,22,With single parent extended composite,1,0,0,4,5,0,7,221004507
+481,Father+Grandaparent+Grandchild+Other relative+Non-relative,22,With single parent extended composite,1,0,0,4,5,6,7,221004567
+289,Father+Grandaparent+Non-relative,22,With single parent extended composite,1,0,0,0,5,0,7,221000507
+417,Father+Grandaparent+Other relative+Non-relative,22,With single parent extended composite,1,0,0,0,5,6,7,221000567
+321,Father+Grandchild+Non-relative,22,With single parent extended composite,1,0,0,4,0,0,7,221004007
+449,Father+Grandchild+Other relative+Non-relative,22,With single parent extended composite,1,0,0,4,0,6,7,221004067
+257,Father+Non-relative,22,With single parent extended composite,1,0,0,0,0,0,7,221000007
+385,Father+Other relative+Non-relative,22,With single parent extended composite,1,0,0,0,0,6,7,221000067
+369,Father+Sibling+Grandaparent+Grandchild+Non-relative,22,With single parent extended composite,1,0,3,4,5,0,7,221034507
+497,Father+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,22,With single parent extended composite,1,0,3,4,5,6,7,221034567
+305,Father+Sibling+Grandaparent+Non-relative,22,With single parent extended composite,1,0,3,0,5,0,7,221030507
+433,Father+Sibling+Grandaparent+Other relative+Non-relative,22,With single parent extended composite,1,0,3,0,5,6,7,221030567
+337,Father+Sibling+Grandchild+Non-relative,22,With single parent extended composite,1,0,3,4,0,0,7,221034007
+465,Father+Sibling+Grandchild+Other relative+Non-relative,22,With single parent extended composite,1,0,3,4,0,6,7,221034067
+273,Father+Sibling+Non-relative,22,With single parent extended composite,1,0,3,0,0,0,7,221030007
+401,Father+Sibling+Other relative+Non-relative,22,With single parent extended composite,1,0,3,0,0,6,7,221030067
+354,Mother+Grandaparent+Grandchild+Non-relative,22,With single parent extended composite,0,2,0,4,5,0,7,220204507
+482,Mother+Grandaparent+Grandchild+Other relative+Non-relative,22,With single parent extended composite,0,2,0,4,5,6,7,220204567
+290,Mother+Grandaparent+Non-relative,22,With single parent extended composite,0,2,0,0,5,0,7,220200507
+418,Mother+Grandaparent+Other relative+Non-relative,22,With single parent extended composite,0,2,0,0,5,6,7,220200567
+322,Mother+Grandchild+Non-relative,22,With single parent extended composite,0,2,0,4,0,0,7,220204007
+450,Mother+Grandchild+Other relative+Non-relative,22,With single parent extended composite,0,2,0,4,0,6,7,220204067
+258,Mother+Non-relative,22,With single parent extended composite,0,2,0,0,0,0,7,220200007
+386,Mother+Other relative+Non-relative,22,With single parent extended composite,0,2,0,0,0,6,7,220200067
+370,Mother+Sibling+Grandaparent+Grandchild+Non-relative,22,With single parent extended composite,0,2,3,4,5,0,7,220234507
+498,Mother+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,22,With single parent extended composite,0,2,3,4,5,6,7,220234567
+306,Mother+Sibling+Grandaparent+Non-relative,22,With single parent extended composite,0,2,3,0,5,0,7,220230507
+434,Mother+Sibling+Grandaparent+Other relative+Non-relative,22,With single parent extended composite,0,2,3,0,5,6,7,220230567
+338,Mother+Sibling+Grandchild+Non-relative,22,With single parent extended composite,0,2,3,4,0,0,7,220234007
+466,Mother+Sibling+Grandchild+Other relative+Non-relative,22,With single parent extended composite,0,2,3,4,0,6,7,220234067
+274,Mother+Sibling+Non-relative,22,With single parent extended composite,0,2,3,0,0,0,7,220230007
+402,Mother+Sibling+Other relative+Non-relative,22,With single parent extended composite,0,2,3,0,0,6,7,220230067
+3,Father+Mother,30,With parents,1,2,0,0,0,0,0,301200000
+19,Father+Mother+Sibling,30,With parents,1,2,3,0,0,0,0,301230000
+35,Father+Mother+Grandaparent,31,With parents extended,1,2,0,0,5,0,0,311200500
+99,Father+Mother+Grandaparent+Grandchild,31,With parents extended,1,2,0,4,5,0,0,311204500
+227,Father+Mother+Grandaparent+Grandchild+Other relative,31,With parents extended,1,2,0,4,5,6,0,311204560
+163,Father+Mother+Grandaparent+Other relative,31,With parents extended,1,2,0,0,5,6,0,311200560
+67,Father+Mother+Grandchild,31,With parents extended,1,2,0,4,0,0,0,311204000
+195,Father+Mother+Grandchild+Other relative,31,With parents extended,1,2,0,4,0,6,0,311204060
+131,Father+Mother+Other relative,31,With parents extended,1,2,0,0,0,6,0,311200060
+51,Father+Mother+Sibling+Grandaparent,31,With parents extended,1,2,3,0,5,0,0,311230500
+115,Father+Mother+Sibling+Grandaparent+Grandchild,31,With parents extended,1,2,3,4,5,0,0,311234500
+243,Father+Mother+Sibling+Grandaparent+Grandchild+Other relative,31,With parents extended,1,2,3,4,5,6,0,311234560
+179,Father+Mother+Sibling+Grandaparent+Other relative,31,With parents extended,1,2,3,0,5,6,0,311230560
+83,Father+Mother+Sibling+Grandchild,31,With parents extended,1,2,3,4,0,0,0,311234000
+211,Father+Mother+Sibling+Grandchild+Other relative,31,With parents extended,1,2,3,4,0,6,0,311234060
+147,Father+Mother+Sibling+Other relative,31,With parents extended,1,2,3,0,0,6,0,311230060
+355,Father+Mother+Grandaparent+Grandchild+Non-relative,32,With parents extended composite,1,2,0,4,5,0,7,321204507
+483,Father+Mother+Grandaparent+Grandchild+Other relative+Non-relative,32,With parents extended composite,1,2,0,4,5,6,7,321204567
+291,Father+Mother+Grandaparent+Non-relative,32,With parents extended composite,1,2,0,0,5,0,7,321200507
+419,Father+Mother+Grandaparent+Other relative+Non-relative,32,With parents extended composite,1,2,0,0,5,6,7,321200567
+323,Father+Mother+Grandchild+Non-relative,32,With parents extended composite,1,2,0,4,0,0,7,321204007
+451,Father+Mother+Grandchild+Other relative+Non-relative,32,With parents extended composite,1,2,0,4,0,6,7,321204067
+259,Father+Mother+Non-relative,32,With parents extended composite,1,2,0,0,0,0,7,321200007
+387,Father+Mother+Other relative+Non-relative,32,With parents extended composite,1,2,0,0,0,6,7,321200067
+371,Father+Mother+Sibling+Grandaparent+Grandchild+Non-relative,32,With parents extended composite,1,2,3,4,5,0,7,321234507
+499,Father+Mother+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,32,With parents extended composite,1,2,3,4,5,6,7,321234567
+307,Father+Mother+Sibling+Grandaparent+Non-relative,32,With parents extended composite,1,2,3,0,5,0,7,321230507
+435,Father+Mother+Sibling+Grandaparent+Other relative+Non-relative,32,With parents extended composite,1,2,3,0,5,6,7,321230567
+339,Father+Mother+Sibling+Grandchild+Non-relative,32,With parents extended composite,1,2,3,4,0,0,7,321234007
+467,Father+Mother+Sibling+Grandchild+Other relative+Non-relative,32,With parents extended composite,1,2,3,4,0,6,7,321234067
+275,Father+Mother+Sibling+Non-relative,32,With parents extended composite,1,2,3,0,0,0,7,321230007
+403,Father+Mother+Sibling+Other relative+Non-relative,32,With parents extended composite,1,2,3,0,0,6,7,321230067
+8,Partner,40,With partner,0,0,0,0,0,0,0,400000000
+11,Father+Mother+Partner,41,With partner extended,1,2,0,0,0,0,0,411200000
+43,Father+Mother+Partner+Grandaparent,41,With partner extended,1,2,0,0,5,0,0,411200500
+107,Father+Mother+Partner+Grandaparent+Grandchild,41,With partner extended,1,2,0,4,5,0,0,411204500
+235,Father+Mother+Partner+Grandaparent+Grandchild+Other relative,41,With partner extended,1,2,0,4,5,6,0,411204560
+171,Father+Mother+Partner+Grandaparent+Other relative,41,With partner extended,1,2,0,0,5,6,0,411200560
+75,Father+Mother+Partner+Grandchild,41,With partner extended,1,2,0,4,0,0,0,411204000
+203,Father+Mother+Partner+Grandchild+Other relative,41,With partner extended,1,2,0,4,0,6,0,411204060
+139,Father+Mother+Partner+Other relative,41,With partner extended,1,2,0,0,0,6,0,411200060
+27,Father+Mother+Partner+Sibling,41,With partner extended,1,2,3,0,0,0,0,411230000
+59,Father+Mother+Partner+Sibling+Grandaparent,41,With partner extended,1,2,3,0,5,0,0,411230500
+123,Father+Mother+Partner+Sibling+Grandaparent+Grandchild,41,With partner extended,1,2,3,4,5,0,0,411234500
+251,Father+Mother+Partner+Sibling+Grandaparent+Grandchild+Other relative,41,With partner extended,1,2,3,4,5,6,0,411234560
+187,Father+Mother+Partner+Sibling+Grandaparent+Other relative,41,With partner extended,1,2,3,0,5,6,0,411230560
+91,Father+Mother+Partner+Sibling+Grandchild,41,With partner extended,1,2,3,4,0,0,0,411234000
+219,Father+Mother+Partner+Sibling+Grandchild+Other relative,41,With partner extended,1,2,3,4,0,6,0,411234060
+155,Father+Mother+Partner+Sibling+Other relative,41,With partner extended,1,2,3,0,0,6,0,411230060
+9,Father+Partner,41,With partner extended,1,0,0,0,0,0,0,411000000
+41,Father+Partner+Grandaparent,41,With partner extended,1,0,0,0,5,0,0,411000500
+105,Father+Partner+Grandaparent+Grandchild,41,With partner extended,1,0,0,4,5,0,0,411004500
+233,Father+Partner+Grandaparent+Grandchild+Other relative,41,With partner extended,1,0,0,4,5,6,0,411004560
+169,Father+Partner+Grandaparent+Other relative,41,With partner extended,1,0,0,0,5,6,0,411000560
+73,Father+Partner+Grandchild,41,With partner extended,1,0,0,4,0,0,0,411004000
+201,Father+Partner+Grandchild+Other relative,41,With partner extended,1,0,0,4,0,6,0,411004060
+137,Father+Partner+Other relative,41,With partner extended,1,0,0,0,0,6,0,411000060
+25,Father+Partner+Sibling,41,With partner extended,1,0,3,0,0,0,0,411030000
+57,Father+Partner+Sibling+Grandaparent,41,With partner extended,1,0,3,0,5,0,0,411030500
+121,Father+Partner+Sibling+Grandaparent+Grandchild,41,With partner extended,1,0,3,4,5,0,0,411034500
+249,Father+Partner+Sibling+Grandaparent+Grandchild+Other relative,41,With partner extended,1,0,3,4,5,6,0,411034560
+185,Father+Partner+Sibling+Grandaparent+Other relative,41,With partner extended,1,0,3,0,5,6,0,411030560
+89,Father+Partner+Sibling+Grandchild,41,With partner extended,1,0,3,4,0,0,0,411034000
+217,Father+Partner+Sibling+Grandchild+Other relative,41,With partner extended,1,0,3,4,0,6,0,411034060
+153,Father+Partner+Sibling+Other relative,41,With partner extended,1,0,3,0,0,6,0,411030060
+10,Mother+Partner,41,With partner extended,0,2,0,0,0,0,0,410200000
+42,Mother+Partner+Grandaparent,41,With partner extended,0,2,0,0,5,0,0,410200500
+106,Mother+Partner+Grandaparent+Grandchild,41,With partner extended,0,2,0,4,5,0,0,410204500
+234,Mother+Partner+Grandaparent+Grandchild+Other relative,41,With partner extended,0,2,0,4,5,6,0,410204560
+170,Mother+Partner+Grandaparent+Other relative,41,With partner extended,0,2,0,0,5,6,0,410200560
+74,Mother+Partner+Grandchild,41,With partner extended,0,2,0,4,0,0,0,410204000
+202,Mother+Partner+Grandchild+Other relative,41,With partner extended,0,2,0,4,0,6,0,410204060
+138,Mother+Partner+Other relative,41,With partner extended,0,2,0,0,0,6,0,410200060
+26,Mother+Partner+Sibling,41,With partner extended,0,2,3,0,0,0,0,410230000
+58,Mother+Partner+Sibling+Grandaparent,41,With partner extended,0,2,3,0,5,0,0,410230500
+122,Mother+Partner+Sibling+Grandaparent+Grandchild,41,With partner extended,0,2,3,4,5,0,0,410234500
+250,Mother+Partner+Sibling+Grandaparent+Grandchild+Other relative,41,With partner extended,0,2,3,4,5,6,0,410234560
+186,Mother+Partner+Sibling+Grandaparent+Other relative,41,With partner extended,0,2,3,0,5,6,0,410230560
+90,Mother+Partner+Sibling+Grandchild,41,With partner extended,0,2,3,4,0,0,0,410234000
+218,Mother+Partner+Sibling+Grandchild+Other relative,41,With partner extended,0,2,3,4,0,6,0,410234060
+154,Mother+Partner+Sibling+Other relative,41,With partner extended,0,2,3,0,0,6,0,410230060
+40,Partner+Grandaparent,41,With partner extended,0,0,0,0,5,0,0,410000500
+104,Partner+Grandaparent+Grandchild,41,With partner extended,0,0,0,4,5,0,0,410004500
+232,Partner+Grandaparent+Grandchild+Other relative,41,With partner extended,0,0,0,4,5,6,0,410004560
+168,Partner+Grandaparent+Other relative,41,With partner extended,0,0,0,0,5,6,0,410000560
+72,Partner+Grandchild,41,With partner extended,0,0,0,4,0,0,0,410004000
+200,Partner+Grandchild+Other relative,41,With partner extended,0,0,0,4,0,6,0,410004060
+136,Partner+Other relative,41,With partner extended,0,0,0,0,0,6,0,410000060
+24,Partner+Sibling,41,With partner extended,0,0,3,0,0,0,0,410030000
+56,Partner+Sibling+Grandaparent,41,With partner extended,0,0,3,0,5,0,0,410030500
+120,Partner+Sibling+Grandaparent+Grandchild,41,With partner extended,0,0,3,4,5,0,0,410034500
+248,Partner+Sibling+Grandaparent+Grandchild+Other relative,41,With partner extended,0,0,3,4,5,6,0,410034560
+184,Partner+Sibling+Grandaparent+Other relative,41,With partner extended,0,0,3,0,5,6,0,410030560
+88,Partner+Sibling+Grandchild,41,With partner extended,0,0,3,4,0,0,0,410034000
+216,Partner+Sibling+Grandchild+Other relative,41,With partner extended,0,0,3,4,0,6,0,410034060
+152,Partner+Sibling+Other relative,41,With partner extended,0,0,3,0,0,6,0,410030060
+363,Father+Mother+Partner+Grandaparent+Grandchild+Non-relative,42,With partner extended composite,1,2,0,4,5,0,7,421204507
+491,Father+Mother+Partner+Grandaparent+Grandchild+Other relative+Non-relative,42,With partner extended composite,1,2,0,4,5,6,7,421204567
+299,Father+Mother+Partner+Grandaparent+Non-relative,42,With partner extended composite,1,2,0,0,5,0,7,421200507
+427,Father+Mother+Partner+Grandaparent+Other relative+Non-relative,42,With partner extended composite,1,2,0,0,5,6,7,421200567
+331,Father+Mother+Partner+Grandchild+Non-relative,42,With partner extended composite,1,2,0,4,0,0,7,421204007
+459,Father+Mother+Partner+Grandchild+Other relative+Non-relative,42,With partner extended composite,1,2,0,4,0,6,7,421204067
+267,Father+Mother+Partner+Non-relative,42,With partner extended composite,1,2,0,0,0,0,7,421200007
+395,Father+Mother+Partner+Other relative+Non-relative,42,With partner extended composite,1,2,0,0,0,6,7,421200067
+379,Father+Mother+Partner+Sibling+Grandaparent+Grandchild+Non-relative,42,With partner extended composite,1,2,3,4,5,0,7,421234507
+507,Father+Mother+Partner+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,42,With partner extended composite,1,2,3,4,5,6,7,421234567
+315,Father+Mother+Partner+Sibling+Grandaparent+Non-relative,42,With partner extended composite,1,2,3,0,5,0,7,421230507
+443,Father+Mother+Partner+Sibling+Grandaparent+Other relative+Non-relative,42,With partner extended composite,1,2,3,0,5,6,7,421230567
+347,Father+Mother+Partner+Sibling+Grandchild+Non-relative,42,With partner extended composite,1,2,3,4,0,0,7,421234007
+475,Father+Mother+Partner+Sibling+Grandchild+Other relative+Non-relative,42,With partner extended composite,1,2,3,4,0,6,7,421234067
+283,Father+Mother+Partner+Sibling+Non-relative,42,With partner extended composite,1,2,3,0,0,0,7,421230007
+411,Father+Mother+Partner+Sibling+Other relative+Non-relative,42,With partner extended composite,1,2,3,0,0,6,7,421230067
+361,Father+Partner+Grandaparent+Grandchild+Non-relative,42,With partner extended composite,1,0,0,4,5,0,7,421004507
+489,Father+Partner+Grandaparent+Grandchild+Other relative+Non-relative,42,With partner extended composite,1,0,0,4,5,6,7,421004567
+297,Father+Partner+Grandaparent+Non-relative,42,With partner extended composite,1,0,0,0,5,0,7,421000507
+425,Father+Partner+Grandaparent+Other relative+Non-relative,42,With partner extended composite,1,0,0,0,5,6,7,421000567
+329,Father+Partner+Grandchild+Non-relative,42,With partner extended composite,1,0,0,4,0,0,7,421004007
+457,Father+Partner+Grandchild+Other relative+Non-relative,42,With partner extended composite,1,0,0,4,0,6,7,421004067
+265,Father+Partner+Non-relative,42,With partner extended composite,1,0,0,0,0,0,7,421000007
+393,Father+Partner+Other relative+Non-relative,42,With partner extended composite,1,0,0,0,0,6,7,421000067
+377,Father+Partner+Sibling+Grandaparent+Grandchild+Non-relative,42,With partner extended composite,1,0,3,4,5,0,7,421034507
+505,Father+Partner+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,42,With partner extended composite,1,0,3,4,5,6,7,421034567
+313,Father+Partner+Sibling+Grandaparent+Non-relative,42,With partner extended composite,1,0,3,0,5,0,7,421030507
+441,Father+Partner+Sibling+Grandaparent+Other relative+Non-relative,42,With partner extended composite,1,0,3,0,5,6,7,421030567
+345,Father+Partner+Sibling+Grandchild+Non-relative,42,With partner extended composite,1,0,3,4,0,0,7,421034007
+473,Father+Partner+Sibling+Grandchild+Other relative+Non-relative,42,With partner extended composite,1,0,3,4,0,6,7,421034067
+281,Father+Partner+Sibling+Non-relative,42,With partner extended composite,1,0,3,0,0,0,7,421030007
+409,Father+Partner+Sibling+Other relative+Non-relative,42,With partner extended composite,1,0,3,0,0,6,7,421030067
+362,Mother+Partner+Grandaparent+Grandchild+Non-relative,42,With partner extended composite,0,2,0,4,5,0,7,420204507
+490,Mother+Partner+Grandaparent+Grandchild+Other relative+Non-relative,42,With partner extended composite,0,2,0,4,5,6,7,420204567
+298,Mother+Partner+Grandaparent+Non-relative,42,With partner extended composite,0,2,0,0,5,0,7,420200507
+426,Mother+Partner+Grandaparent+Other relative+Non-relative,42,With partner extended composite,0,2,0,0,5,6,7,420200567
+330,Mother+Partner+Grandchild+Non-relative,42,With partner extended composite,0,2,0,4,0,0,7,420204007
+458,Mother+Partner+Grandchild+Other relative+Non-relative,42,With partner extended composite,0,2,0,4,0,6,7,420204067
+266,Mother+Partner+Non-relative,42,With partner extended composite,0,2,0,0,0,0,7,420200007
+394,Mother+Partner+Other relative+Non-relative,42,With partner extended composite,0,2,0,0,0,6,7,420200067
+378,Mother+Partner+Sibling+Grandaparent+Grandchild+Non-relative,42,With partner extended composite,0,2,3,4,5,0,7,420234507
+506,Mother+Partner+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,42,With partner extended composite,0,2,3,4,5,6,7,420234567
+314,Mother+Partner+Sibling+Grandaparent+Non-relative,42,With partner extended composite,0,2,3,0,5,0,7,420230507
+442,Mother+Partner+Sibling+Grandaparent+Other relative+Non-relative,42,With partner extended composite,0,2,3,0,5,6,7,420230567
+346,Mother+Partner+Sibling+Grandchild+Non-relative,42,With partner extended composite,0,2,3,4,0,0,7,420234007
+474,Mother+Partner+Sibling+Grandchild+Other relative+Non-relative,42,With partner extended composite,0,2,3,4,0,6,7,420234067
+282,Mother+Partner+Sibling+Non-relative,42,With partner extended composite,0,2,3,0,0,0,7,420230007
+410,Mother+Partner+Sibling+Other relative+Non-relative,42,With partner extended composite,0,2,3,0,0,6,7,420230067
+360,Partner+Grandaparent+Grandchild+Non-relative,42,With partner extended composite,0,0,0,4,5,0,7,420004507
+488,Partner+Grandaparent+Grandchild+Other relative+Non-relative,42,With partner extended composite,0,0,0,4,5,6,7,420004567
+296,Partner+Grandaparent+Non-relative,42,With partner extended composite,0,0,0,0,5,0,7,420000507
+424,Partner+Grandaparent+Other relative+Non-relative,42,With partner extended composite,0,0,0,0,5,6,7,420000567
+328,Partner+Grandchild+Non-relative,42,With partner extended composite,0,0,0,4,0,0,7,420004007
+456,Partner+Grandchild+Other relative+Non-relative,42,With partner extended composite,0,0,0,4,0,6,7,420004067
+264,Partner+Non-relative,42,With partner extended composite,0,0,0,0,0,0,7,420000007
+392,Partner+Other relative+Non-relative,42,With partner extended composite,0,0,0,0,0,6,7,420000067
+376,Partner+Sibling+Grandaparent+Grandchild+Non-relative,42,With partner extended composite,0,0,3,4,5,0,7,420034507
+504,Partner+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,42,With partner extended composite,0,0,3,4,5,6,7,420034567
+312,Partner+Sibling+Grandaparent+Non-relative,42,With partner extended composite,0,0,3,0,5,0,7,420030507
+440,Partner+Sibling+Grandaparent+Other relative+Non-relative,42,With partner extended composite,0,0,3,0,5,6,7,420030567
+344,Partner+Sibling+Grandchild+Non-relative,42,With partner extended composite,0,0,3,4,0,0,7,420034007
+472,Partner+Sibling+Grandchild+Other relative+Non-relative,42,With partner extended composite,0,0,3,4,0,6,7,420034067
+280,Partner+Sibling+Non-relative,42,With partner extended composite,0,0,3,0,0,0,7,420030007
+408,Partner+Sibling+Other relative+Non-relative,42,With partner extended composite,0,0,3,0,0,6,7,420030067
+12,Child+Partner,50,With partner and children,0,0,0,0,0,0,0,500000000
+44,Child+Partner+Grandaparent,51,With partner and children extended,0,0,0,0,5,0,0,510000500
+108,Child+Partner+Grandaparent+Grandchild,51,With partner and children extended,0,0,0,4,5,0,0,510004500
+236,Child+Partner+Grandaparent+Grandchild+Other relative,51,With partner and children extended,0,0,0,4,5,6,0,510004560
+172,Child+Partner+Grandaparent+Other relative,51,With partner and children extended,0,0,0,0,5,6,0,510000560
+76,Child+Partner+Grandchild,51,With partner and children extended,0,0,0,4,0,0,0,510004000
+204,Child+Partner+Grandchild+Other relative,51,With partner and children extended,0,0,0,4,0,6,0,510004060
+140,Child+Partner+Other relative,51,With partner and children extended,0,0,0,0,0,6,0,510000060
+28,Child+Partner+Sibling,51,With partner and children extended,0,0,3,0,0,0,0,510030000
+60,Child+Partner+Sibling+Grandaparent,51,With partner and children extended,0,0,3,0,5,0,0,510030500
+124,Child+Partner+Sibling+Grandaparent+Grandchild,51,With partner and children extended,0,0,3,4,5,0,0,510034500
+252,Child+Partner+Sibling+Grandaparent+Grandchild+Other relative,51,With partner and children extended,0,0,3,4,5,6,0,510034560
+188,Child+Partner+Sibling+Grandaparent+Other relative,51,With partner and children extended,0,0,3,0,5,6,0,510030560
+92,Child+Partner+Sibling+Grandchild,51,With partner and children extended,0,0,3,4,0,0,0,510034000
+220,Child+Partner+Sibling+Grandchild+Other relative,51,With partner and children extended,0,0,3,4,0,6,0,510034060
+156,Child+Partner+Sibling+Other relative,51,With partner and children extended,0,0,3,0,0,6,0,510030060
+13,Father+Child+Partner,51,With partner and children extended,1,0,0,0,0,0,0,511000000
+45,Father+Child+Partner+Grandaparent,51,With partner and children extended,1,0,0,0,5,0,0,511000500
+109,Father+Child+Partner+Grandaparent+Grandchild,51,With partner and children extended,1,0,0,4,5,0,0,511004500
+237,Father+Child+Partner+Grandaparent+Grandchild+Other relative,51,With partner and children extended,1,0,0,4,5,6,0,511004560
+173,Father+Child+Partner+Grandaparent+Other relative,51,With partner and children extended,1,0,0,0,5,6,0,511000560
+77,Father+Child+Partner+Grandchild,51,With partner and children extended,1,0,0,4,0,0,0,511004000
+205,Father+Child+Partner+Grandchild+Other relative,51,With partner and children extended,1,0,0,4,0,6,0,511004060
+141,Father+Child+Partner+Other relative,51,With partner and children extended,1,0,0,0,0,6,0,511000060
+29,Father+Child+Partner+Sibling,51,With partner and children extended,1,0,3,0,0,0,0,511030000
+61,Father+Child+Partner+Sibling+Grandaparent,51,With partner and children extended,1,0,3,0,5,0,0,511030500
+125,Father+Child+Partner+Sibling+Grandaparent+Grandchild,51,With partner and children extended,1,0,3,4,5,0,0,511034500
+253,Father+Child+Partner+Sibling+Grandaparent+Grandchild+Other relative,51,With partner and children extended,1,0,3,4,5,6,0,511034560
+189,Father+Child+Partner+Sibling+Grandaparent+Other relative,51,With partner and children extended,1,0,3,0,5,6,0,511030560
+93,Father+Child+Partner+Sibling+Grandchild,51,With partner and children extended,1,0,3,4,0,0,0,511034000
+221,Father+Child+Partner+Sibling+Grandchild+Other relative,51,With partner and children extended,1,0,3,4,0,6,0,511034060
+157,Father+Child+Partner+Sibling+Other relative,51,With partner and children extended,1,0,3,0,0,6,0,511030060
+15,Father+Mother+Child+Partner,51,With partner and children extended,1,2,0,0,0,0,0,511200000
+47,Father+Mother+Child+Partner+Grandaparent,51,With partner and children extended,1,2,0,0,5,0,0,511200500
+111,Father+Mother+Child+Partner+Grandaparent+Grandchild,51,With partner and children extended,1,2,0,4,5,0,0,511204500
+239,Father+Mother+Child+Partner+Grandaparent+Grandchild+Other relative,51,With partner and children extended,1,2,0,4,5,6,0,511204560
+175,Father+Mother+Child+Partner+Grandaparent+Other relative,51,With partner and children extended,1,2,0,0,5,6,0,511200560
+79,Father+Mother+Child+Partner+Grandchild,51,With partner and children extended,1,2,0,4,0,0,0,511204000
+207,Father+Mother+Child+Partner+Grandchild+Other relative,51,With partner and children extended,1,2,0,4,0,6,0,511204060
+143,Father+Mother+Child+Partner+Other relative,51,With partner and children extended,1,2,0,0,0,6,0,511200060
+31,Father+Mother+Child+Partner+Sibling,51,With partner and children extended,1,2,3,0,0,0,0,511230000
+63,Father+Mother+Child+Partner+Sibling+Grandaparent,51,With partner and children extended,1,2,3,0,5,0,0,511230500
+127,Father+Mother+Child+Partner+Sibling+Grandaparent+Grandchild,51,With partner and children extended,1,2,3,4,5,0,0,511234500
+255,Father+Mother+Child+Partner+Sibling+Grandaparent+Grandchild+Other relative,51,With partner and children extended,1,2,3,4,5,6,0,511234560
+191,Father+Mother+Child+Partner+Sibling+Grandaparent+Other relative,51,With partner and children extended,1,2,3,0,5,6,0,511230560
+95,Father+Mother+Child+Partner+Sibling+Grandchild,51,With partner and children extended,1,2,3,4,0,0,0,511234000
+223,Father+Mother+Child+Partner+Sibling+Grandchild+Other relative,51,With partner and children extended,1,2,3,4,0,6,0,511234060
+159,Father+Mother+Child+Partner+Sibling+Other relative,51,With partner and children extended,1,2,3,0,0,6,0,511230060
+14,Mother+Child+Partner,51,With partner and children extended,0,2,0,0,0,0,0,510200000
+46,Mother+Child+Partner+Grandaparent,51,With partner and children extended,0,2,0,0,5,0,0,510200500
+110,Mother+Child+Partner+Grandaparent+Grandchild,51,With partner and children extended,0,2,0,4,5,0,0,510204500
+238,Mother+Child+Partner+Grandaparent+Grandchild+Other relative,51,With partner and children extended,0,2,0,4,5,6,0,510204560
+174,Mother+Child+Partner+Grandaparent+Other relative,51,With partner and children extended,0,2,0,0,5,6,0,510200560
+78,Mother+Child+Partner+Grandchild,51,With partner and children extended,0,2,0,4,0,0,0,510204000
+206,Mother+Child+Partner+Grandchild+Other relative,51,With partner and children extended,0,2,0,4,0,6,0,510204060
+462,Mother+Child+Partner+Grandchild+Other relative+Non-relative,51,With partner and children extended,0,2,0,4,0,6,7,510204067
+142,Mother+Child+Partner+Other relative,51,With partner and children extended,0,2,0,0,0,6,0,510200060
+30,Mother+Child+Partner+Sibling,51,With partner and children extended,0,2,3,0,0,0,0,510230000
+62,Mother+Child+Partner+Sibling+Grandaparent,51,With partner and children extended,0,2,3,0,5,0,0,510230500
+126,Mother+Child+Partner+Sibling+Grandaparent+Grandchild,51,With partner and children extended,0,2,3,4,5,0,0,510234500
+254,Mother+Child+Partner+Sibling+Grandaparent+Grandchild+Other relative,51,With partner and children extended,0,2,3,4,5,6,0,510234560
+190,Mother+Child+Partner+Sibling+Grandaparent+Other relative,51,With partner and children extended,0,2,3,0,5,6,0,510230560
+94,Mother+Child+Partner+Sibling+Grandchild,51,With partner and children extended,0,2,3,4,0,0,0,510234000
+222,Mother+Child+Partner+Sibling+Grandchild+Other relative,51,With partner and children extended,0,2,3,4,0,6,0,510234060
+158,Mother+Child+Partner+Sibling+Other relative,51,With partner and children extended,0,2,3,0,0,6,0,510230060
+364,Child+Partner+Grandaparent+Grandchild+Non-relative,52,With partner and children extended composite,0,0,0,4,5,0,7,520004507
+492,Child+Partner+Grandaparent+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,0,0,0,4,5,6,7,520004567
+300,Child+Partner+Grandaparent+Non-relative,52,With partner and children extended composite,0,0,0,0,5,0,7,520000507
+428,Child+Partner+Grandaparent+Other relative+Non-relative,52,With partner and children extended composite,0,0,0,0,5,6,7,520000567
+332,Child+Partner+Grandchild+Non-relative,52,With partner and children extended composite,0,0,0,4,0,0,7,520004007
+460,Child+Partner+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,0,0,0,4,0,6,7,520004067
+268,Child+Partner+Non-relative,52,With partner and children extended composite,0,0,0,0,0,0,7,520000007
+396,Child+Partner+Other relative+Non-relative,52,With partner and children extended composite,0,0,0,0,0,6,7,520000067
+380,Child+Partner+Sibling+Grandaparent+Grandchild+Non-relative,52,With partner and children extended composite,0,0,3,4,5,0,7,520034507
+508,Child+Partner+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,0,0,3,4,5,6,7,520034567
+316,Child+Partner+Sibling+Grandaparent+Non-relative,52,With partner and children extended composite,0,0,3,0,5,0,7,520030507
+444,Child+Partner+Sibling+Grandaparent+Other relative+Non-relative,52,With partner and children extended composite,0,0,3,0,5,6,7,520030567
+348,Child+Partner+Sibling+Grandchild+Non-relative,52,With partner and children extended composite,0,0,3,4,0,0,7,520034007
+476,Child+Partner+Sibling+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,0,0,3,4,0,6,7,520034067
+284,Child+Partner+Sibling+Non-relative,52,With partner and children extended composite,0,0,3,0,0,0,7,520030007
+412,Child+Partner+Sibling+Other relative+Non-relative,52,With partner and children extended composite,0,0,3,0,0,6,7,520030067
+365,Father+Child+Partner+Grandaparent+Grandchild+Non-relative,52,With partner and children extended composite,1,0,0,4,5,0,7,521004507
+493,Father+Child+Partner+Grandaparent+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,1,0,0,4,5,6,7,521004567
+301,Father+Child+Partner+Grandaparent+Non-relative,52,With partner and children extended composite,1,0,0,0,5,0,7,521000507
+429,Father+Child+Partner+Grandaparent+Other relative+Non-relative,52,With partner and children extended composite,1,0,0,0,5,6,7,521000567
+333,Father+Child+Partner+Grandchild+Non-relative,52,With partner and children extended composite,1,0,0,4,0,0,7,521004007
+461,Father+Child+Partner+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,1,0,0,4,0,6,7,521004067
+269,Father+Child+Partner+Non-relative,52,With partner and children extended composite,1,0,0,0,0,0,7,521000007
+397,Father+Child+Partner+Other relative+Non-relative,52,With partner and children extended composite,1,0,0,0,0,6,7,521000067
+381,Father+Child+Partner+Sibling+Grandaparent+Grandchild+Non-relative,52,With partner and children extended composite,1,0,3,4,5,0,7,521034507
+509,Father+Child+Partner+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,1,0,3,4,5,6,7,521034567
+317,Father+Child+Partner+Sibling+Grandaparent+Non-relative,52,With partner and children extended composite,1,0,3,0,5,0,7,521030507
+445,Father+Child+Partner+Sibling+Grandaparent+Other relative+Non-relative,52,With partner and children extended composite,1,0,3,0,5,6,7,521030567
+349,Father+Child+Partner+Sibling+Grandchild+Non-relative,52,With partner and children extended composite,1,0,3,4,0,0,7,521034007
+477,Father+Child+Partner+Sibling+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,1,0,3,4,0,6,7,521034067
+285,Father+Child+Partner+Sibling+Non-relative,52,With partner and children extended composite,1,0,3,0,0,0,7,521030007
+413,Father+Child+Partner+Sibling+Other relative+Non-relative,52,With partner and children extended composite,1,0,3,0,0,6,7,521030067
+367,Father+Mother+Child+Partner+Grandaparent+Grandchild+Non-relative,52,With partner and children extended composite,1,2,0,4,5,0,7,521204507
+495,Father+Mother+Child+Partner+Grandaparent+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,1,2,0,4,5,6,7,521204567
+303,Father+Mother+Child+Partner+Grandaparent+Non-relative,52,With partner and children extended composite,1,2,0,0,5,0,7,521200507
+431,Father+Mother+Child+Partner+Grandaparent+Other relative+Non-relative,52,With partner and children extended composite,1,2,0,0,5,6,7,521200567
+335,Father+Mother+Child+Partner+Grandchild+Non-relative,52,With partner and children extended composite,1,2,0,4,0,0,7,521204007
+463,Father+Mother+Child+Partner+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,1,2,0,4,0,6,7,521204067
+271,Father+Mother+Child+Partner+Non-relative,52,With partner and children extended composite,1,2,0,0,0,0,7,521200007
+399,Father+Mother+Child+Partner+Other relative+Non-relative,52,With partner and children extended composite,1,2,0,0,0,6,7,521200067
+383,Father+Mother+Child+Partner+Sibling+Grandaparent+Grandchild+Non-relative,52,With partner and children extended composite,1,2,3,4,5,0,7,521234507
+511,Father+Mother+Child+Partner+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,1,2,3,4,5,6,7,521234567
+319,Father+Mother+Child+Partner+Sibling+Grandaparent+Non-relative,52,With partner and children extended composite,1,2,3,0,5,0,7,521230507
+447,Father+Mother+Child+Partner+Sibling+Grandaparent+Other relative+Non-relative,52,With partner and children extended composite,1,2,3,0,5,6,7,521230567
+351,Father+Mother+Child+Partner+Sibling+Grandchild+Non-relative,52,With partner and children extended composite,1,2,3,4,0,0,7,521234007
+479,Father+Mother+Child+Partner+Sibling+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,1,2,3,4,0,6,7,521234067
+287,Father+Mother+Child+Partner+Sibling+Non-relative,52,With partner and children extended composite,1,2,3,0,0,0,7,521230007
+415,Father+Mother+Child+Partner+Sibling+Other relative+Non-relative,52,With partner and children extended composite,1,2,3,0,0,6,7,521230067
+366,Mother+Child+Partner+Grandaparent+Grandchild+Non-relative,52,With partner and children extended composite,0,2,0,4,5,0,7,520204507
+494,Mother+Child+Partner+Grandaparent+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,0,2,0,4,5,6,7,520204567
+302,Mother+Child+Partner+Grandaparent+Non-relative,52,With partner and children extended composite,0,2,0,0,5,0,7,520200507
+430,Mother+Child+Partner+Grandaparent+Other relative+Non-relative,52,With partner and children extended composite,0,2,0,0,5,6,7,520200567
+334,Mother+Child+Partner+Grandchild+Non-relative,52,With partner and children extended composite,0,2,0,4,0,0,7,520204007
+270,Mother+Child+Partner+Non-relative,52,With partner and children extended composite,0,2,0,0,0,0,7,520200007
+398,Mother+Child+Partner+Other relative+Non-relative,52,With partner and children extended composite,0,2,0,0,0,6,7,520200067
+382,Mother+Child+Partner+Sibling+Grandaparent+Grandchild+Non-relative,52,With partner and children extended composite,0,2,3,4,5,0,7,520234507
+510,Mother+Child+Partner+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,0,2,3,4,5,6,7,520234567
+318,Mother+Child+Partner+Sibling+Grandaparent+Non-relative,52,With partner and children extended composite,0,2,3,0,5,0,7,520230507
+446,Mother+Child+Partner+Sibling+Grandaparent+Other relative+Non-relative,52,With partner and children extended composite,0,2,3,0,5,6,7,520230567
+350,Mother+Child+Partner+Sibling+Grandchild+Non-relative,52,With partner and children extended composite,0,2,3,4,0,0,7,520234007
+478,Mother+Child+Partner+Sibling+Grandchild+Other relative+Non-relative,52,With partner and children extended composite,0,2,3,4,0,6,7,520234067
+286,Mother+Child+Partner+Sibling+Non-relative,52,With partner and children extended composite,0,2,3,0,0,0,7,520230007
+414,Mother+Child+Partner+Sibling+Other relative+Non-relative,52,With partner and children extended composite,0,2,3,0,0,6,7,520230067
+4,Child,60,With children,0,0,0,0,0,0,0,600000000
+36,Child+Grandaparent,61,With children extended,0,0,0,0,5,0,0,610000500
+100,Child+Grandaparent+Grandchild,61,With children extended,0,0,0,4,5,0,0,610004500
+228,Child+Grandaparent+Grandchild+Other relative,61,With children extended,0,0,0,4,5,6,0,610004560
+164,Child+Grandaparent+Other relative,61,With children extended,0,0,0,0,5,6,0,610000560
+68,Child+Grandchild,61,With children extended,0,0,0,4,0,0,0,610004000
+196,Child+Grandchild+Other relative,61,With children extended,0,0,0,4,0,6,0,610004060
+132,Child+Other relative,61,With children extended,0,0,0,0,0,6,0,610000060
+20,Child+Sibling,61,With children extended,0,0,3,0,0,0,0,610030000
+52,Child+Sibling+Grandaparent,61,With children extended,0,0,3,0,5,0,0,610030500
+116,Child+Sibling+Grandaparent+Grandchild,61,With children extended,0,0,3,4,5,0,0,610034500
+244,Child+Sibling+Grandaparent+Grandchild+Other relative,61,With children extended,0,0,3,4,5,6,0,610034560
+180,Child+Sibling+Grandaparent+Other relative,61,With children extended,0,0,3,0,5,6,0,610030560
+436,Child+Sibling+Grandaparent+Other relative+Non-relative,61,With children extended,0,0,3,0,5,6,7,610030567
+84,Child+Sibling+Grandchild,61,With children extended,0,0,3,4,0,0,0,610034000
+212,Child+Sibling+Grandchild+Other relative,61,With children extended,0,0,3,4,0,6,0,610034060
+148,Child+Sibling+Other relative,61,With children extended,0,0,3,0,0,6,0,610030060
+5,Father+Child,61,With children extended,1,0,0,0,0,0,0,611000000
+37,Father+Child+Grandaparent,61,With children extended,1,0,0,0,5,0,0,611000500
+101,Father+Child+Grandaparent+Grandchild,61,With children extended,1,0,0,4,5,0,0,611004500
+229,Father+Child+Grandaparent+Grandchild+Other relative,61,With children extended,1,0,0,4,5,6,0,611004560
+165,Father+Child+Grandaparent+Other relative,61,With children extended,1,0,0,0,5,6,0,611000560
+69,Father+Child+Grandchild,61,With children extended,1,0,0,4,0,0,0,611004000
+197,Father+Child+Grandchild+Other relative,61,With children extended,1,0,0,4,0,6,0,611004060
+133,Father+Child+Other relative,61,With children extended,1,0,0,0,0,6,0,611000060
+21,Father+Child+Sibling,61,With children extended,1,0,3,0,0,0,0,611030000
+53,Father+Child+Sibling+Grandaparent,61,With children extended,1,0,3,0,5,0,0,611030500
+117,Father+Child+Sibling+Grandaparent+Grandchild,61,With children extended,1,0,3,4,5,0,0,611034500
+245,Father+Child+Sibling+Grandaparent+Grandchild+Other relative,61,With children extended,1,0,3,4,5,6,0,611034560
+181,Father+Child+Sibling+Grandaparent+Other relative,61,With children extended,1,0,3,0,5,6,0,611030560
+85,Father+Child+Sibling+Grandchild,61,With children extended,1,0,3,4,0,0,0,611034000
+213,Father+Child+Sibling+Grandchild+Other relative,61,With children extended,1,0,3,4,0,6,0,611034060
+149,Father+Child+Sibling+Other relative,61,With children extended,1,0,3,0,0,6,0,611030060
+7,Father+Mother+Child,61,With children extended,1,2,0,0,0,0,0,611200000
+39,Father+Mother+Child+Grandaparent,61,With children extended,1,2,0,0,5,0,0,611200500
+103,Father+Mother+Child+Grandaparent+Grandchild,61,With children extended,1,2,0,4,5,0,0,611204500
+231,Father+Mother+Child+Grandaparent+Grandchild+Other relative,61,With children extended,1,2,0,4,5,6,0,611204560
+167,Father+Mother+Child+Grandaparent+Other relative,61,With children extended,1,2,0,0,5,6,0,611200560
+71,Father+Mother+Child+Grandchild,61,With children extended,1,2,0,4,0,0,0,611204000
+199,Father+Mother+Child+Grandchild+Other relative,61,With children extended,1,2,0,4,0,6,0,611204060
+135,Father+Mother+Child+Other relative,61,With children extended,1,2,0,0,0,6,0,611200060
+23,Father+Mother+Child+Sibling,61,With children extended,1,2,3,0,0,0,0,611230000
+55,Father+Mother+Child+Sibling+Grandaparent,61,With children extended,1,2,3,0,5,0,0,611230500
+119,Father+Mother+Child+Sibling+Grandaparent+Grandchild,61,With children extended,1,2,3,4,5,0,0,611234500
+247,Father+Mother+Child+Sibling+Grandaparent+Grandchild+Other relative,61,With children extended,1,2,3,4,5,6,0,611234560
+183,Father+Mother+Child+Sibling+Grandaparent+Other relative,61,With children extended,1,2,3,0,5,6,0,611230560
+87,Father+Mother+Child+Sibling+Grandchild,61,With children extended,1,2,3,4,0,0,0,611234000
+215,Father+Mother+Child+Sibling+Grandchild+Other relative,61,With children extended,1,2,3,4,0,6,0,611234060
+151,Father+Mother+Child+Sibling+Other relative,61,With children extended,1,2,3,0,0,6,0,611230060
+6,Mother+Child,61,With children extended,0,2,0,0,0,0,0,610200000
+38,Mother+Child+Grandaparent,61,With children extended,0,2,0,0,5,0,0,610200500
+102,Mother+Child+Grandaparent+Grandchild,61,With children extended,0,2,0,4,5,0,0,610204500
+230,Mother+Child+Grandaparent+Grandchild+Other relative,61,With children extended,0,2,0,4,5,6,0,610204560
+166,Mother+Child+Grandaparent+Other relative,61,With children extended,0,2,0,0,5,6,0,610200560
+70,Mother+Child+Grandchild,61,With children extended,0,2,0,4,0,0,0,610204000
+198,Mother+Child+Grandchild+Other relative,61,With children extended,0,2,0,4,0,6,0,610204060
+134,Mother+Child+Other relative,61,With children extended,0,2,0,0,0,6,0,610200060
+22,Mother+Child+Sibling,61,With children extended,0,2,3,0,0,0,0,610230000
+54,Mother+Child+Sibling+Grandaparent,61,With children extended,0,2,3,0,5,0,0,610230500
+118,Mother+Child+Sibling+Grandaparent+Grandchild,61,With children extended,0,2,3,4,5,0,0,610234500
+246,Mother+Child+Sibling+Grandaparent+Grandchild+Other relative,61,With children extended,0,2,3,4,5,6,0,610234560
+182,Mother+Child+Sibling+Grandaparent+Other relative,61,With children extended,0,2,3,0,5,6,0,610230560
+86,Mother+Child+Sibling+Grandchild,61,With children extended,0,2,3,4,0,0,0,610234000
+214,Mother+Child+Sibling+Grandchild+Other relative,61,With children extended,0,2,3,4,0,6,0,610234060
+150,Mother+Child+Sibling+Other relative,61,With children extended,0,2,3,0,0,6,0,610230060
+356,Child+Grandaparent+Grandchild+Non-relative,62,With children extended composite,0,0,0,4,5,0,7,620004507
+484,Child+Grandaparent+Grandchild+Other relative+Non-relative,62,With children extended composite,0,0,0,4,5,6,7,620004567
+292,Child+Grandaparent+Non-relative,62,With children extended composite,0,0,0,0,5,0,7,620000507
+420,Child+Grandaparent+Other relative+Non-relative,62,With children extended composite,0,0,0,0,5,6,7,620000567
+324,Child+Grandchild+Non-relative,62,With children extended composite,0,0,0,4,0,0,7,620004007
+452,Child+Grandchild+Other relative+Non-relative,62,With children extended composite,0,0,0,4,0,6,7,620004067
+260,Child+Non-relative,62,With children extended composite,0,0,0,0,0,0,7,620000007
+388,Child+Other relative+Non-relative,62,With children extended composite,0,0,0,0,0,6,7,620000067
+372,Child+Sibling+Grandaparent+Grandchild+Non-relative,62,With children extended composite,0,0,3,4,5,0,7,620034507
+500,Child+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,62,With children extended composite,0,0,3,4,5,6,7,620034567
+308,Child+Sibling+Grandaparent+Non-relative,62,With children extended composite,0,0,3,0,5,0,7,620030507
+340,Child+Sibling+Grandchild+Non-relative,62,With children extended composite,0,0,3,4,0,0,7,620034007
+468,Child+Sibling+Grandchild+Other relative+Non-relative,62,With children extended composite,0,0,3,4,0,6,7,620034067
+276,Child+Sibling+Non-relative,62,With children extended composite,0,0,3,0,0,0,7,620030007
+404,Child+Sibling+Other relative+Non-relative,62,With children extended composite,0,0,3,0,0,6,7,620030067
+357,Father+Child+Grandaparent+Grandchild+Non-relative,62,With children extended composite,1,0,0,4,5,0,7,621004507
+485,Father+Child+Grandaparent+Grandchild+Other relative+Non-relative,62,With children extended composite,1,0,0,4,5,6,7,621004567
+293,Father+Child+Grandaparent+Non-relative,62,With children extended composite,1,0,0,0,5,0,7,621000507
+421,Father+Child+Grandaparent+Other relative+Non-relative,62,With children extended composite,1,0,0,0,5,6,7,621000567
+325,Father+Child+Grandchild+Non-relative,62,With children extended composite,1,0,0,4,0,0,7,621004007
+453,Father+Child+Grandchild+Other relative+Non-relative,62,With children extended composite,1,0,0,4,0,6,7,621004067
+261,Father+Child+Non-relative,62,With children extended composite,1,0,0,0,0,0,7,621000007
+389,Father+Child+Other relative+Non-relative,62,With children extended composite,1,0,0,0,0,6,7,621000067
+373,Father+Child+Sibling+Grandaparent+Grandchild+Non-relative,62,With children extended composite,1,0,3,4,5,0,7,621034507
+501,Father+Child+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,62,With children extended composite,1,0,3,4,5,6,7,621034567
+309,Father+Child+Sibling+Grandaparent+Non-relative,62,With children extended composite,1,0,3,0,5,0,7,621030507
+437,Father+Child+Sibling+Grandaparent+Other relative+Non-relative,62,With children extended composite,1,0,3,0,5,6,7,621030567
+341,Father+Child+Sibling+Grandchild+Non-relative,62,With children extended composite,1,0,3,4,0,0,7,621034007
+469,Father+Child+Sibling+Grandchild+Other relative+Non-relative,62,With children extended composite,1,0,3,4,0,6,7,621034067
+277,Father+Child+Sibling+Non-relative,62,With children extended composite,1,0,3,0,0,0,7,621030007
+405,Father+Child+Sibling+Other relative+Non-relative,62,With children extended composite,1,0,3,0,0,6,7,621030067
+359,Father+Mother+Child+Grandaparent+Grandchild+Non-relative,62,With children extended composite,1,2,0,4,5,0,7,621204507
+487,Father+Mother+Child+Grandaparent+Grandchild+Other relative+Non-relative,62,With children extended composite,1,2,0,4,5,6,7,621204567
+295,Father+Mother+Child+Grandaparent+Non-relative,62,With children extended composite,1,2,0,0,5,0,7,621200507
+423,Father+Mother+Child+Grandaparent+Other relative+Non-relative,62,With children extended composite,1,2,0,0,5,6,7,621200567
+327,Father+Mother+Child+Grandchild+Non-relative,62,With children extended composite,1,2,0,4,0,0,7,621204007
+455,Father+Mother+Child+Grandchild+Other relative+Non-relative,62,With children extended composite,1,2,0,4,0,6,7,621204067
+263,Father+Mother+Child+Non-relative,62,With children extended composite,1,2,0,0,0,0,7,621200007
+391,Father+Mother+Child+Other relative+Non-relative,62,With children extended composite,1,2,0,0,0,6,7,621200067
+375,Father+Mother+Child+Sibling+Grandaparent+Grandchild+Non-relative,62,With children extended composite,1,2,3,4,5,0,7,621234507
+503,Father+Mother+Child+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,62,With children extended composite,1,2,3,4,5,6,7,621234567
+311,Father+Mother+Child+Sibling+Grandaparent+Non-relative,62,With children extended composite,1,2,3,0,5,0,7,621230507
+439,Father+Mother+Child+Sibling+Grandaparent+Other relative+Non-relative,62,With children extended composite,1,2,3,0,5,6,7,621230567
+343,Father+Mother+Child+Sibling+Grandchild+Non-relative,62,With children extended composite,1,2,3,4,0,0,7,621234007
+471,Father+Mother+Child+Sibling+Grandchild+Other relative+Non-relative,62,With children extended composite,1,2,3,4,0,6,7,621234067
+279,Father+Mother+Child+Sibling+Non-relative,62,With children extended composite,1,2,3,0,0,0,7,621230007
+407,Father+Mother+Child+Sibling+Other relative+Non-relative,62,With children extended composite,1,2,3,0,0,6,7,621230067
+358,Mother+Child+Grandaparent+Grandchild+Non-relative,62,With children extended composite,0,2,0,4,5,0,7,620204507
+486,Mother+Child+Grandaparent+Grandchild+Other relative+Non-relative,62,With children extended composite,0,2,0,4,5,6,7,620204567
+294,Mother+Child+Grandaparent+Non-relative,62,With children extended composite,0,2,0,0,5,0,7,620200507
+422,Mother+Child+Grandaparent+Other relative+Non-relative,62,With children extended composite,0,2,0,0,5,6,7,620200567
+326,Mother+Child+Grandchild+Non-relative,62,With children extended composite,0,2,0,4,0,0,7,620204007
+454,Mother+Child+Grandchild+Other relative+Non-relative,62,With children extended composite,0,2,0,4,0,6,7,620204067
+262,Mother+Child+Non-relative,62,With children extended composite,0,2,0,0,0,0,7,620200007
+390,Mother+Child+Other relative+Non-relative,62,With children extended composite,0,2,0,0,0,6,7,620200067
+374,Mother+Child+Sibling+Grandaparent+Grandchild+Non-relative,62,With children extended composite,0,2,3,4,5,0,7,620234507
+502,Mother+Child+Sibling+Grandaparent+Grandchild+Other relative+Non-relative,62,With children extended composite,0,2,3,4,5,6,7,620234567
+310,Mother+Child+Sibling+Grandaparent+Non-relative,62,With children extended composite,0,2,3,0,5,0,7,620230507
+438,Mother+Child+Sibling+Grandaparent+Other relative+Non-relative,62,With children extended composite,0,2,3,0,5,6,7,620230567
+342,Mother+Child+Sibling+Grandchild+Non-relative,62,With children extended composite,0,2,3,4,0,0,7,620234007
+470,Mother+Child+Sibling+Grandchild+Other relative+Non-relative,62,With children extended composite,0,2,3,4,0,6,7,620234067
+278,Mother+Child+Sibling+Non-relative,62,With children extended composite,0,2,3,0,0,0,7,620230007
+406,Mother+Child+Sibling+Other relative+Non-relative,62,With children extended composite,0,2,3,0,0,6,7,620230067
+32,Grandaparent,70,Others,0,0,0,0,5,0,0,700000500
+96,Grandaparent+Grandchild,70,Others,0,0,0,4,5,0,0,700004500
+224,Grandaparent+Grandchild+Other relative,70,Others,0,0,0,4,5,6,0,700004560
+160,Grandaparent+Other relative,70,Others,0,0,0,0,5,6,0,700000560
+64,Grandchild,70,Others,0,0,0,4,0,0,0,700004000
+192,Grandchild+Other relative,70,Others,0,0,0,4,0,6,0,700004060
+128,Other relative,70,Others,0,0,0,0,0,6,0,700000060
+16,Sibling,70,Others,0,0,3,0,0,0,0,700030000
+48,Sibling+Grandaparent,70,Others,0,0,3,0,5,0,0,700030500
+112,Sibling+Grandaparent+Grandchild,70,Others,0,0,3,4,5,0,0,700034500
+240,Sibling+Grandaparent+Grandchild+Other relative,70,Others,0,0,3,4,5,6,0,700034560
+176,Sibling+Grandaparent+Other relative,70,Others,0,0,3,0,5,6,0,700030560
+80,Sibling+Grandchild,70,Others,0,0,3,4,0,0,0,700034000
+208,Sibling+Grandchild+Other relative,70,Others,0,0,3,4,0,6,0,700034060
+144,Sibling+Other relative,70,Others,0,0,3,0,0,6,0,700030060
+352,Grandaparent+Grandchild+Non-relative,71,Others composite,0,0,0,4,5,0,7,710004507
+480,Grandaparent+Grandchild+Other relative+Non-relative,71,Others composite,0,0,0,4,5,6,7,710004567
+288,Grandaparent+Non-relative,71,Others composite,0,0,0,0,5,0,7,710000507
+416,Grandaparent+Other relative+Non-relative,71,Others composite,0,0,0,0,5,6,7,710000567
+320,Grandchild+Non-relative,71,Others composite,0,0,0,4,0,0,7,710004007
+448,Grandchild+Other relative+Non-relative,71,Others composite,0,0,0,4,0,6,7,710004067
+384,Other relative+Non-relative,71,Others composite,0,0,0,0,0,6,7,710000067
+368,Sibling+Grandaparent+Grandchild+Non-relative,71,Others composite,0,0,3,4,5,0,7,710034507
+496,Sibling+Grandaparent+Grandchild+Other relative+Non-relative,71,Others composite,0,0,3,4,5,6,7,710034567
+304,Sibling+Grandaparent+Non-relative,71,Others composite,0,0,3,0,5,0,7,710030507
+432,Sibling+Grandaparent+Other relative+Non-relative,71,Others composite,0,0,3,0,5,6,7,710030567
+336,Sibling+Grandchild+Non-relative,71,Others composite,0,0,3,4,0,0,7,710034007
+464,Sibling+Grandchild+Other relative+Non-relative,71,Others composite,0,0,3,4,0,6,7,710034067
+272,Sibling+Non-relative,71,Others composite,0,0,3,0,0,0,7,710030007
+400,Sibling+Other relative+Non-relative,71,Others composite,0,0,3,0,0,6,7,710030067
+256,Non-relative,80,Others composite,0,0,0,0,0,0,7,800000007
