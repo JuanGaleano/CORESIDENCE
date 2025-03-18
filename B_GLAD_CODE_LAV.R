@@ -17,7 +17,7 @@ files <- list.files(path = getwd(),
                     pattern = 'Rdata',
                     full.names = TRUE)
 
-# Set parallel enviroment ####
+# Set parallel environment ####
 no_cores <- detectCores() - ceiling(detectCores() * .3)
 registerDoParallel(cores = no_cores)
 cl <- makeCluster(no_cores)
