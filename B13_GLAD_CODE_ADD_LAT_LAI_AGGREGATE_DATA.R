@@ -149,5 +149,5 @@ DF_LA_LFS$AGE<-with(DF_LA_LFS,  ifelse(AGE==999, "999",
                                                                                                                                                                      ifelse(AGE<95, "90-94","95+")))))))))))))))))))))
 
 
-save(DF_LA_LFS, file="./input_data/LFS_86_NEW.Rda")
+save(DF_LA_LFS, file="./input_data/LFS_86.Rda")
 
