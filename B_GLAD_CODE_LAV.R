@@ -161,7 +161,7 @@ system.time(
     # Split samples by households: SERIAL #####
     listPOP <- split(df, f = df$SERIAL)
     
-    # Create a function for detecting kinship relation to ego while paralellizing ###### 
+    # Create a function for detecting kinship relation: parallel ######
     FUN_1 <- function(df) {
       library(tidyverse)
       library(labelled)
