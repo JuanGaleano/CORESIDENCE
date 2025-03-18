@@ -21,7 +21,9 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
  <p align="justify"> 2) The syntax produced for harmonizing subnational regions between sources and within each source, when necessary.</p>
 
-  <p align="justify"> 3) The syntax produced for creating pointer variables over DHS samples.</p>
+ <p align="justify"> 3) The syntax produced for building the Global Living Arrangements Database (GLAD).</p>     
+
+  <p align="justify"> 3) The syntax produced for building the Atlas of Living Arrangements).</p>
 
 ## Articles published within the CORESIDENCE PROJECT 
 
@@ -46,7 +48,7 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
 ## Access and download the Global Living Arrangements Database (GLAD)
 
-[2023, Zenodo, **CORESIDENCE: National and subnational data on household size and composition around the world, 1964–2021**](https://zenodo.org/records/8142652) 
+[2025, Zenodo, **CORESIDENCE: Global Living Arrangements Database, 1960–2021**](https://zenodo.org/records/15038210) 
 
 ## International conferences    
 
