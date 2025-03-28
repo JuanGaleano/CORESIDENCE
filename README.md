@@ -27,6 +27,10 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
 ## Articles published within the CORESIDENCE PROJECT 
 
+[2025, Studies in Family Planning, **Changes in Latin American and Caribbean Household Structure Amidst Fertility Decline, 1960–2020**](https://onlinelibrary.wiley.com/doi/10.1111/sifp.12282?af=R) 
+
+[2025, Population Studies, **African households: National and subnational trends from censuses and surveys**](https://www.tandfonline.com/doi/full/10.1080/00324728.2024.2427580?scroll=top&needAccess=true) 
+
 [2024, Scientific Data, **CORESIDENCE: National and subnational data on household size and composition around the world, 1964–2021**](https://www.nature.com/articles/s41597-024-02964-3)      
 
 [2024, Genus, **A global perspective on household size and composition, 1970–2020**](https://genus.springeropen.com/articles/10.1186/s41118-024-00211-6)     
@@ -36,11 +40,6 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 [2024, Asian Population Studies, **Five decades of household change across Asian societies**](https://www.tandfonline.com/doi/full/10.1080/17441730.2024.2431752) 
 
 [2024, Population and Develepment Review, **Rising Female-Headed Households: Shifts in Living Arrangements or Heightened Gender Symmetry?**](https://onlinelibrary.wiley.com/doi/10.1111/padr.12692) 
-
-[2025, Population Studies, **African households: National and subnational trends from censuses and surveys**](https://www.tandfonline.com/doi/full/10.1080/00324728.2024.2427580?scroll=top&needAccess=true) 
-
-[2025, Studies in Family Planning, **Changes in Latin American and Caribbean Household Structure Amidst Fertility Decline, 1960–2020**](https://onlinelibrary.wiley.com/doi/10.1111/sifp.12282?af=R) 
-
 
 ## Access and download the CORESIDENCE database (CoDB)
 
