@@ -39,7 +39,7 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
 [2025, Population Studies, **African households: National and subnational trends from censuses and surveys**](https://www.tandfonline.com/doi/full/10.1080/00324728.2024.2427580?scroll=top&needAccess=true) 
 
-
+[2025, Studies in Family Planning, **Changes in Latin American and Caribbean Household Structure Amidst Fertility Decline, 1960–2020**](https://onlinelibrary.wiley.com/doi/10.1111/sifp.12282?af=R) 
 
 
 ## Access and download the CORESIDENCE database (CoDB)
