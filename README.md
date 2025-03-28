@@ -23,7 +23,7 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 
  <p align="justify"> 3) The syntax produced for building the Global Living Arrangements Database (GLAD).</p>     
 
-  <p align="justify"> 3) The syntax produced for building the Atlas of Living Arrangements).</p>
+  <p align="justify"> 4) The syntax produced for building the Atlas of Living Arrangements).</p>
 
 ## Articles published within the CORESIDENCE PROJECT 
 
