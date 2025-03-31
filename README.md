@@ -54,6 +54,9 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 #### Annual meeting of the Populationa Association of America (PAA) 2025, DC, Washington, EEUU. 10-13 April, 2025
 ![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/PAA_2025_POSTER_JUAN_GALEANO.PNG)     
 
+![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/PAA_2025_Federica_Becca.png)   
+
+
 #### Annual meeting of the Populationa Association of America (PAA) 2024, Columbus, Ohio, EEUU. 17-20 April, 2024
 ![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/CORESIDENCE.png)     
 
