@@ -54,6 +54,9 @@ of intergenerational coresidence (India, Japan, Mexico, Senegal, Spain and the N
 #### Annual meeting of the Populationa Association of America (PAA) 2025, DC, Washington, EEUU. 10-13 April, 2025
 ![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/PAA_2025_POSTER_JUAN_GALEANO.PNG)     
 
+##### Award winning poster in session P8 Family Demography
+![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/PAA_2025_Rita.jpg)     
+
 ![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/PAA_2025_Federica_Becca.png)   
 
 ![alt text](https://github.com/JuanGaleano/CORESIDENCE/blob/main/PAA2025_version4_final.png) 
